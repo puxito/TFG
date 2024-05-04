@@ -62,8 +62,8 @@ $nombre_usuario = obtenerNombreUsuario();
         </nav>
     </header>
     <form action="#" method="post">
-                     <input type="submit" value="Cerrar Sesión" name="cerses">
-                  </form>
+        <input type="submit" value="Cerrar Sesión" name="cerses">
+    </form>
     <div class="container">
         <!-- Carrusel con flechas -->
         <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
