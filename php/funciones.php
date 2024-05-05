@@ -37,10 +37,10 @@ function sesionN1()
     }
 
     // Verificar si el usuario ha iniciado sesión
-    if (!isset($_SESSION["correoElectronicoUsuario"])) {
-        // El usuario no ha iniciado sesión, redirigir a la página de inicio de sesión
-        header("Location: ../php/login.php");
-        exit();
+    if (isset($_SESSION["correoElectronicoUsuario"])) {
+        return true; // Usuario ha iniciado sesión
+    } else {
+        return false; // Usuario no ha iniciado sesión
     }
 }
 

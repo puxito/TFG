@@ -90,7 +90,14 @@ header img {
   height: 100px;
   border-radius: 12px;
 }
-
+.ini {
+  margin-top: 7px;
+  margin-left: 10px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: solid 1px black;
+}
 /* Estilos del pie de página */
 footer {
   background-color: #343a40;

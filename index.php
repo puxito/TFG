@@ -5,8 +5,8 @@ require("php/funciones.php");
 // CONEXION
 $conn = conectarBBDD();
 
-$ruta_imagen = obtenerRutaImagenUsuario();
-$nombre_usuario = obtenerNombreUsuario();
+
+
 //-------------SELECT------------//
 // Sacar la consulta
 
@@ -41,17 +41,24 @@ $nombre_usuario = obtenerNombreUsuario();
                     <img class="icono2" src="media/iconos/add.png" alt="Nueva Dieta">
                 </a>
             </div>
-            <div class="perfil" id="perfil" onclick="mostrarMenu()">
-                <?php if (isset($_SESSION["correoElectronicoUsuario"])) : ?>
-                    <img class="fotoperfil" src="<?php echo obtenerRutaImagenUsuario(); ?>" alt="Foto de Perfil">
-                    <p class="nombre">Buenas, <?php echo obtenerNombreUsuario(); ?></p>
-                <?php else : ?>
-                    <a href="login.php" class="enlace-perfil">Iniciar sesión</a> /
-                    <a href="registro.php" class="enlace-perfil">Registrarse</a>
-                <?php endif; ?>
+            <div class="perfil" id="perfil" onclick="toggleMenuPerfil()">
+                <?php
+                if (sesionN1()) {
+                    $_SESSION['correoElectronicoUsuario'];
+                    $nombre_usuario = obtenerNombreUsuario();
+                    $ruta_imagen = obtenerRutaImagenUsuario();
+                ?>
+                    <img class="fotoperfil" src="<?php echo $ruta_imagen; ?>" alt="Foto de Perfil">
+                    <p class='nombre'>Buenas, <?php echo $nombre_usuario ?></p>
+                <?php
+                } else {
+                ?>
+                    <a class="ini" href="php/login.php">Iniciar sesión</a>
+                <?php
+                }
+                ?>
             </div>
-
-            <div onclick="showMenu(event)" id="menuPerfil" style="display: none;">
+            <div id="menuPerfil" style="display: none;">
                 <?php if (isset($_SESSION["correoElectronicoUsuario"])) : ?>
                     <a href="mi_perfil.php">Mi Perfil</a>
                     <form action="#" method="post">
@@ -59,23 +66,31 @@ $nombre_usuario = obtenerNombreUsuario();
                     </form>
                 <?php endif; ?>
             </div>
+
+            <script>
+                function toggleMenuPerfil() {
+                    var menuPerfil = document.getElementById("menuPerfil");
+                    if (menuPerfil.style.display === "none") {
+                        menuPerfil.style.display = "block";
+                    } else {
+                        menuPerfil.style.display = "none";
+                    }
+                }
+            </script>
         </nav>
     </header>
-    <form action="#" method="post">
-        <input type="submit" value="Cerrar Sesión" name="cerses">
-    </form>
     <div class="container">
         <!-- Carrusel con flechas -->
         <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img src="media/general/inicio1.jpg" class="d-block w-100" alt="...">
+                    <img src="media/general/teta1.jpg" class="d-block w-100" alt="...">
                 </div>
                 <div class="carousel-item">
-                    <img src="media/general/inicio2.jpg" class="d-block w-100" alt="...">
+                    <img src="media/general/teta2.png" class="d-block w-100" alt="...">
                 </div>
                 <div class="carousel-item">
-                    <img src="media/general/inicio3.jpg" class="d-block w-100" alt="...">
+                    <img src="media/general/teta3.jpg" class="d-block w-100" alt="...">
                 </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
