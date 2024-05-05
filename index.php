@@ -49,24 +49,23 @@ $conn = conectarBBDD();
                     $ruta_imagen = obtenerRutaImagenUsuario();
                 ?>
                     <img class="fotoperfil" src="<?php echo $ruta_imagen; ?>" alt="Foto de Perfil">
-                    <p class='nombre'>Buenas, <?php echo $nombre_usuario ?></p>
+                    <p class='nombre'>¡Hola, <?php echo $nombre_usuario ?>!</p>
                 <?php
                 } else {
                 ?>
-                    <a class="ini" href="php/login.php">Iniciar sesión</a>
+                    <a class="ini" href="php/login.php"><strong>Iniciar sesión</strong></a>
                 <?php
                 }
-                ?>
+                ?>  
             </div>
-            <div id="menuPerfil" style="display: none;">
-                <?php if (isset($_SESSION["correoElectronicoUsuario"])) : ?>
-                    <a href="mi_perfil.php">Mi Perfil</a>
-                    <form action="#" method="post">
-                        <input type="submit" value="Cerrar Sesión" name="cerses">
-                    </form>
-                <?php endif; ?>
-            </div>
-
+        </nav>
+    </header>
+    <div id="menuPerfil">
+        <?php if (isset($_SESSION["correoElectronicoUsuario"])) : ?>
+            <a href="perfil.php">Mi Perfil</a>
+            <form action="#" method="post">
+                <input type="submit" value="Cerrar Sesión" name="cerses">
+            </form>
             <script>
                 function toggleMenuPerfil() {
                     var menuPerfil = document.getElementById("menuPerfil");
@@ -77,10 +76,9 @@ $conn = conectarBBDD();
                     }
                 }
             </script>
-        </nav>
-    </header>
+        <?php endif; ?>
+    </div>
     <div class="container">
-        <!-- Carrusel con flechas -->
         <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
@@ -106,9 +104,6 @@ $conn = conectarBBDD();
     <footer>
         <p>&copy; 2024 FitFood. Todos los derechos reservados.</p>
     </footer>
-    <script>
-
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 
