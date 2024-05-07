@@ -24,3 +24,72 @@ Stack trace:
 [05-May-2024 02:42:20 Europe/Berlin] PHP Warning:  Undefined array key "nombreUsuario" in /var/www/html/index.php on line 47
 [05-May-2024 02:47:37 Europe/Berlin] PHP Warning:  Undefined variable $nombre_usuario in /var/www/html/index.php on line 48
 [05-May-2024 12:34:50 Europe/Berlin] PHP Warning:  Undefined array key "correoElectronicoUsuario" in /var/www/html/procesar_subida.php on line 26
+[06-May-2024 13:10:42 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: Unsupported operand types: string + string in /var/www/html/index.php:52
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/index.php on line 52
+[06-May-2024 13:11:48 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: Unsupported operand types: string + string in /var/www/html/index.php:52
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/index.php on line 52
+[06-May-2024 13:11:50 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: Unsupported operand types: string + string in /var/www/html/index.php:52
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/index.php on line 52
+[06-May-2024 13:11:50 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: Unsupported operand types: string + string in /var/www/html/index.php:52
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/index.php on line 52
+[06-May-2024 13:11:50 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: Unsupported operand types: string + string in /var/www/html/index.php:52
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/index.php on line 52
+[06-May-2024 13:11:51 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: Unsupported operand types: string + string in /var/www/html/index.php:52
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/index.php on line 52
+[06-May-2024 13:11:51 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: Unsupported operand types: string + string in /var/www/html/index.php:52
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/index.php on line 52
+[06-May-2024 13:11:52 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: Unsupported operand types: string + string in /var/www/html/index.php:52
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/index.php on line 52
+[06-May-2024 13:11:56 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: Unsupported operand types: string + string in /var/www/html/index.php:52
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/index.php on line 52
+[06-May-2024 13:11:56 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: Unsupported operand types: string + string in /var/www/html/index.php:52
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/index.php on line 52
+[06-May-2024 13:11:56 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: Unsupported operand types: string + string in /var/www/html/index.php:52
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/index.php on line 52
+[06-May-2024 13:11:56 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: Unsupported operand types: string + string in /var/www/html/index.php:52
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/index.php on line 52
+[06-May-2024 13:11:56 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: Unsupported operand types: string + string in /var/www/html/index.php:52
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/index.php on line 52
+[06-May-2024 13:13:37 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: Unsupported operand types: string + string in /var/www/html/index.php:52
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/index.php on line 52
+[06-May-2024 13:13:39 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: Unsupported operand types: string + string in /var/www/html/index.php:52
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/index.php on line 52
+[06-May-2024 13:13:39 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: Unsupported operand types: string + string in /var/www/html/index.php:52
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/index.php on line 52
+[06-May-2024 13:13:39 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: Unsupported operand types: string + string in /var/www/html/index.php:52
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/index.php on line 52
+[07-May-2024 16:50:08 Europe/Berlin] PHP Warning:  Undefined variable $rol in /var/www/html/index.php on line 61

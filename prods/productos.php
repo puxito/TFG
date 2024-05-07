@@ -64,7 +64,7 @@ if ($registros === false) {
 <body>
     <header>
         <div>
-            <p><img src="../media/logoancho.png"></p>
+            <a href="../index.php"><img src="../media/logoancho.png"></a>
         </div>
         <div class="panel">
             <h1 class="display-6"><strong>Productos</strong></h1>

@@ -5,11 +5,8 @@ require("php/funciones.php");
 // CONEXION
 $conn = conectarBBDD();
 
-
-
 //-------------SELECT------------//
 // Sacar la consulta
-
 ?>
 
 
@@ -30,7 +27,7 @@ $conn = conectarBBDD();
 <body>
     <header>
         <div>
-            <p><img src="media/logoancho.png"></p>
+        <a href="index.php"><img src="media/logoancho.png"></a>
         </div>
         <nav>
             <div class="dieta">
@@ -41,28 +38,27 @@ $conn = conectarBBDD();
                     <img class="icono2" src="media/iconos/add.png" alt="Nueva Dieta">
                 </a>
             </div>
-            <div class="perfil" id="perfil" onclick="toggleMenuPerfil()">
-                <?php
-                if (sesionN1()) {
-                    $_SESSION['correoElectronicoUsuario'];
-                    $nombre_usuario = obtenerNombreUsuario();
-                    $ruta_imagen = obtenerRutaImagenUsuario();
-                ?>
-                    <img class="fotoperfil" src="<?php echo $ruta_imagen; ?>" alt="Foto de Perfil">
-                    <p class='nombre'>¡Hola, <?php echo $nombre_usuario ?>!</p>
-                <?php
-                } else {
-                ?>
-                    <a class="ini" href="php/login.php"><strong>Iniciar sesión</strong></a>
-                <?php
-                }
-                ?>  
+            <?php
+            if (sesionN1()) {
+                echo "<div class='perfil' id='perfil' onclick='toggleMenuPerfil()'>";
+
+                $_SESSION['correoElectronicoUsuario'];
+                $nombre_usuario = obtenerNombreUsuario();
+                $ruta_imagen = obtenerRutaImagenUsuario();
+
+                echo "   <img class='fotoperfil' src='$ruta_imagen' alt='Foto de Perfil'>
+                    <p class='nombre'>¡Hola, $nombre_usuario!</p>";
+            } else {
+                echo "<div class='perfil' id='perfil' onclick='toggleMenuPerfil()'>
+                    <a href='php/login.php'><strong>Iniciar sesión</strong></a>";
+            }
+            ?>
             </div>
         </nav>
     </header>
-    <div id="menuPerfil">
+    <div" id="menuPerfil">
         <?php if (isset($_SESSION["correoElectronicoUsuario"])) : ?>
-            <a href="perfil.php">Mi Perfil</a>
+            <a href="perfil.php" style>Mi Perfil</a>
             <form action="#" method="post">
                 <input type="submit" value="Cerrar Sesión" name="cerses">
             </form>
@@ -91,14 +87,6 @@ $conn = conectarBBDD();
                     <img src="media/general/teta3.jpg" class="d-block w-100" alt="...">
                 </div>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Anterior</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Siguiente</span>
-            </button>
         </div>
     </div>
     <footer>

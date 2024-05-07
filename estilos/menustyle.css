@@ -1,53 +1,18 @@
-
+/* Estilos generales */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   background-color: #94e7ff;
 }
 
+/* Estilos del encabezado */
 header {
   width: 100%;
   height: 100px;
   background-color: #006691;
   border-bottom: 1px solid black;
   display: flex;
-
-}
-
-header h1 {
-  margin: 0;
-  color: white;
-
-}
-
-.panel {
-  margin: auto;
-}
-
-.perfil {
-  margin: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.363);
-  border-radius: 4px;
-  width: 200px;
-  height: 75px;
-  display: flex;
-}
-
-.perfil p {
-  padding-top: 20px;
-  padding-left: 15px;
-  color: white;
-  font-size: 20px;
-
-}
-
-.perfil #fotoperfil {
-  margin-top: 7px;
-  margin-left: 10px;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  border: solid 1px black;
+  justify-content: space-between;
 }
 
 header img {
@@ -55,7 +20,46 @@ header img {
   height: 100px;
   border-radius: 12px;
 }
+header h1 {
+  margin: 0;
+  color: white;
+}
 
+/* Estilos del panel */
+.panel {
+  margin: auto;
+}
+
+.perfil {
+  margin: 10px 10px 10px 10px;
+  border: 1px solid rgba(0, 0, 0, 0.363);
+  border-radius: 4px;
+  width: 200px;
+  height: 75px;
+  display: flex;
+  float: right;
+  align-items: center;
+}
+
+
+.fotoperfil {
+ 
+  margin-left: 10px;
+  padding: 0px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: solid 1px black;
+}
+
+.nombre {
+  padding-top: 8%;
+  padding-left: 15px;
+  color: white;
+  font-size: 13px;
+}
+
+/* Estilos del contenido */
 section {
   width: 100%;
   text-align: center;
@@ -73,17 +77,16 @@ article {
   text-align: center;
 }
 
-section div{
-    margin:0 auto;
-
+section div {
+  margin: 0 auto;
 }
 
-input{
-    background-color: transparent;
-    color: #94e7ff;
-    border: none;
-    padding-top: 23px ;
-    padding-left: 50px;
+input {
+  background-color: transparent;
+  color: #94e7ff;
+  border: none;
+  padding-top: 23px;
+  padding-left: 50px;
 }
 
 .crud {
@@ -95,6 +98,39 @@ input{
   background-color: white;
 }
 
+
+
+#menuPerfil {
+  background-color: #f2f2f2;
+  margin: 0px 20px 10px 10px;
+  border: 1px solid rgba(0, 0, 0, 0.363);
+  border-radius: 4px;
+  width: 200px;
+  height: 75px;
+  display: none;
+  float: right;
+  z-index: 1000;
+}
+
+#menuPerfil a,
+#menuPerfil form {
+  color: black;
+  text-decoration: none;
+  display: block;
+  padding: 5px;
+}
+#menuPerfil input {
+  color: black;
+  padding-top: 0px;
+}
+
+#menuPerfil a:hover,
+#menuPerfil form:hover {
+  background-color: #ccc;
+}
+
+
+/* Estilos del pie de página */
 footer {
   background-color: #343a40;
   color: #fff;

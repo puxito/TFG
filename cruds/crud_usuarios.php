@@ -64,7 +64,7 @@ if (isset($_POST['eliminar'])) {
 <body>
     <header>
         <div>
-            <p><img src="../media/logoancho.png"></p>
+            <a href="../index.php"><img src="../media/logoancho.png"></a>
         </div>
         <div class="panel">
             <h1 class="display-6"><strong>Administración de Usuarios</strong></h1>
@@ -109,13 +109,13 @@ if (isset($_POST['eliminar'])) {
                     echo "<td>" . $registro['nombreRol'] . "</td>";
                     echo "<td>
                             <form action=\"#\" method=\"post\">
-                                <input type=\"hidden\" name=\"idUsuario\" value=\"". $registro['idUsuario']. "\">
+                                <input type=\"hidden\" name=\"idUsuario\" value=\"" . $registro['idUsuario'] . "\">
                                 <button type=\"submit\" name=\"editar\"><img src=\"../media/iconos/edit.png\" style=\"width:15px\"></button>
                             </form>
                             </td>
                             <td>
                             <form action=\"#\" method=\"post\" onsubmit=\"return confirmarEliminacion()\">
-                                <input type=\"hidden\" name=\"idUsuario\" value=\"". $registro['idUsuario']. "\">
+                                <input type=\"hidden\" name=\"idUsuario\" value=\"" . $registro['idUsuario'] . "\">
                                 <button type=\"submit\" name=\"eliminar\"><img src=\"../media/iconos/delete.png\" style=\"width:15px\"></button>
                             </form>
                             </td>";

@@ -52,7 +52,7 @@ if ($registros === false) {
 <body>
     <header>
         <div>
-            <p><img src="../media/logoancho.png"></p>
+            <a href="../index.php"><img src="../media/logoancho.png"></a>
         </div>
         <div class="panel">
             <h1 class="display-6"><strong>Administración de Productos</strong></h1>
@@ -62,7 +62,7 @@ if ($registros === false) {
         </div>
     </header>
     <article class="mx-3">
-    <div class="input-with-icon">
+        <div class="input-with-icon">
             <button id="reload">Click para recargar</button>
             <input type="text" id="searchInput" placeholder="Buscar por nombre...">
         </div>

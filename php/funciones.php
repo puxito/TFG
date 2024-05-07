@@ -275,3 +275,20 @@ function obtenerNombreUsuario(){
 
     return $nombreUsuario;
 }
+
+function verificarrol(){
+    sesionN1();
+    $conn = conectarBBDD();
+    $correoElectronicoUsuario = $_SESSION["correoElectronicoUsuario"];
+    $sql = "SELECT idRolFK FROM usuarios WHERE correoElectronicoUsuario = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $correoElectronicoUsuario); // Cambiado a "s" para cadena de texto
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $fila = $result->fetch_assoc();
+    $idRolFK = $fila["idRolFK"];
+    $stmt->close();
+    $conn->close();
+
+    return $idRolFK;
+}
