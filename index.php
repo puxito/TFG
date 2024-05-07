@@ -56,9 +56,9 @@ $conn = conectarBBDD();
             </div>
         </nav>
     </header>
-    <div" id="menuPerfil">
+    <div id="menuPerfil">
         <?php if (isset($_SESSION["correoElectronicoUsuario"])) : ?>
-            <a href="perfil.php" style>Mi Perfil</a>
+            <a href="perfil.php">Mi Perfil</a>
             <form action="#" method="post">
                 <input type="submit" value="Cerrar Sesión" name="cerses">
             </form>
