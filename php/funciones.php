@@ -275,6 +275,45 @@ function obtenerNombreUsuario(){
 
     return $nombreUsuario;
 }
+function obtenerRutaImagenUsuario2() {
+    // Verificar si el usuario ha iniciado sesión
+    sesionN2(); // Cambia a la función de sesión correspondiente si es necesario
+
+    // Obtener la ruta de la imagen del usuario actual desde la base de datos
+    $conn = conectarBBDD();
+    $correoElectronicoUsuario = $_SESSION["correoElectronicoUsuario"];
+    $sql = "SELECT imagenUsuario FROM usuarios WHERE correoElectronicoUsuario = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $correoElectronicoUsuario);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $fila = $result->fetch_assoc();
+    $ruta_imagen = $fila["imagenUsuario"];
+    $stmt->close();
+    $conn->close();
+
+    return $ruta_imagen;
+}
+
+function obtenerNombreUsuario2(){
+    // Verificar si el usuario ha iniciado sesión
+    sesionN2(); // Cambia a la función de sesión correspondiente si es necesario
+
+    // Obtener el nombre del usuario actual desde la base de datos
+    $conn = conectarBBDD();
+    $correoElectronicoUsuario = $_SESSION["correoElectronicoUsuario"];
+    $sql = "SELECT nombreUsuario FROM usuarios WHERE correoElectronicoUsuario = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $correoElectronicoUsuario);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $fila = $result->fetch_assoc();
+    $nombreUsuario = $fila["nombreUsuario"];
+    $stmt->close();
+    $conn->close();
+
+    return $nombreUsuario;
+}
 
 function verificarrol(){
     sesionN1();

@@ -59,7 +59,8 @@ header div a img {
 
 /* Estilos del contenido */
 section {
-  width: 1000px;
+  width: auto;
+  
   text-align: center;
   justify-content: space-between;
   display: flex;

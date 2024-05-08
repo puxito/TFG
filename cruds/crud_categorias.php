@@ -11,10 +11,13 @@ sesionN2();
 $conn = conectarBBDD();
 
 //-------------SELECT------------//
+$consultacategoria = "SELECT categorias.idCategoria, categorias.nombreCategoria, COUNT(productos.idProducto) AS numProductos
+FROM categorias
+LEFT JOIN productos ON categorias.idCategoria = productos.idCategoriaFK
+GROUP BY categorias.idCategoria, categorias.nombreCategoria
+";
 
-$consultausuario = "SELECT * FROM usuarios LEFT JOIN roles ON usuarios.idRolFK = roles.idRol";
-
-$preparada = $conn->prepare($consultausuario);
+$preparada = $conn->prepare($consultacategoria);
 if ($preparada === false) {
     die("Error en la preparación: " . $conn->error);
 }
@@ -31,30 +34,30 @@ if ($registros === false) {
 }
 
 //-------------DELETE------------//
-
 if (isset($_POST['eliminar'])) {
-    $idUsuario = $_POST['idUsuario'];
+    $idCategoria = $_POST['idCategoria'];
 
-    $borrarusuario = "DELETE FROM usuarios WHERE idUsuario =?";
+    $borrarcategoria = "DELETE FROM categorias WHERE idCategoria =?";
 
-    $preparada = $conn->prepare($borrarusuario);
-    $preparada->bind_param("i", $idUsuario);
+    $preparada = $conn->prepare($borrarcategoria);
+    $preparada->bind_param("i", $idCategoria);
 
     if ($preparada->execute()) {
-        $mensaje = "Usuario eliminado correctamente";
+        $mensaje = "Categoría eliminada correctamente";
     } else {
-        $mensaje = "No se ha podido eliminar el usuario";
+        $mensaje = "Error al eliminar la categoría";
     }
 }
-?>
 
+//-------------INSERT------------//
+?>
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Usuarios</title>
+    <title>Categorías</title>
     <link rel="icon" href="../media/logo.png" type="image/x-icon" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -67,7 +70,7 @@ if (isset($_POST['eliminar'])) {
             <a href="../index.php"><img src="../media/logoancho.png"></a>
         </div>
         <div class="panel">
-            <h1 class="display-6"><strong>Administración de Usuarios</strong></h1>
+            <h1 class="display-6"><strong>Administración de Categorías</strong></h1>
         </div>
         <nav>
             <?php
@@ -106,23 +109,21 @@ if (isset($_POST['eliminar'])) {
             </script>
         <?php endif; ?>
     </div>
+    <footer>
+        <p>&copy; 2024 FitFood. Todos los derechos reservados.</p>
+    </footer>
     <article class="mx-3">
         <div class="input-with-icon">
             <button id="reload"><img src="../media/iconos/reload.png" alt="Recargar"></button>
             <input type="text" id="searchInput" placeholder="Buscar por nombre...">
         </div>
         <br>
-        <table class="table table-striped mx-auto" id="usuarios">
+        <table class="table table-striped mx-auto" id="categorias">
             <thead>
                 <tr>
                     <th scope="col">ID</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Apellidos</th>
-                    <th scope="col">Correo Electrónico</th>
-                    <th scope="col">Fecha de Nacimiento</th>
-                    <th scope="col">Contraseña</th>
-                    <th scope="col">Fecha de Registro</th>
-                    <th scope="col">Rol</th>
+                    <th scope="col">Categoria</th>
+                    <th scope="col">NºProductos</th>
                     <th scope="col">Editar</th>
                     <th scope="col">Eliminar</th>
                 </tr>
@@ -131,23 +132,18 @@ if (isset($_POST['eliminar'])) {
                 <?php
                 foreach ($registros as $registro) {
                     echo "<tr>";
-                    echo "<th scope='row'>" . $registro['idUsuario'] . "</th>";
-                    echo "<td>" . $registro['nombreUsuario'] . "</td>";
-                    echo "<td>" . $registro['apellidosUsuario'] . "</td>";
-                    echo "<td>" . $registro['correoElectronicoUsuario'] . "</td>";
-                    echo "<td>" . $registro['fechaNacimientoUsuario'] . "</td>";
-                    echo "<td>" . $registro['contraseña'] . "</td>";
-                    echo "<td>" . $registro['fechaRegistroUsuario'] . "</td>";
-                    echo "<td>" . $registro['nombreRol'] . "</td>";
+                    echo "<th scope='row'>" . $registro['idCategoria'] . "</th>";
+                    echo "<td>" . $registro['nombreCategoria'] . "</td>";
+                    echo "<td>" . $registro['numProductos'] . "</td>";
                     echo "<td>
                             <form action=\"#\" method=\"post\">
-                                <input type=\"hidden\" name=\"idUsuario\" value=\"" . $registro['idUsuario'] . "\">
+                                <input type=\"hidden\" name=\"idCategoria\" value=\"" . $registro['idCategoria'] . "\">
                                 <button type=\"submit\" name=\"editar\"><img src=\"../media/iconos/edit.png\" style=\"width:15px\"></button>
                             </form>
                             </td>
                             <td>
                             <form action=\"#\" method=\"post\" onsubmit=\"return confirmarEliminacion()\">
-                                <input type=\"hidden\" name=\"idUsuario\" value=\"" . $registro['idUsuario'] . "\">
+                                <input type=\"hidden\" name=\"idCategoria\" value=\"" . $registro['idCategoria'] . "\">
                                 <button type=\"submit\" name=\"eliminar\"><img src=\"../media/iconos/delete.png\" style=\"width:15px\"></button>
                             </form>
                             </td>";
@@ -158,9 +154,6 @@ if (isset($_POST['eliminar'])) {
 
         </table>
     </article>
-    <footer>
-        <p>&copy; 2024 FitFood. Todos los derechos reservados.</p>
-    </footer>
     <script>
         const reload = document.getElementById("reload");
 
@@ -172,7 +165,7 @@ if (isset($_POST['eliminar'])) {
         $(document).ready(function() {
             $("#searchInput").on("keyup", function() {
                 var value = $(this).val().toLowerCase();
-                $("#usuarios tbody tr").filter(function() {
+                $("#categorias tbody tr").filter(function() {
                     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                 });
             });
@@ -184,7 +177,9 @@ if (isset($_POST['eliminar'])) {
         }
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>

@@ -33,7 +33,20 @@ if ($registros === false) {
 }
 
 //-------------DELETE------------//
+if (isset($_POST['eliminar'])) {
+    $idProducto = $_POST['idProducto'];
 
+    $borrarusuario = "DELETE FROM productos WHERE idProducto =?";
+
+    $preparada = $conn->prepare($borrarproducto);
+    $preparada->bind_param("i", $idProducto);
+
+    if ($preparada->execute()) {
+        $mensaje = "Producto eliminado correctamente";
+    } else {
+        $mensaje = "No se ha podido eliminar el producto";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -45,25 +58,58 @@ if ($registros === false) {
     <title>Productos</title>
     <link rel="icon" href="../media/logo.png" type="image/x-icon" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="../estilos/adminstyle.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="../estilos/adminstyle.css">
 </head>
 
 <body>
-    <header>
+<header>
         <div>
             <a href="../index.php"><img src="../media/logoancho.png"></a>
         </div>
         <div class="panel">
             <h1 class="display-6"><strong>Administración de Productos</strong></h1>
         </div>
-        <div class="perfil">
-            <!-- Agrega contenido aquí si es necesario -->
-        </div>
+        <nav>
+            <?php
+            if (sesionN1()) {
+                echo "<div class='perfil' id='perfil' onclick='toggleMenuPerfil()'>";
+
+                $_SESSION['correoElectronicoUsuario'];
+                $nombre_usuario = obtenerNombreUsuario();
+                $ruta_imagen = obtenerRutaImagenUsuario();
+
+                echo "   <img class='fotoperfil' src='../$ruta_imagen' alt='Foto de Perfil'>
+                    <p class='nombre'>¡Hola, $nombre_usuario!</p>";
+            } else {
+                echo "<div class='perfil' id='perfil' onclick='toggleMenuPerfil()'>
+                    <a href='php/login.php'><strong>Iniciar sesión</strong></a>";
+            }
+            ?>
+            </div>
+        </nav>
     </header>
+    <div id="menuPerfil">
+        <?php if (isset($_SESSION["correoElectronicoUsuario"])) : ?>
+            <a href="perfil.php">Mi Perfil</a>
+            <form action="#" method="post">
+                <input type="submit" value="Cerrar Sesión" name="cerses">
+            </form>
+            <script>
+                function toggleMenuPerfil() {
+                    var menuPerfil = document.getElementById("menuPerfil");
+                    if (menuPerfil.style.display === "none") {
+                        menuPerfil.style.display = "block";
+                    } else {
+                        menuPerfil.style.display = "none";
+                    }
+                }
+            </script>
+        <?php endif; ?>
+    </div>
     <article class="mx-3">
         <div class="input-with-icon">
-            <button id="reload">Click para recargar</button>
+            <button id="reload"><img src="../media/iconos/reload.png" alt="Recargar"></button>
             <input type="text" id="searchInput" placeholder="Buscar por nombre...">
         </div>
         <br>
@@ -94,6 +140,18 @@ if ($registros === false) {
                     echo "<td>" . $registro['proteinasProducto'] . "</td>";
                     echo "<td>" . $registro['imagenProducto'] . "</td>";
                     echo "<td>" . $registro['nombreCategoria'] . "</td>";
+                    echo "<td>
+                            <form action=\"#\" method=\"post\">
+                                <input type=\"hidden\" name=\"idUsuario\" value=\"" . $registro['idProducto'] . "\">
+                                <button type=\"submit\" name=\"editar\"><img src=\"../media/iconos/edit.png\" style=\"width:15px\"></button>
+                            </form>
+                            </td>
+                            <td>
+                            <form action=\"#\" method=\"post\" onsubmit=\"return confirmarEliminacion()\">
+                                <input type=\"hidden\" name=\"idUsuario\" value=\"" . $registro['idProducto'] . "\">
+                                <button type=\"submit\" name=\"eliminar\"><img src=\"../media/iconos/delete.png\" style=\"width:15px\"></button>
+                            </form>
+                            </td>";
                     echo "</tr>";
                 }
                 ?>

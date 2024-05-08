@@ -12,18 +12,24 @@ $conn = conectarBBDD();
 // VARIABLES
 $mensaje = '';
 
-// Verificar la sesión y el rol del usuario
-$usu = sesionN1();
+// Verificar si hay sesión iniciada y si correoElectronicoUsuario está definido
+if (!isset($_SESSION["correoElectronicoUsuario"]) || empty($_SESSION["correoElectronicoUsuario"])) {
+    // Redirigir a la página de inicio de sesión o mostrar un mensaje de error
+    header("Location: ../php/login.php"); // Cambia la ruta según sea necesario
+    exit(); // Finalizar el script
+}
 
-// Obtener el rol del usuario
-$correoElectronicoUsuario = $_SESSION["correoElectronicoUsuario"];
-$sql = "SELECT idRolFK FROM usuarios WHERE correoElectronicoUsuario = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $correoElectronicoUsuario);
-$stmt->execute();
-$result = $stmt->get_result();
-$fila = $result->fetch_assoc();
-$rol = $fila["idRolFK"];
+// Obtener el rol del usuario si la sesión está definida
+if (isset($_SESSION["correoElectronicoUsuario"])) {
+    $correoElectronicoUsuario = $_SESSION["correoElectronicoUsuario"];
+    $sql = "SELECT idRolFK FROM usuarios WHERE correoElectronicoUsuario = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $correoElectronicoUsuario);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $fila = $result->fetch_assoc();
+    $rol = $fila["idRolFK"];
+}
 
 // Zona de Administradores (rol = 1)
 if ($rol == 1) {
