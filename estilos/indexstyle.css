@@ -19,8 +19,14 @@ header {
 header h1 {
     margin: 0;
     color: white;
+    
 }
-
+header .ini {
+    text-decoration: none;
+    color: white;
+    padding-left: 50px;
+    padding-top: 25px;
+}
 /* Estilos de paneles de header */
 .perfil {
     margin: 10px -10px 10px 10px;

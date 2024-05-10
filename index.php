@@ -50,7 +50,7 @@ $conn = conectarBBDD();
                     <p class='nombre'>¡Hola, $nombre_usuario!</p>";
             } else {
                 echo "<div class='perfil' id='perfil' onclick='toggleMenuPerfil()'>
-                    <a href='php/login.php'><strong>Iniciar sesión</strong></a>";
+                    <a class='ini' href='php/login.php'><strong>Iniciar sesión</strong></a>";
             }
             ?>
             </div>
@@ -89,10 +89,22 @@ $conn = conectarBBDD();
             </div>
         </div>
     </div>
+
     <footer>
         <p>&copy; 2024 FitFood. Todos los derechos reservados.</p>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function() {
+            $(window).scroll(function() {
+                var scroll = $(window).scrollTop();
+                $("#parallax-content").css({
+                    opacity: 1 - (scroll / 400)
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

@@ -36,7 +36,7 @@ if ($registros === false) {
 if (isset($_POST['eliminar'])) {
     $idProducto = $_POST['idProducto'];
 
-    $borrarusuario = "DELETE FROM productos WHERE idProducto =?";
+    $borrarproducto = "DELETE FROM productos WHERE idProducto =?";
 
     $preparada = $conn->prepare($borrarproducto);
     $preparada->bind_param("i", $idProducto);
@@ -63,7 +63,7 @@ if (isset($_POST['eliminar'])) {
 </head>
 
 <body>
-<header>
+    <header>
         <div>
             <a href="../index.php"><img src="../media/logoancho.png"></a>
         </div>
@@ -91,7 +91,7 @@ if (isset($_POST['eliminar'])) {
     </header>
     <div id="menuPerfil">
         <?php if (isset($_SESSION["correoElectronicoUsuario"])) : ?>
-            <a href="perfil.php">Mi Perfil</a>
+            <a href="../perfil.php">Mi Perfil</a>
             <form action="#" method="post">
                 <input type="submit" value="Cerrar Sesión" name="cerses">
             </form>

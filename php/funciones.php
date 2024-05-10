@@ -331,3 +331,37 @@ function verificarrol(){
 
     return $idRolFK;
 }
+
+function obtenerIDUsuario() {
+    sesionN1();
+    $conn = conectarBBDD();
+    $correoElectronicoUsuario = $_SESSION["correoElectronicoUsuario"];
+    $sql = "SELECT idUsuario FROM usuarios WHERE correoElectronicoUsuario = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $correoElectronicoUsuario);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $fila = $result->fetch_assoc();
+    $idUsuario = $fila["idUsuario"];
+    $stmt->close();
+    $conn->close();
+
+    return $idUsuario;
+
+}
+
+function obtenerDatosUsuario() {
+    sesionN1();
+    $conn = conectarBBDD();
+    $correoElectronicoUsuario = $_SESSION["correoElectronicoUsuario"];
+    $sql = "SELECT * FROM usuarios WHERE correoElectronicoUsuario = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $correoElectronicoUsuario); // Cambiado "i" a "s"
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $fila = $result->fetch_assoc();
+    $stmt->close();
+    $conn->close();
+
+    return $fila; // Devolver la fila completa como un array asociativo
+}

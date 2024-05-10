@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 30-04-2024 a las 19:06:43
+-- Tiempo de generación: 09-05-2024 a las 11:31:04
 -- Versión del servidor: 8.0.36-0ubuntu0.22.04.1
--- Versión de PHP: 8.1.2-1ubuntu2.15
+-- Versión de PHP: 8.1.2-1ubuntu2.17
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -400,7 +400,7 @@ CREATE TABLE `usuarios` (
   `fechaNacimientoUsuario` date NOT NULL,
   `fechaRegistroUsuario` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `contraseña` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish2_ci NOT NULL,
-  `imagenUsuario` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish2_ci NOT NULL DEFAULT 'N/A',
+  `imagenUsuario` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish2_ci NOT NULL DEFAULT 'users/img_663760cae5a20_gordito.jpg',
   `idRolFK` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
@@ -409,14 +409,16 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`idUsuario`, `nombreUsuario`, `apellidosUsuario`, `correoElectronicoUsuario`, `fechaNacimientoUsuario`, `fechaRegistroUsuario`, `contraseña`, `imagenUsuario`, `idRolFK`) VALUES
-(1, 'Iván', 'Castañeda Álvarez', 'ivanrani2004@gmail.com', '2004-12-15', '2024-04-25 10:55:32', '$2y$10$oFB.JnFn3/7wvHB1suWVyOkbkbHk.A3Gwj76V6LSaJ3A9GsePibJi', 'N/A', 1),
-(2, 'Fran', 'Dona Villar', 'frandonete@gmail.com', '2002-05-10', '2024-04-25 21:31:35', '$2y$10$tpaR1YNdMTv4IIh5/GnyR.DvHjjrzyWDCbd8gauLnbbiE5ta/zdnC', 'N/A', 3),
-(3, 'Vicente', 'Llamas Moreno', 'abueloyayo@gmail.com', '1997-03-15', '2024-04-25 21:33:56', '$2y$10$mCZT4pydmApyasjTNGSQdemPloUfFw.3NYX4/MlZzADQstoauqIj2', 'N/A', 3),
+(1, 'Iván', 'Castañeda Álvarez', 'ivanrani2004@gmail.com', '2004-12-15', '2024-04-25 10:55:32', '$2y$10$oFB.JnFn3/7wvHB1suWVyOkbkbHk.A3Gwj76V6LSaJ3A9GsePibJi', 'users/img_663a79ba73167__bf52e4ed-454b-49ab-95f8-e9ae785f7111.jpeg', 1),
+(2, 'Francisco', 'Dona Villar', 'frandonete@gmail.com', '2002-05-10', '2024-04-25 21:31:35', '$2y$10$tpaR1YNdMTv4IIh5/GnyR.DvHjjrzyWDCbd8gauLnbbiE5ta/zdnC', 'N/A', 3),
+(3, 'Vicente', 'Llamas Moreno', 'abueloyayo@gmail.com', '1997-03-15', '2024-04-25 21:33:56', '$2y$10$mCZT4pydmApyasjTNGSQdemPloUfFw.3NYX4/MlZzADQstoauqIj2', 'users/img_6637e24319eb2_canelita.jpeg', 3),
 (4, 'Irene', 'Vaquero Parra', 'irenevaqueroparra@gmail.com', '2006-10-09', '2024-04-25 21:57:52', '$2y$10$vV8X8ljpE3Ggpt1hXu2YaO1swTFsvbXifScaFRBNrUQZOByb0V.cC', 'N/A', 3),
 (5, 'Marcos', 'Diaz Reyes', 'marcochurumbel@gmail.com', '2003-06-22', '2024-04-27 10:20:01', '$2y$10$X3e/2.gs4jdc1PpbQQpTNOVbVw8eezQJ.lMoeG0JGXLS/3dJLCfx.', 'N/A', 3),
-(6, 'Juan', 'Pitingo Pitillo', 'pitillera@gmail.com', '2024-04-09', '2024-04-27 12:00:56', '$2y$10$iKsYGt38tbpQsx67N.FMXuYz.1Xe3smdy31qC7f/AW3l6mZXkwA1e', 'N/A', 3),
-(7, 'Macarena', 'Esperanza de la', 'macapaca@gmail.com', '2024-04-27', '2024-04-27 22:20:01', '$2y$10$o57LwclVx7rhPydZIe2ZF.Y.Mv3EEIJRy1me8Mh22/p33chH5XqiG', 'N/A', 3),
-(8, 'Joaquín', 'Sabina Rodolfo', 'jsabina@hotmail.com', '2024-04-04', '2024-04-27 22:21:45', '$2y$10$RVj69XDcBtQJHEJc9OGzquMyZHZd/Lqo3EBd2UkHiuFh4mob71A7C', 'N/A', 3);
+(11, 'Tony', 'Tetillas Electrolíticas', 'tetillapezonera@gmail.com', '2024-02-08', '2024-05-02 22:15:47', '$2y$10$mkzoZgBoqOJrVZHuAvlO/eg/4BSMVy9PCkrh.J7z8UqhAKnuKe5VO', 'users/default.jpg', 3),
+(12, 'Mario', 'Lorca Gorda', 'gorditasabrosa@gmail.com', '2004-12-15', '2024-05-05 10:44:43', '$2y$10$GLVRI/8VoLmKkEgkDV52.Oql59aNdSSZ6y6dHNishm9eeSpyHGO8e', 'users/img_66376349c1033_minecraft-1-logo-png-transparent.png', 3),
+(13, 'Manolo', 'Lama', 'studium13@gmail.es', '2012-12-12', '2024-05-05 19:48:04', '$2y$10$KeJMrUEejfhw4kva8syFr.Bs/i.tgbgMQ2bkG39.3ANosaT/xtH8C', 'users/img_663760cae5a20_gordito.jpg', 3),
+(14, 'Pablo', 'Gonzalez', 'pablostudium@gmail.com', '2024-05-06', '2024-05-07 18:58:41', '$2y$10$A7OPl6O9J4kJ2j/Fls1VUO56U/YiJ/IGhW/0fcRh3f4exwLJ5Wj9q', 'users/img_663760cae5a20_gordito.jpg', 3),
+(15, 'Nuria', 'Peña Sáez', 'nuria@viscaelbarsa.com', '2009-07-05', '2024-05-07 20:47:29', '$2y$10$wzCj1PIP1ejuz.4QfXBhWe.I.UGd7m2/p0C4P/nv54OiXpeYFEAJS', 'users/img_663760cae5a20_gordito.jpg', 3);
 
 -- --------------------------------------------------------
 
@@ -524,7 +526,7 @@ ALTER TABLE `productos`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `idUsuario` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `idUsuario` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Restricciones para tablas volcadas

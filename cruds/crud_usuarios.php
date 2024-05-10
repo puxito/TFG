@@ -46,6 +46,33 @@ if (isset($_POST['eliminar'])) {
         $mensaje = "No se ha podido eliminar el usuario";
     }
 }
+//-------------UPDATE------------//
+if (isset($_POST["actualizar"])) {
+    $idUsuario = $_POST["idUsuario"];
+    $nombreUsuario = $_POST["nombreUsuario"];
+    $apellidosUsuario = $_POST["apellidosUsuario"];
+    $fechaNacimientoUsuario = $_POST["fechaNacimientoUsuario"];
+    $correoElectronicoUsuario = $_POST["correoElectronicoUsuario"];
+    $idRolFK = $_POST["idRolFK"];
+
+    // Consulta para actualizar los datos
+    $actualizarusuario = "UPDATE usuarios SET nombreUsuario =?, 
+                                              apellidosUsuario =?, 
+                                              fechaNacimientoUsuario =?, 
+                                              correoElectronicoUsuario =?, 
+                                              idRolFK =? 
+                                              WHERE idUsuario =?";
+
+    $preparada = $conn->prepare($actualizarusuario);
+    $preparada->bind_param("ssssii", $nombreUsuario, $apellidosUsuario, $fechaNacimientoUsuario, $correoElectronicoUsuario, $idRolFK, $idUsuario);
+
+    if ($preparada->execute()) {
+        $mensaje = "Usuario actualizado correctamente";
+    } else {
+        $mensaje = "No se ha podido actualizar el usuario";
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -90,7 +117,7 @@ if (isset($_POST['eliminar'])) {
     </header>
     <div id="menuPerfil">
         <?php if (isset($_SESSION["correoElectronicoUsuario"])) : ?>
-            <a href="perfil.php">Mi Perfil</a>
+            <a href="../perfil.php">Mi Perfil</a>
             <form action="#" method="post">
                 <input type="submit" value="Cerrar Sesión" name="cerses">
             </form>
@@ -111,6 +138,7 @@ if (isset($_POST['eliminar'])) {
             <button id="reload"><img src="../media/iconos/reload.png" alt="Recargar"></button>
             <input type="text" id="searchInput" placeholder="Buscar por nombre...">
         </div>
+        <h5 id="mensaje" style="text-align: center"><?php echo $mensaje;?></h5>
         <br>
         <table class="table table-striped mx-auto" id="usuarios">
             <thead>
@@ -120,7 +148,6 @@ if (isset($_POST['eliminar'])) {
                     <th scope="col">Apellidos</th>
                     <th scope="col">Correo Electrónico</th>
                     <th scope="col">Fecha de Nacimiento</th>
-                    <th scope="col">Contraseña</th>
                     <th scope="col">Fecha de Registro</th>
                     <th scope="col">Rol</th>
                     <th scope="col">Editar</th>
@@ -128,34 +155,54 @@ if (isset($_POST['eliminar'])) {
                 </tr>
             </thead>
             <tbody class="table-group-divider">
-                <?php
-                foreach ($registros as $registro) {
-                    echo "<tr>";
-                    echo "<th scope='row'>" . $registro['idUsuario'] . "</th>";
-                    echo "<td>" . $registro['nombreUsuario'] . "</td>";
-                    echo "<td>" . $registro['apellidosUsuario'] . "</td>";
-                    echo "<td>" . $registro['correoElectronicoUsuario'] . "</td>";
-                    echo "<td>" . $registro['fechaNacimientoUsuario'] . "</td>";
-                    echo "<td>" . $registro['contraseña'] . "</td>";
-                    echo "<td>" . $registro['fechaRegistroUsuario'] . "</td>";
-                    echo "<td>" . $registro['nombreRol'] . "</td>";
-                    echo "<td>
-                            <form action=\"#\" method=\"post\">
-                                <input type=\"hidden\" name=\"idUsuario\" value=\"" . $registro['idUsuario'] . "\">
-                                <button type=\"submit\" name=\"editar\"><img src=\"../media/iconos/edit.png\" style=\"width:15px\"></button>
-                            </form>
-                            </td>
-                            <td>
-                            <form action=\"#\" method=\"post\" onsubmit=\"return confirmarEliminacion()\">
-                                <input type=\"hidden\" name=\"idUsuario\" value=\"" . $registro['idUsuario'] . "\">
-                                <button type=\"submit\" name=\"eliminar\"><img src=\"../media/iconos/delete.png\" style=\"width:15px\"></button>
-                            </form>
-                            </td>";
-                    echo "</tr>";
-                }
-                ?>
-                <!-- Formulario de edición -->
+    <?php
+    foreach ($registros as $registro) {
+        echo "<tr>";
+        echo "<th scope='row'>" . $registro['idUsuario'] . "</th>";
+        echo "<td>" . $registro['nombreUsuario'] . "</td>";
+        echo "<td>" . $registro['apellidosUsuario'] . "</td>";
+        echo "<td>" . $registro['correoElectronicoUsuario'] . "</td>";
+        echo "<td>" . $registro['fechaNacimientoUsuario'] . "</td>";
+        echo "<td>" . $registro['fechaRegistroUsuario'] . "</td>";
+        echo "<td>" . $registro['nombreRol'] . "</td>";
+        echo "<td>
+                <button type=\"button\" onclick=\"toggleForm(" . $registro['idUsuario'] . ")\"><img src=\"../media/iconos/edit.png\" style=\"width:15px\"></button>
+                </td>
+                <td>
+                <form action=\"#\" method=\"post\" onsubmit=\"return confirmarEliminacion()\">
+                    <input type=\"hidden\" name=\"idUsuario\" value=\"" . $registro['idUsuario'] . "\">
+                    <button type=\"submit\" name=\"eliminar\"><img src=\"../media/iconos/delete.png\" style=\"width:15px\"></button>
+                </form>
+                </td>";
+        echo "</tr>";
 
+        // Formulario de edición oculto para cada usuario
+        echo "<tr id=\"form-" . $registro['idUsuario'] . "\" style=\"display:none;\">
+                <td colspan=\"9\">
+                    <form action=\"#\" class=\"form\" method=\"post\">
+                        <fieldset class=\"w-50 mx-auto\">
+                            <input type=\"hidden\" name=\"idUsuario\" value=\"" . $registro['idUsuario'] . "\">
+                            <input class=\"form-control\" type=\"text\" name=\"nombreUsuario\" value=\"" . $registro['nombreUsuario'] . "\">
+                            <br>
+                            <input class=\"form-control\" type=\"text\" name=\"apellidosUsuario\" value=\"" . $registro['apellidosUsuario'] . "\">
+                            <br>
+                            <input class=\"form-control\" type=\"text\" name=\"correoElectronicoUsuario\" value=\"" . $registro['correoElectronicoUsuario'] . "\">
+                            <br>
+                            <input class=\"form-control\" type=\"date\" name=\"fechaNacimientoUsuario\" value=\"" . $registro['fechaNacimientoUsuario'] . "\">
+                            <br>
+                            <select name=\"idRolFK\" id=\"idRolFK\">
+                                <option value=\"1\" " . ($registro['idRolFK'] == 1 ? "selected" : "") . ">Administrador</option>
+                                <option value=\"2\" " . ($registro['idRolFK'] == 2 ? "selected" : "") . ">Dietista</option>
+                                <option value=\"3\" " . ($registro['idRolFK'] == 3 ? "selected" : "") . ">Cliente</option>
+                            </select>
+                            <input type=\"submit\" value=\"Actualizar\" class=\"form-control\" name=\"actualizar\">
+                        </fieldset>
+                    </form>
+                </td>
+            </tr>";
+    }
+    ?>
+</tbody>
         </table>
     </article>
     <footer>
@@ -165,10 +212,9 @@ if (isset($_POST['eliminar'])) {
         const reload = document.getElementById("reload");
 
         reload.addEventListener("click", (_) => {
-            // el _ es para indicar la ausencia de parametros
+            
             location.reload();
         });
-        // Función para filtrar usuarios por nombre
         $(document).ready(function() {
             $("#searchInput").on("keyup", function() {
                 var value = $(this).val().toLowerCase();
@@ -177,11 +223,22 @@ if (isset($_POST['eliminar'])) {
                 });
             });
         });
-
-        // Confirmación de eliminación
         function confirmarEliminacion() {
             return confirm("¿Estás seguro de que quieres eliminar este usuario?");
         }
+
+        function toggleForm(idUsuario) {
+            var form = document.getElementById('form-' + idUsuario);
+            if (form.style.display === 'none') {
+                form.style.display = 'table-row';
+            } else {
+                form.style.display = 'none';
+            }
+        }
+
+        setTimeout(function() {
+            document.getElementById("mensaje").style.display = "none";
+        },2000);
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
