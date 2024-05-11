@@ -116,13 +116,14 @@ footer {
 }
 
 .profile-section {
- 
+  width: 50%;
   justify-content: space-between;
   align-items: flex-start;
+  float: left;
 }
 
 .profile-article {
-  width: 45%;
+  width: 100%;
   padding: 20px;
   margin-top: 30px;
   margin-left: 10px ;
@@ -167,4 +168,11 @@ footer {
 }
 .main-content {
   margin-bottom: 70px; /* Ajusta la altura del margen inferior según la altura de tu footer */
+}
+
+/* CALENDARIO*/
+#calendar {
+  border: 2px solid black;
+  float: right;
+  width: 900px;
 }

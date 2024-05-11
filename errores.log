@@ -320,3 +320,26 @@ Stack trace:
 [10-May-2024 14:26:30 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/perfil.php on line 127
 [10-May-2024 14:26:30 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/perfil.php on line 136
 [10-May-2024 14:26:30 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/perfil.php on line 143
+[11-May-2024 12:51:28 Europe/Berlin] PHP Warning:  Undefined array key "correoElectronicoUsuario" in /var/www/html/php/funciones.php on line 338
+[11-May-2024 12:51:28 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/php/funciones.php on line 345
+[11-May-2024 12:51:28 Europe/Berlin] PHP Warning:  Undefined array key "correoElectronicoUsuario" in /var/www/html/php/funciones.php on line 356
+[11-May-2024 12:51:28 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/perfil.php on line 101
+[11-May-2024 12:51:28 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/perfil.php on line 103
+[11-May-2024 12:51:28 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/perfil.php on line 110
+[11-May-2024 12:51:28 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/perfil.php on line 114
+[11-May-2024 12:51:28 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/perfil.php on line 118
+[11-May-2024 12:51:28 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/perfil.php on line 122
+[11-May-2024 12:51:28 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/perfil.php on line 131
+[11-May-2024 12:51:28 Europe/Berlin] PHP Warning:  Undefined array key "correoElectronicoUsuario" in /var/www/html/php/funciones.php on line 338
+[11-May-2024 12:51:28 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/php/funciones.php on line 345
+[11-May-2024 12:51:28 Europe/Berlin] PHP Warning:  Undefined array key "correoElectronicoUsuario" in /var/www/html/php/funciones.php on line 356
+[11-May-2024 12:51:28 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/perfil.php on line 101
+[11-May-2024 12:51:28 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/perfil.php on line 103
+[11-May-2024 12:51:28 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/perfil.php on line 110
+[11-May-2024 12:51:28 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/perfil.php on line 114
+[11-May-2024 12:51:28 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/perfil.php on line 118
+[11-May-2024 12:51:28 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/perfil.php on line 122
+[11-May-2024 12:51:28 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/perfil.php on line 131
+[11-May-2024 12:53:32 Europe/Berlin] PHP Warning:  Undefined array key "idUsuario" in /var/www/html/perfil.php on line 23
+[11-May-2024 12:56:45 Europe/Berlin] PHP Warning:  Undefined array key "idUsuario" in /var/www/html/perfil.php on line 23
+[11-May-2024 12:58:20 Europe/Berlin] PHP Warning:  Undefined array key "idUsuario" in /var/www/html/perfil.php on line 23

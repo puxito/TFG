@@ -41,11 +41,6 @@ if (isset($_POST["actualizar"])) {
     } else {
         $mensaje = "No se ha podido actualizar el usuario";
     }
-
-    // Devolver una respuesta JSON
-    header('Content-Type: application/json');
-    echo json_encode(array("success" => true, "message" => $mensaje));
-    exit; // Terminar la ejecución del script después de enviar la respuesta JSON
 }
 ?>
 
@@ -58,6 +53,7 @@ if (isset($_POST["actualizar"])) {
     <title>Perfil</title>
     <link rel="icon" href="../media/logo.png" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js'></script>
     <link rel="stylesheet" href="../estilos/perfilstyle.css">
 </head>
 
@@ -102,8 +98,10 @@ if (isset($_POST["actualizar"])) {
         <?php endif; ?>
     </div>
     <section class="profile-section">
+
         <article class="profile-article">
             <h2>Perfil de <?php echo $datosUsuario['nombreUsuario'] ?></h2>
+            <button id="reload" style="width: auto;"><img src="media/iconos/reload.png" alt="Recargar" style="width: 20px;"></button>
             <div class="profile-image">
                 <img src="<?php echo $datosUsuario['imagenUsuario'] ?>" alt="Foto de Perfil">
                 <button id="change-photo-btn">Cambiar Foto de Perfil</button>
@@ -127,8 +125,8 @@ if (isset($_POST["actualizar"])) {
                         <td><input type="text" id="fechaNacimientoUsuario" name="fechaNacimientoUsuario" value="<?php echo $datosUsuario['fechaNacimientoUsuario']; ?>" readonly class="form-control editable-field"></td>
                     </tr>
                     <tr>
-                        <td colspan="2"><button id="edit-btn">Editar</button></td>
-                        <td><input type="hidden" name="actualizar" value="Guardar Cambios" id="save-btn" style="display: none;"></td>
+                        <td colspan="2"><button type="button" id="edit-btn" onclick="editardatos()">Editar</button></td>
+                        <td><button type="submit" name="actualizar" value="Guardar Cambios" id="save-btn" style="display: none;">Guardar Cambios</button></td>
                     </tr>
                     <tr>
                         <td><label for="password">Contraseña:</label></td>
@@ -140,8 +138,7 @@ if (isset($_POST["actualizar"])) {
                         </td>
                     </tr>
                 </table>
-                <input type="hidden" name="idUsuario" value="<?php echo $datosUsuario['idUsuario']; ?>">
-
+                <input type="hidden" name="idUsuario" value="<?php echo $idUsuario; ?>">
             </form>
         </article>
         <article class="profile-article">
@@ -165,18 +162,49 @@ if (isset($_POST["actualizar"])) {
             </table>
         </article>
     </section>
+    <div id="calendar" class="container">
+        <div>
+            <div id='calendar'></div>
+        </div>
+    </div>
 
     <footer>
         <p>&copy; 2024 FitFood. Todos los derechos reservados.</p>
     </footer>
 
     <script>
+        function editardatos() {
+            let $formcontrol = document.getElementsByClassName("form-control editable-field");
+            for (let i = 0; i < $formcontrol.length; i++) {
+                $formcontrol[i].removeAttribute("readonly");
+            }
+            document.getElementById("save-btn").style.display = "inline-block";
+        }
+        const reload = document.getElementById("reload");
 
+        reload.addEventListener("click", (_) => {
+
+            location.reload();
+        });
+        // CALENDARIO
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const calendarEl = document.getElementById('calendar')
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                locale: "es"
+            })
+            calendar.render()
+        })
     </script>
+    </script>
+
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 
 </html>
