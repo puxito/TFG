@@ -162,9 +162,9 @@ if (isset($_POST["actualizar"])) {
             </table>
         </article>
     </section>
-    <div id="calendar" class="container">
+    <div class="container">
         <div>
-            <div id='calendar'></div>
+            <div id='calendar' style="background-color: #ccc"></div>
         </div>
     </div>
 
@@ -193,8 +193,16 @@ if (isset($_POST["actualizar"])) {
             const calendarEl = document.getElementById('calendar')
             const calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
-                locale: "es"
-            })
+                locale: "es",
+                headerToolbar: {
+                    left: 'prev, next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                },
+                titleFormat: function() {
+                    return 'Calendario de <?php echo $datosUsuario['nombreUsuario']; ?>'.toUpperCase();
+                }
+            });
             calendar.render()
         })
     </script>
