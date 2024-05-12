@@ -197,7 +197,7 @@ if (isset($_POST["actualizar"])) {
                 headerToolbar: {
                     left: 'prev, next today',
                     center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                    right:'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
                 },
                 titleFormat: function() {
                     return 'Calendario de <?php echo $datosUsuario['nombreUsuario']; ?>'.toUpperCase();
