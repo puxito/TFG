@@ -187,10 +187,30 @@ if (isset($_POST["actualizar"])) {
 
             location.reload();
         });
-    </script>
-    </script>
 
+        // CALENDARIO
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                locale: 'es',
 
+                events: 'dietas/cargarDietas.php',
+                
+                eventClick: function(info) {
+                    alert('Event: ' + info.event.title);
+                    alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
+                    alert('View: ' + info.view.type);
+
+                    // change the border color just for fun
+                    info.el.style.borderColor = 'red';
+                }
+            });
+            calendar.render();
+
+        });
+    </script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

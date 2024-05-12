@@ -16,6 +16,26 @@ function conectarBBDD()
     return $conn;
 }
 
+function conectarBBDD_PDO()
+{
+    $servidor = "localhost";
+    $usuario = "ivanpuxito";
+    $clave = "1234";
+    $bbdd = "BD_FitFood";
+
+    try {
+        // Objeto conexión PDO
+        $conn = new PDO("mysql:host=$servidor;dbname=$bbdd", $usuario, $clave);
+        // Configura PDO para que lance excepciones en caso de errores
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        return $conn;
+    } catch(PDOException $e) {
+        // Captura cualquier excepción que ocurra durante la conexión
+        die("Error de Conexión: " . $e->getMessage());
+    }
+}
+
+
 // SESIONES PARA USUARIOS NORMALES
 function sesionN1()
 {
