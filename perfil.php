@@ -20,7 +20,7 @@ $datosUsuario = obtenerDatosUsuario();
 
 // Verificar si se enviaron datos del formulario y actualizar los datos del usuario si es necesario
 if (isset($_POST["actualizar"])) {
-    $idUsuario = $_REQUEST["idUsuario"];
+    $idUsuario = $_POST["idUsuario"];
     $nombreUsuario = $_POST["nombreUsuario"];
     $apellidosUsuario = $_POST["apellidosUsuario"];
     $fechaNacimientoUsuario = $_POST["fechaNacimientoUsuario"];
@@ -187,7 +187,6 @@ if (isset($_POST["actualizar"])) {
             location.reload();
         });
         // CALENDARIO
-
 
         document.addEventListener('DOMContentLoaded', function() {
             const calendarEl = document.getElementById('calendar')
