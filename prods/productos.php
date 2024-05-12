@@ -5,6 +5,7 @@ require("../php/funciones.php");
 // CONEXION
 $conn = conectarBBDD();
 
+sesionN1();
 // Obtener la lista de categorías
 $sql_categorias = "SELECT idCategoria, nombreCategoria FROM categorias";
 $stmt_categorias = $conn->prepare($sql_categorias);

@@ -164,7 +164,7 @@ if (isset($_POST["actualizar"])) {
     </section>
     <div class="container">
         <div>
-            <div id='calendar' style="background-color: #ccc"></div>
+            <div id='calendar' style="background-color: #f2f2f2"></div>
         </div>
     </div>
 
@@ -173,6 +173,7 @@ if (isset($_POST["actualizar"])) {
     </footer>
 
     <script>
+        // EDICION DE DATOS
         function editardatos() {
             let $formcontrol = document.getElementsByClassName("form-control editable-field");
             for (let i = 0; i < $formcontrol.length; i++) {
@@ -181,29 +182,11 @@ if (isset($_POST["actualizar"])) {
             document.getElementById("save-btn").style.display = "inline-block";
         }
         const reload = document.getElementById("reload");
-
+        // RECARGAR
         reload.addEventListener("click", (_) => {
 
             location.reload();
         });
-        // CALENDARIO
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const calendarEl = document.getElementById('calendar')
-            const calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                locale: "es",
-                headerToolbar: {
-                    left: 'prev, next today',
-                    center: 'title',
-                    right:'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-                },
-                titleFormat: function() {
-                    return 'Calendario de <?php echo $datosUsuario['nombreUsuario']; ?>'.toUpperCase();
-                }
-            });
-            calendar.render()
-        })
     </script>
     </script>
 
