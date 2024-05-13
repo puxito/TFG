@@ -53,7 +53,9 @@ if (isset($_POST["actualizar"])) {
     <title>Perfil</title>
     <link rel="icon" href="../media/logo.png" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js'></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="../estilos/perfilstyle.css">
 </head>
 
@@ -162,16 +164,43 @@ if (isset($_POST["actualizar"])) {
             </table>
         </article>
     </section>
+
     <div class="container">
         <div>
             <div id='calendar' style="background-color: #f2f2f2"></div>
         </div>
     </div>
-
     <footer>
         <p>&copy; 2024 FitFood. Todos los derechos reservados.</p>
     </footer>
-
+    <div class="modal fade" id="modalAgregarEvento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Agregar Evento</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="formAgregarEvento">
+                        <div class="form-group">
+                            <label for="titulo">Elige una dieta</label>
+                            <input type="text" class="form-control" id="titulo" name="titulo">
+                        </div>
+                        <div class="form-group">
+                            <label for="fecha">Fecha</label>
+                            <input type="date" class="form-control" id="start" name="start" readonly>
+                            <input type="date" class="form-control" id="end" name="end" readonly hidden>
+                            <input type="hidden" id="idUsuario" name="idUsuario" value="<?php echo $idUsuario; ?>">
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <script>
         // EDICION DE DATOS
         function editardatos() {
@@ -194,20 +223,26 @@ if (isset($_POST["actualizar"])) {
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
                 locale: 'es',
+                editable: true,
+                selectable: true,
+                selectMirror: true,
+                allDaySlot: false,
 
-                events: 'dietas/cargarDietas.php',
-                
-                eventClick: function(info) {
-                    alert('Event: ' + info.event.title);
-                    alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
-                    alert('View: ' + info.view.type);
-
-                    // change the border color just for fun
-                    info.el.style.borderColor = 'red';
+                // Configuración para cargar eventos y pasar el correo electrónico del usuario
+                events: {
+                    url: 'dietas/cargarDietas.php',
+                    method: 'POST',
+                    extraParams: {
+                        correoElectronicoUsuario: '<?php echo obtenerCorreoElectronicoUsuario(); ?>'
+                    }
+                },
+                dateClick: function(info) {
+                    $('#modalAgregarEvento').modal('show');
+                    $('#start').val(info.dateStr);
                 }
+
             });
             calendar.render();
-
         });
     </script>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>

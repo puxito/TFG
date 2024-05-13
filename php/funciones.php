@@ -385,3 +385,16 @@ function obtenerDatosUsuario() {
 
     return $fila; // Devolver la fila completa como un array asociativo
 }
+
+function obtenerIDUsuarioPorCorreo($correoElectronicoUsuario) {
+    $conn = conectarBBDD_PDO();
+    $sql = "SELECT idUsuario FROM usuarios WHERE correoElectronicoUsuario = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$correoElectronicoUsuario]);
+    $idUsuario = $stmt->fetchColumn();
+    return $idUsuario;
+}
+function obtenerCorreoElectronicoUsuario() {
+    sesionN1();
+    return $_SESSION["correoElectronicoUsuario"];
+}

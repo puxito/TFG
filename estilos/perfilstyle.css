@@ -171,8 +171,11 @@ footer {
 }
 
 /* CALENDARIO*/
-#calendar {
+.container {
   border: 2px solid black;
   float: right;
-  width: 900px;
+  width: 600px;
+  margin-top: 20px;
+  margin-right: 20px;
+  padding: 0;
 }
