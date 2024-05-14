@@ -42,6 +42,9 @@ if (isset($_POST["actualizar"])) {
         $mensaje = "No se ha podido actualizar el usuario";
     }
 }
+
+// Sacar id por evento
+
 ?>
 
 <!DOCTYPE html>
@@ -216,6 +219,7 @@ if (isset($_POST["actualizar"])) {
                 <div class="modal-body">
                     <form id="formEditarEvento" action="dietas/actualizarDieta.php" method="POST">
                         <input type="hidden" id="editEventId" name="editEventId">
+                        <input type="hidden" id="idUsuario" name="idUsuario" value="<?php echo $idUsuario; ?>">
                         <div class="form-group">
                             <label for="editTitle">Título:</label>
                             <input type="text" class="form-control" id="editTitle" name="editTitle">
@@ -232,66 +236,64 @@ if (isset($_POST["actualizar"])) {
                             <label for="editColor">Color:</label>
                             <input type="color" class="form-control" id="editColor" name="editColor">
                         </div>
+                        <br>
                         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                     </form>
                 </div>
-                <script>
-                    // EDICION DE DATOS
-                    function editardatos() {
-                        let $formcontrol = document.getElementsByClassName("form-control editable-field");
-                        for (let i = 0; i < $formcontrol.length; i++) {
-                            $formcontrol[i].removeAttribute("readonly");
-                        }
-                        document.getElementById("save-btn").style.display = "inline-block";
+            </div>
+        </div>
+    </div>
+    <script>
+        // EDICION DE DATOS
+        function editardatos() {
+            let $formcontrol = document.getElementsByClassName("form-control editable-field");
+            for (let i = 0; i < $formcontrol.length; i++) {
+                $formcontrol[i].removeAttribute("readonly");
+            }
+            document.getElementById("save-btn").style.display = "inline-block";
+        }
+        const reload = document.getElementById("reload");
+        // RECARGAR
+        reload.addEventListener("click", (_) => {
+
+            location.reload();
+        });
+
+        // CALENDARIO
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                locale: 'es',
+                editable: true,
+                selectable: true,
+                selectMirror: true,
+                allDaySlot: false,
+
+                // Configuración para cargar eventos y pasar el correo electrónico del usuario
+                events: {
+                    url: 'dietas/cargarDietas.php',
+                    method: 'POST',
+                    extraParams: {
+                        correoElectronicoUsuario: '<?php echo obtenerCorreoElectronicoUsuario(); ?>'
                     }
-                    const reload = document.getElementById("reload");
-                    // RECARGAR
-                    reload.addEventListener("click", (_) => {
-
-                        location.reload();
-                    });
-
-                    // CALENDARIO
-                    document.addEventListener('DOMContentLoaded', function() {
-                        var calendarEl = document.getElementById('calendar');
-                        var calendar = new FullCalendar.Calendar(calendarEl, {
-                            initialView: 'dayGridMonth',
-                            locale: 'es',
-                            editable: true,
-                            selectable: true,
-                            selectMirror: true,
-                            allDaySlot: false,
-
-                            // Configuración para cargar eventos y pasar el correo electrónico del usuario
-                            events: {
-                                url: 'dietas/cargarDietas.php',
-                                method: 'POST',
-                                extraParams: {
-                                    correoElectronicoUsuario: '<?php echo obtenerCorreoElectronicoUsuario(); ?>'
-                                }
-                            },
-                            dateClick: function(info) {
-                                $('#modalAgregarEvento').modal('show');
-                                $('#start').val(info.dateStr);
-                            },
-                            eventClick: function(info) {
-                                // Abre el modal de edición con los detalles del evento seleccionado
-                                $('#modalEditarEvento').modal('show');
-                                $('#editTitle').val(info.event.title);
-                                $('#editStart').val(info.event.startStr);
-                                $('#editEnd').val(info.event.endStr);
-                                $('#editColor').val(info.event.backgroundColor);
-                                $('#editEventId').val(info.event.id);
-                            }
-                        });
-                        calendar.render();
-                    });
-                </script>
-                <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
-                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-                <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+                },
+                dateClick: function(info) {
+                    $('#modalAgregarEvento').modal('show');
+                    $('#start').val(info.dateStr);
+                },
+                eventClick: function(info) {
+                    
+                }
+            });
+            calendar.render();
+        });
+    </script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 
 </html>

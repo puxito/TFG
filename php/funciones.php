@@ -376,14 +376,14 @@ function obtenerDatosUsuario() {
     $correoElectronicoUsuario = $_SESSION["correoElectronicoUsuario"];
     $sql = "SELECT * FROM usuarios WHERE correoElectronicoUsuario = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $correoElectronicoUsuario); // Cambiado "i" a "s"
+    $stmt->bind_param("s", $correoElectronicoUsuario);
     $stmt->execute();
     $result = $stmt->get_result();
     $fila = $result->fetch_assoc();
     $stmt->close();
     $conn->close();
 
-    return $fila; // Devolver la fila completa como un array asociativo
+    return $fila;
 }
 
 function obtenerIDUsuarioPorCorreo($correoElectronicoUsuario) {

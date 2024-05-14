@@ -496,3 +496,34 @@ Stack trace:
 [13-May-2024 13:20:36 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/perfil.php on line 126
 [13-May-2024 13:20:36 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/perfil.php on line 135
 [13-May-2024 13:20:36 Europe/Berlin] PHP Warning:  Undefined array key "correoElectronicoUsuario" in /var/www/html/php/funciones.php on line 399
+[14-May-2024 14:04:00 Europe/Berlin] PHP Warning:  Undefined array key "correoElectronicoUsuario" in /var/www/html/php/funciones.php on line 358
+[14-May-2024 14:04:00 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/php/funciones.php on line 365
+[14-May-2024 14:04:00 Europe/Berlin] PHP Warning:  Undefined array key "correoElectronicoUsuario" in /var/www/html/php/funciones.php on line 376
+[14-May-2024 14:04:00 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/perfil.php on line 105
+[14-May-2024 14:04:00 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/perfil.php on line 108
+[14-May-2024 14:04:00 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/perfil.php on line 115
+[14-May-2024 14:04:00 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/perfil.php on line 119
+[14-May-2024 14:04:00 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/perfil.php on line 123
+[14-May-2024 14:04:00 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/perfil.php on line 127
+[14-May-2024 14:04:00 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/perfil.php on line 136
+[14-May-2024 14:04:00 Europe/Berlin] PHP Warning:  Undefined array key "correoElectronicoUsuario" in /var/www/html/php/funciones.php on line 399
+[14-May-2024 14:26:27 Europe/Berlin] PHP Warning:  Undefined array key "correoElectronicoUsuario" in /var/www/html/php/funciones.php on line 358
+[14-May-2024 14:26:27 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/php/funciones.php on line 365
+[14-May-2024 14:26:27 Europe/Berlin] PHP Warning:  Undefined array key "correoElectronicoUsuario" in /var/www/html/php/funciones.php on line 376
+[14-May-2024 14:26:27 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/perfil.php on line 105
+[14-May-2024 14:26:27 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/perfil.php on line 108
+[14-May-2024 14:26:27 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/perfil.php on line 115
+[14-May-2024 14:26:27 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/perfil.php on line 119
+[14-May-2024 14:26:27 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/perfil.php on line 123
+[14-May-2024 14:26:27 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/perfil.php on line 127
+[14-May-2024 14:26:27 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/perfil.php on line 136
+[14-May-2024 14:26:27 Europe/Berlin] PHP Warning:  Undefined variable $idEvento in /var/www/html/perfil.php on line 234
+[14-May-2024 14:26:27 Europe/Berlin] PHP Warning:  Undefined array key "correoElectronicoUsuario" in /var/www/html/php/funciones.php on line 399
+[14-May-2024 14:26:31 Europe/Berlin] PHP Warning:  Undefined variable $idEvento in /var/www/html/perfil.php on line 234
+[14-May-2024 14:36:19 Europe/Berlin] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '?' at line 1 in /var/www/html/php/funciones.php:406
+Stack trace:
+#0 /var/www/html/php/funciones.php(406): PDOStatement->execute()
+#1 /var/www/html/perfil.php(47): obtenerIDEventoPorUsuario()
+#2 {main}
+  thrown in /var/www/html/php/funciones.php on line 406
+[14-May-2024 14:38:31 Europe/Berlin] PHP Warning:  Undefined variable $idEvento in /var/www/html/perfil.php on line 238
