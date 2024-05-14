@@ -183,73 +183,115 @@ if (isset($_POST["actualizar"])) {
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="formAgregarEvento">
+                    <form id="formAgregarEvento" action="dietas/agregarDietas.php" method="POST">
                         <div class="form-group">
-                            <label for="titulo">Elige una dieta</label>
-                            <input type="text" class="form-control" id="titulo" name="titulo">
+                            <label for="title">Agregue una dieta</label>
+                            <input type="text" class="form-control" id="title" name="title">
+                            <label for="color">Color</label>
+                            <input type="color" class="form-control" id="color" name="color">
                         </div>
                         <div class="form-group">
                             <label for="fecha">Fecha</label>
                             <input type="date" class="form-control" id="start" name="start" readonly>
-                            <input type="date" class="form-control" id="end" name="end" readonly hidden>
+                            <input type="date" class="form-control" id="end" name="end">
                             <input type="hidden" id="idUsuario" name="idUsuario" value="<?php echo $idUsuario; ?>">
                         </div>
                         <br>
-                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <input type="submit" class="btn btn-primary" value="Guardar"></input>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    <script>
-        // EDICION DE DATOS
-        function editardatos() {
-            let $formcontrol = document.getElementsByClassName("form-control editable-field");
-            for (let i = 0; i < $formcontrol.length; i++) {
-                $formcontrol[i].removeAttribute("readonly");
-            }
-            document.getElementById("save-btn").style.display = "inline-block";
-        }
-        const reload = document.getElementById("reload");
-        // RECARGAR
-        reload.addEventListener("click", (_) => {
-
-            location.reload();
-        });
-
-        // CALENDARIO
-        document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                locale: 'es',
-                editable: true,
-                selectable: true,
-                selectMirror: true,
-                allDaySlot: false,
-
-                // Configuración para cargar eventos y pasar el correo electrónico del usuario
-                events: {
-                    url: 'dietas/cargarDietas.php',
-                    method: 'POST',
-                    extraParams: {
-                        correoElectronicoUsuario: '<?php echo obtenerCorreoElectronicoUsuario(); ?>'
+    <div class="modal fade" id="modalEditarEvento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <!-- Modal de edición del evento -->
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Editar Evento</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="formEditarEvento" action="dietas/actualizarDieta.php" method="POST">
+                        <input type="hidden" id="editEventId" name="editEventId">
+                        <div class="form-group">
+                            <label for="editTitle">Título:</label>
+                            <input type="text" class="form-control" id="editTitle" name="editTitle">
+                        </div>
+                        <div class="form-group">
+                            <label for="editStart">Fecha de Inicio:</label>
+                            <input type="date" class="form-control" id="editStart" name="editStart">
+                        </div>
+                        <div class="form-group">
+                            <label for="editEnd">Fecha de Finalización:</label>
+                            <input type="date" class="form-control" id="editEnd" name="editEnd">
+                        </div>
+                        <div class="form-group">
+                            <label for="editColor">Color:</label>
+                            <input type="color" class="form-control" id="editColor" name="editColor">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    </form>
+                </div>
+                <script>
+                    // EDICION DE DATOS
+                    function editardatos() {
+                        let $formcontrol = document.getElementsByClassName("form-control editable-field");
+                        for (let i = 0; i < $formcontrol.length; i++) {
+                            $formcontrol[i].removeAttribute("readonly");
+                        }
+                        document.getElementById("save-btn").style.display = "inline-block";
                     }
-                },
-                dateClick: function(info) {
-                    $('#modalAgregarEvento').modal('show');
-                    $('#start').val(info.dateStr);
-                }
+                    const reload = document.getElementById("reload");
+                    // RECARGAR
+                    reload.addEventListener("click", (_) => {
 
-            });
-            calendar.render();
-        });
-    </script>
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+                        location.reload();
+                    });
+
+                    // CALENDARIO
+                    document.addEventListener('DOMContentLoaded', function() {
+                        var calendarEl = document.getElementById('calendar');
+                        var calendar = new FullCalendar.Calendar(calendarEl, {
+                            initialView: 'dayGridMonth',
+                            locale: 'es',
+                            editable: true,
+                            selectable: true,
+                            selectMirror: true,
+                            allDaySlot: false,
+
+                            // Configuración para cargar eventos y pasar el correo electrónico del usuario
+                            events: {
+                                url: 'dietas/cargarDietas.php',
+                                method: 'POST',
+                                extraParams: {
+                                    correoElectronicoUsuario: '<?php echo obtenerCorreoElectronicoUsuario(); ?>'
+                                }
+                            },
+                            dateClick: function(info) {
+                                $('#modalAgregarEvento').modal('show');
+                                $('#start').val(info.dateStr);
+                            },
+                            eventClick: function(info) {
+                                // Abre el modal de edición con los detalles del evento seleccionado
+                                $('#modalEditarEvento').modal('show');
+                                $('#editTitle').val(info.event.title);
+                                $('#editStart').val(info.event.startStr);
+                                $('#editEnd').val(info.event.endStr);
+                                $('#editColor').val(info.event.backgroundColor);
+                                $('#editEventId').val(info.event.id);
+                            }
+                        });
+                        calendar.render();
+                    });
+                </script>
+                <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 
 </html>
