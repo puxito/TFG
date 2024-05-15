@@ -106,11 +106,15 @@ if (isset($_POST["actualizar"])) {
     <section class="profile-section">
         <article class="profile-article">
             <h2>Perfil de <?php echo $datosUsuario['nombreUsuario'] ?></h2>
+
             <button id="reload" style="width: auto;"><img src="media/iconos/reload.png" alt="Recargar" style="width: 20px;"></button>
-            <div class="profile-image">
-                <img src="<?php echo $datosUsuario['imagenUsuario'] ?>" alt="Foto de Perfil">
-                <button id="change-photo-btn">Cambiar Foto de Perfil</button>
-            </div>
+
+            <form action="procesar_subida.php" method="post" enctype="multipart/form-data">
+                <img class="rounded-circle border-1 border-primary" src="<?php echo $datosUsuario['imagenUsuario'] ?>" alt="Foto de Perfil" width="15%">
+                <input type="file" id="imagen" name="imagen" accept="image/*"><br>
+                <button class="btn">Cambiar Foto de Perfil</button>
+            </form>
+
             <form id="personal-info-form" action="#" method="post">
                 <table>
                     <tr>
