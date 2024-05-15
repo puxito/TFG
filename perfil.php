@@ -70,7 +70,7 @@ if (isset($_POST["actualizar"])) {
             </div>
             <nav>
                 <?php
-                if (sesionN1()) {
+                if (sesionN0()) {
                     echo "<div class='perfil' id='perfil' onclick='toggleMenuPerfil()'>";
 
                     // Mostrar la foto de perfil del usuario y su nombre

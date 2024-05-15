@@ -2,6 +2,7 @@
 require("../php/errores.php");
 require("../php/funciones.php");
 
+sesionN1();
 // CONEXION
 $conn = conectarBBDD_PDO();
 // Obtener el correo electrónico del usuario actualmente conectado

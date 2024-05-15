@@ -37,7 +37,7 @@ function conectarBBDD_PDO()
 
 
 // SESIONES PARA USUARIOS NORMALES
-function sesionN1()
+function sesionN0()
 {
     // Iniciar la sesión si no está iniciada
     if (session_status() != PHP_SESSION_ACTIVE) {
@@ -61,6 +61,33 @@ function sesionN1()
         return true; // Usuario ha iniciado sesión
     } else {
         return false; // Usuario no ha iniciado sesión
+    }
+}
+
+
+function sesionN1()
+{
+    if (session_status() != PHP_SESSION_ACTIVE) {
+        session_start();
+    }
+
+    // Salir de la sesión si se ha enviado la solicitud 'salir'
+    if (isset($_REQUEST['cerses'])) {
+        session_destroy();
+        header("Location: ../php/login.php");
+        exit();
+    }
+
+
+    if (isset($_GET['cerses']) && $_GET['cerses'] == 'true') {
+        echo "<script>alert('Tu sesión ha sido cerrada.');</script>";
+    }
+
+    // Verificar si el usuario ha iniciado sesión
+    if (!isset($_SESSION["correoElectronicoUsuario"])) {
+        // El usuario no ha iniciado sesión, redirigir a la página de inicio de sesión
+        header("Location: ../php/login.php");
+        exit();
     }
 }
 
@@ -257,10 +284,10 @@ function inicioSesion($conn)
 
 // Función para obtener la ruta de la imagen del usuario actual
 function obtenerRutaImagenUsuario() {
-    // Verificar si el usuario ha iniciado sesión
-    sesionN1(); // Cambia a la función de sesión correspondiente si es necesario
 
-    // Obtener la ruta de la imagen del usuario actual desde la base de datos
+    sesionN1(); 
+
+    
     $conn = conectarBBDD();
     $correoElectronicoUsuario = $_SESSION["correoElectronicoUsuario"];
     $sql = "SELECT imagenUsuario FROM usuarios WHERE correoElectronicoUsuario = ?";
@@ -278,7 +305,7 @@ function obtenerRutaImagenUsuario() {
 
 function obtenerNombreUsuario(){
     // Verificar si el usuario ha iniciado sesión
-    sesionN1(); // Cambia a la función de sesión correspondiente si es necesario
+    sesionN0(); // Cambia a la función de sesión correspondiente si es necesario
 
     // Obtener el nombre del usuario actual desde la base de datos
     $conn = conectarBBDD();
@@ -336,7 +363,7 @@ function obtenerNombreUsuario2(){
 }
 
 function verificarrol(){
-    sesionN1();
+    sesionN0();
     $conn = conectarBBDD();
     $correoElectronicoUsuario = $_SESSION["correoElectronicoUsuario"];
     $sql = "SELECT idRolFK FROM usuarios WHERE correoElectronicoUsuario = ?";
@@ -353,7 +380,7 @@ function verificarrol(){
 }
 
 function obtenerIDUsuario() {
-    sesionN1();
+    sesionN0();
     $conn = conectarBBDD();
     $correoElectronicoUsuario = $_SESSION["correoElectronicoUsuario"];
     $sql = "SELECT idUsuario FROM usuarios WHERE correoElectronicoUsuario = ?";
@@ -371,7 +398,7 @@ function obtenerIDUsuario() {
 }
 
 function obtenerDatosUsuario() {
-    sesionN1();
+    sesionN0();
     $conn = conectarBBDD();
     $correoElectronicoUsuario = $_SESSION["correoElectronicoUsuario"];
     $sql = "SELECT * FROM usuarios WHERE correoElectronicoUsuario = ?";
@@ -395,7 +422,7 @@ function obtenerIDUsuarioPorCorreo($correoElectronicoUsuario) {
     return $idUsuario;
 }
 function obtenerCorreoElectronicoUsuario() {
-    sesionN1();
+    sesionN0();
     return $_SESSION["correoElectronicoUsuario"];
 }
 

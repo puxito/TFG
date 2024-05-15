@@ -39,7 +39,7 @@ $conn = conectarBBDD();
                 </a>
             </div>
             <?php
-            if (sesionN1()) {
+            if (sesionN0()) {
                 echo "<div class='perfil' id='perfil' onclick='toggleMenuPerfil()'>";
 
                 $_SESSION['correoElectronicoUsuario'];
