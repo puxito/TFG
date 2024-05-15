@@ -398,3 +398,27 @@ function obtenerCorreoElectronicoUsuario() {
     sesionN1();
     return $_SESSION["correoElectronicoUsuario"];
 }
+
+function getAgeForCurrentUser($idUsuario)
+{
+    global $conn;
+    
+    // Preparar la consulta SQL para obtener la fecha de nacimiento del usuario
+    $consulta = "SELECT fechaNacimientoUsuario FROM usuarios WHERE idUsuario = ?";
+    
+    // Ejecutar la consulta
+    $resultado = $conn->prepare($consulta);
+    $resultado->bind_param("i", $idUsuario);
+    $resultado->execute();
+    $resultado->bind_result($fechaNacimiento);
+    $resultado->fetch();
+    $resultado->close();
+    
+    // Calcular la edad del usuario
+    $fechaActual = new DateTime();
+    $fechaNacimientoObj = new DateTime($fechaNacimiento);
+    $diferencia = $fechaActual->diff($fechaNacimientoObj);
+    $edad = $diferencia->y;
+    
+    return $edad;
+}

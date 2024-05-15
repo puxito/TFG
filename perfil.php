@@ -151,7 +151,8 @@ if (isset($_POST["actualizar"])) {
             <table>
                 <tr>
                     <td><label for="edad">Edad:</label></td>
-                    <td><input id="edad" name="edad"></td>
+                    <td><input id="edad" name="edad" value="<?php echo getAgeForCurrentUser($idUsuario); ?>" readonly>
+                    </td>
                 </tr>
                 <tr>
                     <td><label for="peso">Peso (kg):</label></td>
@@ -283,7 +284,7 @@ if (isset($_POST["actualizar"])) {
                     $('#start').val(info.dateStr);
                 },
                 eventClick: function(info) {
-                    
+
                 }
             });
             calendar.render();
