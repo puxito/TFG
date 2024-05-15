@@ -43,8 +43,6 @@ if (isset($_POST["actualizar"])) {
     }
 }
 
-// Sacar id por evento
-
 ?>
 
 <!DOCTYPE html>
@@ -103,17 +101,38 @@ if (isset($_POST["actualizar"])) {
         <?php endif; ?>
     </div>
     <br>
+
+
+
+
+
+
+
+    <!-- -------------------------- -->
+    <!-- T I T U L O    P E R F I L -->
+    <!-- ----------------------------->
+
+
     <section class="profile-section">
         <article class="profile-article">
             <h2>Perfil de <?php echo $datosUsuario['nombreUsuario'] ?></h2>
 
+            <!-- BOTON RECARGA DE LA PÁGINA -->
             <button id="reload" style="width: auto;"><img src="media/iconos/reload.png" alt="Recargar" style="width: 20px;"></button>
 
+            <!-- SUBIDA DE FOTOS PERFIL -->
             <form action="procesar_subida.php" method="post" enctype="multipart/form-data">
                 <img class="rounded-circle border-1 border-primary" src="<?php echo $datosUsuario['imagenUsuario'] ?>" alt="Foto de Perfil" width="15%">
                 <input type="file" id="imagen" name="imagen" accept="image/*"><br>
                 <button class="btn">Cambiar Foto de Perfil</button>
             </form>
+
+
+
+            <!-- ---------------------------------------------- -->
+            <!-- A C T U A L I Z A C I O N    D E    D A T O S  -->
+            <!-- ---------------------------------------------- -->
+
 
             <form id="personal-info-form" action="#" method="post">
                 <table>
@@ -150,6 +169,17 @@ if (isset($_POST["actualizar"])) {
                 <input type="hidden" name="idUsuario" value="<?php echo $idUsuario; ?>">
             </form>
         </article>
+
+
+
+
+
+        <!-- ------------------------------------- -->
+        <!--  M E D I D A S   P E R S O N A L E S  -->
+        <!-- ------------------------------------- -->
+
+
+
         <article class="profile-article">
             <h2>Datos Personales</h2>
             <table>
@@ -181,6 +211,8 @@ if (isset($_POST["actualizar"])) {
     <footer>
         <p>&copy; 2024 FitFood. Todos los derechos reservados.</p>
     </footer>
+
+    <!-- MODAL AGREGAR EVENTOS -->
     <div class="modal fade" id="modalAgregarEvento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -211,8 +243,9 @@ if (isset($_POST["actualizar"])) {
             </div>
         </div>
     </div>
+
+    <!-- MODAL ACTUALIZAR EVENTOS -->
     <div class="modal fade" id="modalEditarEvento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <!-- Modal de edición del evento -->
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -249,6 +282,12 @@ if (isset($_POST["actualizar"])) {
         </div>
     </div>
     <script>
+        // RECARGAR
+        const reload = document.getElementById("reload");        
+        reload.addEventListener("click", (_) => {
+            location.reload();
+        });
+        
         // EDICION DE DATOS
         function editardatos() {
             let $formcontrol = document.getElementsByClassName("form-control editable-field");
@@ -257,12 +296,7 @@ if (isset($_POST["actualizar"])) {
             }
             document.getElementById("save-btn").style.display = "inline-block";
         }
-        const reload = document.getElementById("reload");
-        // RECARGAR
-        reload.addEventListener("click", (_) => {
-
-            location.reload();
-        });
+        
 
         // CALENDARIO
         document.addEventListener('DOMContentLoaded', function() {

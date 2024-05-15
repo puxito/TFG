@@ -429,7 +429,7 @@ function obtenerCorreoElectronicoUsuario() {
 function getAgeForCurrentUser($idUsuario)
 {
     global $conn;
-    
+    sesionN1();
     // Preparar la consulta SQL para obtener la fecha de nacimiento del usuario
     $consulta = "SELECT fechaNacimientoUsuario FROM usuarios WHERE idUsuario = ?";
     
