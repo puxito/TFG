@@ -6,6 +6,7 @@ require("php/funciones.php");
 // CONEXION
 $conn = conectarBBDD();
 
+
 // VARIABLES
 $mensaje = '';
 
@@ -15,6 +16,7 @@ sesionN1();
 // Obtener el ID del usuario actualmente conectado
 $idUsuario = obtenerIDUsuario();
 
+$edadUsu = getAgeForCurrentUser($idUsuario);
 // Obtener los datos del usuario de la base de datos
 $datosUsuario = obtenerDatosUsuario();
 
@@ -149,7 +151,7 @@ if (isset($_POST["actualizar"])) {
                         <td><input type="email" id="correoElectronicoUsuario" name="correoElectronicoUsuario" value="<?php echo $datosUsuario['correoElectronicoUsuario']; ?>" readonly class="form-control editable-field"></td>
                     </tr>
                     <tr>
-                        <td><label for="fecha">Fecha de Registro:</label></td>
+                        <td><label for="fecha">Fecha de Nacimiento:</label></td>
                         <td><input type="text" id="fechaNacimientoUsuario" name="fechaNacimientoUsuario" value="<?php echo $datosUsuario['fechaNacimientoUsuario']; ?>" readonly class="form-control editable-field"></td>
                     </tr>
                     <tr>
@@ -172,8 +174,6 @@ if (isset($_POST["actualizar"])) {
 
 
 
-
-
         <!-- ------------------------------------- -->
         <!--  M E D I D A S   P E R S O N A L E S  -->
         <!-- ------------------------------------- -->
@@ -184,20 +184,10 @@ if (isset($_POST["actualizar"])) {
             <h2>Datos Personales</h2>
             <table>
                 <tr>
-                    <td><label for="edad">Edad:</label></td>
-                    <td><input id="edad" name="edad" value="<?php echo getAgeForCurrentUser($idUsuario); ?>" readonly>
-                    </td>
+                    <td><label for="edad">Edad: <?php echo $edadUsu ?></label></td>
                 </tr>
                 <tr>
-                    <td><label for="peso">Peso (kg):</label></td>
-                    <td><input type="number" id="peso" name="peso"></td>
-                </tr>
-                <tr>
-                    <td><label for="altura">Altura (cm):</label></td>
-                    <td><input type="number" id="altura" name="altura"></td>
-                </tr>
-                <tr>
-                    <td colspan="2"><button id="diets-btn">Mis Dietas</button></td>
+                    <td colspan="2"><a href="">Mis Dietas</a></td>
                 </tr>
             </table>
         </article>
@@ -283,11 +273,11 @@ if (isset($_POST["actualizar"])) {
     </div>
     <script>
         // RECARGAR
-        const reload = document.getElementById("reload");        
+        const reload = document.getElementById("reload");
         reload.addEventListener("click", (_) => {
             location.reload();
         });
-        
+
         // EDICION DE DATOS
         function editardatos() {
             let $formcontrol = document.getElementsByClassName("form-control editable-field");
@@ -296,7 +286,7 @@ if (isset($_POST["actualizar"])) {
             }
             document.getElementById("save-btn").style.display = "inline-block";
         }
-        
+
 
         // CALENDARIO
         document.addEventListener('DOMContentLoaded', function() {

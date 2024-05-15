@@ -426,26 +426,52 @@ function obtenerCorreoElectronicoUsuario() {
     return $_SESSION["correoElectronicoUsuario"];
 }
 
-function getAgeForCurrentUser($idUsuario)
+function getAgeForCurrentUser()
 {
     global $conn;
     sesionN1();
-    // Preparar la consulta SQL para obtener la fecha de nacimiento del usuario
-    $consulta = "SELECT fechaNacimientoUsuario FROM usuarios WHERE idUsuario = ?";
     
-    // Ejecutar la consulta
-    $resultado = $conn->prepare($consulta);
-    $resultado->bind_param("i", $idUsuario);
-    $resultado->execute();
-    $resultado->bind_result($fechaNacimiento);
-    $resultado->fetch();
-    $resultado->close();
-    
-    // Calcular la edad del usuario
-    $fechaActual = new DateTime();
-    $fechaNacimientoObj = new DateTime($fechaNacimiento);
-    $diferencia = $fechaActual->diff($fechaNacimientoObj);
-    $edad = $diferencia->y;
-    
-    return $edad;
+    // Verificar si el correo electrónico del usuario está en la sesión
+    if (isset($_SESSION['correoElectronicoUsuario'])) {
+        $correoElectronicoUsuario = $_SESSION['correoElectronicoUsuario'];
+
+        // Preparar la consulta SQL para obtener la fecha de nacimiento del usuario
+        $consulta = "SELECT fechaNacimientoUsuario FROM usuarios WHERE correoElectronicoUsuario = ?";
+        
+        // Ejecutar la consulta
+        $resultado = $conn->prepare($consulta);
+        $resultado->bind_param("s", $correoElectronicoUsuario);
+        $resultado->execute();
+        $resultado->bind_result($fechaNacimiento);
+        
+        // Verificar si se encontró algún resultado
+        if ($resultado->fetch()) {
+            // Calcular la edad del usuario
+            $fechaActual = new DateTime();
+            $fechaNacimientoObj = new DateTime($fechaNacimiento);
+            
+            // Comparar el mes y el día de nacimiento con el mes y el día actuales
+            if (($fechaActual->format('m') < $fechaNacimientoObj->format('m')) || 
+                ($fechaActual->format('m') == $fechaNacimientoObj->format('m') && 
+                 $fechaActual->format('d') < $fechaNacimientoObj->format('d'))) {
+                // Si el mes actual es menor al mes de nacimiento, o si son iguales pero el día actual es menor, restamos un año
+                $edad = $fechaActual->format('Y') - $fechaNacimientoObj->format('Y') - 1;
+            } else {
+                // Si el mes actual es mayor o igual al mes de nacimiento y el día actual es mayor o igual al día de nacimiento, no restamos un año
+                $edad = $fechaActual->format('Y') - $fechaNacimientoObj->format('Y');
+            }
+            
+            $resultado->close();
+            
+            return $edad;
+        } else {
+            // No se encontró ningún resultado, manejar el error adecuadamente
+            $resultado->close();
+            return "No se encontro la fecha"; // O algún otro valor que indique que no se encontró la fecha de nacimiento
+        }
+    } else {
+        // El correo electrónico del usuario no está en la sesión, manejar el error adecuadamente
+        return "No se encontró el correo electrónico del usuario en la sesión";
+    }
 }
+

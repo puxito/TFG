@@ -95,12 +95,12 @@ if (isset($_POST["actualizar"])) {
 </head>
 
 <body>
-    <header>
+<header>
         <div>
             <a href="../index.php"><img src="../media/logoancho.png"></a>
         </div>
         <div class="panel">
-            <h1 class="display-6"><strong>Administración de Productos</strong></h1>
+            <h1 class="display-6"><strong>Gestión de productos</strong></h1>
         </div>
         <nav>
             <?php

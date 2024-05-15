@@ -10,6 +10,8 @@ sesionN2();
 // Conexión con la BBDD
 $conn = conectarBBDD();
 
+$datosUsuario = obtenerDatosUsuario();
+
 //-------------SELECT------------//
 
 $consultausuario = "SELECT * FROM usuarios LEFT JOIN roles ON usuarios.idRolFK = roles.idRol";
@@ -86,6 +88,15 @@ if (isset($_POST["actualizar"])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <link rel="stylesheet" href="../estilos/adminstyle.css">
+    <style>
+        .perfil {
+            transition: transform 0.3s;
+        }
+
+        .perfil:hover {
+            transform: scale(1.05);
+        }
+    </style>
 </head>
 
 <body>
@@ -97,21 +108,10 @@ if (isset($_POST["actualizar"])) {
             <h1 class="display-6"><strong>Administración de Usuarios</strong></h1>
         </div>
         <nav>
-            <?php
-            if (sesionN1()) {
-                echo "<div class='perfil' id='perfil' onclick='toggleMenuPerfil()'>";
-
-                $_SESSION['correoElectronicoUsuario'];
-                $nombre_usuario = obtenerNombreUsuario();
-                $ruta_imagen = obtenerRutaImagenUsuario();
-
-                echo "   <img class='fotoperfil' src='../$ruta_imagen' alt='Foto de Perfil'>
-                    <p class='nombre'>¡Hola, $nombre_usuario!</p>";
-            } else {
-                echo "<div class='perfil' id='perfil' onclick='toggleMenuPerfil()'>
-                    <a href='php/login.php'><strong>Iniciar sesión</strong></a>";
-            }
-            ?>
+            <div class='perfil' id='perfil' onclick='toggleMenuPerfil()'>
+                <!-- Mostrar la foto de perfil del usuario y su nombre -->
+                <img class='fotoperfil' src='../<?php echo $datosUsuario['imagenUsuario']; ?>' alt='Foto de Perfil'>
+                <p class='nombre'>¡Hola, <?php echo $datosUsuario['nombreUsuario']; ?>!</p>
             </div>
         </nav>
     </header>
@@ -139,7 +139,7 @@ if (isset($_POST["actualizar"])) {
             <button id="reload"><img src="../media/iconos/reload.png" alt="Recargar"></button>
             <input type="text" id="searchInput" placeholder="Buscar por nombre...">
         </div>
-        <h5 id="mensaje" style="text-align: center"><?php echo $mensaje;?></h5>
+        <h5 id="mensaje" style="text-align: center"><?php echo $mensaje; ?></h5>
         <br>
         <table class="table table-striped mx-auto" id="usuarios">
             <thead>
@@ -156,17 +156,17 @@ if (isset($_POST["actualizar"])) {
                 </tr>
             </thead>
             <tbody class="table-group-divider">
-    <?php
-    foreach ($registros as $registro) {
-        echo "<tr>";
-        echo "<th scope='row'>" . $registro['idUsuario'] . "</th>";
-        echo "<td>" . $registro['nombreUsuario'] . "</td>";
-        echo "<td>" . $registro['apellidosUsuario'] . "</td>";
-        echo "<td>" . $registro['correoElectronicoUsuario'] . "</td>";
-        echo "<td>" . $registro['fechaNacimientoUsuario'] . "</td>";
-        echo "<td>" . $registro['fechaRegistroUsuario'] . "</td>";
-        echo "<td>" . $registro['nombreRol'] . "</td>";
-        echo "<td>
+                <?php
+                foreach ($registros as $registro) {
+                    echo "<tr>";
+                    echo "<th scope='row'>" . $registro['idUsuario'] . "</th>";
+                    echo "<td>" . $registro['nombreUsuario'] . "</td>";
+                    echo "<td>" . $registro['apellidosUsuario'] . "</td>";
+                    echo "<td>" . $registro['correoElectronicoUsuario'] . "</td>";
+                    echo "<td>" . $registro['fechaNacimientoUsuario'] . "</td>";
+                    echo "<td>" . $registro['fechaRegistroUsuario'] . "</td>";
+                    echo "<td>" . $registro['nombreRol'] . "</td>";
+                    echo "<td>
                 <button type=\"button\" onclick=\"toggleForm(" . $registro['idUsuario'] . ")\"><img src=\"../media/iconos/edit.png\" style=\"width:15px\"></button>
                 </td>
                 <td>
@@ -175,10 +175,10 @@ if (isset($_POST["actualizar"])) {
                     <button type=\"submit\" name=\"eliminar\"><img src=\"../media/iconos/delete.png\" style=\"width:15px\"></button>
                 </form>
                 </td>";
-        echo "</tr>";
+                    echo "</tr>";
 
-        // Formulario de edición oculto para cada usuario
-        echo "<tr id=\"form-" . $registro['idUsuario'] . "\" style=\"display:none;\">
+                    // Formulario de edición oculto para cada usuario
+                    echo "<tr id=\"form-" . $registro['idUsuario'] . "\" style=\"display:none;\">
                 <td colspan=\"9\">
                     <form action=\"#\" class=\"form\" method=\"post\">
                         <fieldset class=\"w-50 mx-auto\">
@@ -201,21 +201,22 @@ if (isset($_POST["actualizar"])) {
                     </form>
                 </td>
             </tr>";
-    }
-    ?>
-</tbody>
+                }
+                ?>
+            </tbody>
         </table>
     </article>
     <footer>
         <p>&copy; 2024 FitFood. Todos los derechos reservados.</p>
     </footer>
     <script>
+        // 
         const reload = document.getElementById("reload");
-
         reload.addEventListener("click", (_) => {
-            
+
             location.reload();
         });
+        // Filtrar usuarios por nombre
         $(document).ready(function() {
             $("#searchInput").on("keyup", function() {
                 var value = $(this).val().toLowerCase();
@@ -224,6 +225,7 @@ if (isset($_POST["actualizar"])) {
                 });
             });
         });
+
         function confirmarEliminacion() {
             return confirm("¿Estás seguro de que quieres eliminar este usuario?");
         }
@@ -239,7 +241,7 @@ if (isset($_POST["actualizar"])) {
 
         setTimeout(function() {
             document.getElementById("mensaje").style.display = "none";
-        },2000);
+        }, 2000);
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
