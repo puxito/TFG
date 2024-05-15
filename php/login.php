@@ -36,7 +36,7 @@ $conn->close();
 <body>
     <header>
         <div>
-            <p><img src="../media/logoancho.png"></p>
+            <a href="../index.php"><img src="../media/logoancho.png"></a>
         </div>
     </header>
     <div class="container">

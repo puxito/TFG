@@ -81,8 +81,8 @@ if (isset($_POST["actualizar"])) {
                         <a href='php/login.php'><strong>Iniciar sesión</strong></a>";
                 }
                 ?>
+            </nav>
     </div>
-    </nav>
     </header>
     <div id="menuPerfil">
         <?php if (isset($_SESSION["correoElectronicoUsuario"])) : ?>
@@ -102,8 +102,8 @@ if (isset($_POST["actualizar"])) {
             </script>
         <?php endif; ?>
     </div>
+    <br>
     <section class="profile-section">
-
         <article class="profile-article">
             <h2>Perfil de <?php echo $datosUsuario['nombreUsuario'] ?></h2>
             <button id="reload" style="width: auto;"><img src="media/iconos/reload.png" alt="Recargar" style="width: 20px;"></button>
@@ -168,7 +168,7 @@ if (isset($_POST["actualizar"])) {
             </table>
         </article>
     </section>
-
+    <br>
     <div class="container">
         <div>
             <div id='calendar' style="background-color: #f2f2f2"></div>
@@ -196,7 +196,7 @@ if (isset($_POST["actualizar"])) {
                         </div>
                         <div class="form-group">
                             <label for="fecha">Fecha</label>
-                            <input type="date" class="form-control" id="start" name="start" readonly>
+                            <input type="date" class="form-control" id="start" name="start">
                             <input type="date" class="form-control" id="end" name="end">
                             <input type="hidden" id="idUsuario" name="idUsuario" value="<?php echo $idUsuario; ?>">
                         </div>
@@ -281,7 +281,7 @@ if (isset($_POST["actualizar"])) {
                 },
                 dateClick: function(info) {
                     $('#modalAgregarEvento').modal('show');
-                    $('#start').val(info.dateStr);
+                    $('#start').val(info.allDay);
                 },
                 eventClick: function(info) {
 

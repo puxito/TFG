@@ -32,6 +32,12 @@ header div a img {
 .panel {
   margin: auto;
 }
+header .ini {
+  text-decoration: none;
+  color: white;
+  padding-left: 50px;
+  padding-top: 25px;
+}
 
 .perfil {
   margin: 10px 10px 10px 10px;

@@ -14,7 +14,7 @@ header {
     display: flex;
     top: 0;
     position: fixed;
-    z-index: 1000; /* Asegurar que esté encima del contenido */
+    z-index: 1000; 
 }
 
 header h1 {
@@ -40,6 +40,13 @@ header h1 {
     padding-left: 15px;
     color: white;
     font-size: 20px;
+}
+
+header .ini {
+    text-decoration: none;
+    color: white;
+    padding-left: 50px;
+    padding-top: 25px;
 }
 
 .perfil #fotoperfil {

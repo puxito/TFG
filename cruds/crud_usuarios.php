@@ -133,6 +133,7 @@ if (isset($_POST["actualizar"])) {
             </script>
         <?php endif; ?>
     </div>
+    <br>
     <article class="mx-3">
         <div class="input-with-icon">
             <button id="reload"><img src="../media/iconos/reload.png" alt="Recargar"></button>

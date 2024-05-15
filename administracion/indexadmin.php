@@ -31,7 +31,7 @@ sesionN2();
             <a href="../index.php"><img src="../media/logoancho.png"></a>
         </div>
         <div class="panel">
-            <h1 class="display-6"><strong>Panel de Control</strong></h1>
+            <h1 class="display-6" style="color: white"><strong>Panel de Control</strong></h1>
         </div>
         <nav>
             <?php
@@ -50,8 +50,8 @@ sesionN2();
                     <a href='../php/login.php'><strong>Iniciar sesión</strong></a>";
             }
             ?>
-            </div>
         </nav>
+        </div>
     </header>
     <div id="menuPerfil">
         <?php if (isset($_SESSION["correoElectronicoUsuario"])) : ?>

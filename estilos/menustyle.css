@@ -13,7 +13,10 @@ header {
   border-bottom: 1px solid black;
   display: flex;
   justify-content: space-between;
-  align-items: center; /* Añadido para centrar verticalmente el contenido del encabezado */
+  align-items: center;
+  top: 0;
+  position: fixed;
+  z-index: 1000; 
 }
 
 header img {

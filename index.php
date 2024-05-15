@@ -27,7 +27,7 @@ $conn = conectarBBDD();
 <body>
     <header>
         <div>
-        <a href="index.php"><img src="media/logoancho.png"></a>
+            <a href="index.php"><img src="media/logoancho.png"></a>
         </div>
         <nav>
             <div class="dieta">

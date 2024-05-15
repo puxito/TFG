@@ -12,7 +12,10 @@ header {
   border-bottom: 1px solid black;
   display: flex;
   justify-content: space-between;
-  align-items: center; /* Añadido para centrar verticalmente el contenido del encabezado */
+  align-items: center;
+  top: 0;
+  position: fixed;
+  z-index: 1000; 
 }
 
 header img {
@@ -98,6 +101,12 @@ footer {
   clear: both;
   z-index: 1000;
 }
+header .ini {
+  text-decoration: none;
+  color: white;
+  padding-left: 50px;
+  padding-top: 25px;
+}
 
 .profile-image {
   text-align: left;
@@ -175,7 +184,6 @@ footer {
   border: 2px solid black;
   float: right;
   width: 600px;
-  margin-top: 20px;
   margin-right: 20px;
   padding: 0;
 }

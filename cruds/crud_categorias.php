@@ -112,6 +112,7 @@ if (isset($_POST['eliminar'])) {
     <footer>
         <p>&copy; 2024 FitFood. Todos los derechos reservados.</p>
     </footer>
+    <br>
     <article class="mx-3">
         <div class="input-with-icon">
             <button id="reload"><img src="../media/iconos/reload.png" alt="Recargar"></button>
