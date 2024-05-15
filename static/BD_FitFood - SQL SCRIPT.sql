@@ -66,12 +66,12 @@ CREATE TABLE IF NOT EXISTS dietas (
 -- TABLA EVENTOS
 CREATE TABLE IF NOT EXISTS eventos (
   idEvento INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  idUsuarioFK INT NOT NULL,
-  descripcion VARCHAR(200) NOT NULL,
-  fechaInicio DATE NOT NULL,
-  fechaFin DATE NOT NULL,
+  idUsuario INT NOT NULL,
+  title VARCHAR(60),
+  start DATE NOT NULL,
+  end DATE NOT NULL,
   colorEvento VARCHAR(12) DEFAULT '#c8c8c8',
-  FOREIGN KEY (idUsuarioFK) REFERENCES usuarios(idUsuario)
+  FOREIGN KEY (idUsuario) REFERENCES usuarios(idUsuario)
 ) ENGINE InnoDB;
 
 -- TABLA FAVORITOS
