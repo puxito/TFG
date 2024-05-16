@@ -244,30 +244,7 @@ if (isset($_POST["actualizar"])) {
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <form id="formEditarEvento" action="dietas/actualizarDieta.php" method="POST">
-                        <input type="hidden" id="editEventId" name="editEventId">
-                        <input type="hidden" id="idUsuario" name="idUsuario" value="<?php echo $idUsuario; ?>">
-                        <div class="form-group">
-                            <label for="editTitle">Título:</label>
-                            <input type="text" class="form-control" id="editTitle" name="editTitle">
-                        </div>
-                        <div class="form-group">
-                            <label for="editStart">Fecha de Inicio:</label>
-                            <input type="date" class="form-control" id="editStart" name="editStart">
-                        </div>
-                        <div class="form-group">
-                            <label for="editEnd">Fecha de Finalización:</label>
-                            <input type="date" class="form-control" id="editEnd" name="editEnd">
-                        </div>
-                        <div class="form-group">
-                            <label for="editColor">Color:</label>
-                            <input type="color" class="form-control" id="editColor" name="editColor">
-                        </div>
-                        <br>
-                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                    </form>
-                </div>
+                
             </div>
         </div>
     </div>
@@ -305,15 +282,17 @@ if (isset($_POST["actualizar"])) {
                     method: 'POST',
                     extraParams: {
                         correoElectronicoUsuario: '<?php echo obtenerCorreoElectronicoUsuario(); ?>'
+                    },
+                    failure: function() {
+                        alert('Hubo un error al cargar los eventos');
                     }
                 },
                 dateClick: function(info) {
                     $('#modalAgregarEvento').modal('show');
-                    $('#start').val(info.dateStr);
+                    $('#start').val(info.allDay);
                 },
                 eventClick: function(info) {
-                    $('#modalEditarEvento').modal('show');
-                    $('#start').val(info.dateStr);
+
                 }
             });
             calendar.render();
