@@ -305,6 +305,9 @@ if (isset($_POST["actualizar"])) {
                     method: 'POST',
                     extraParams: {
                         correoElectronicoUsuario: '<?php echo obtenerCorreoElectronicoUsuario(); ?>'
+                    },
+                    failure: function() {
+                        alert('Hubo un error al cargar los eventos');
                     }
                 },
                 dateClick: function(info) {

@@ -1,0 +1,5 @@
+body
+background-color: #94e7ff;
+
+header
+background-color: #006691;

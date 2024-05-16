@@ -48,8 +48,46 @@ $registros = $resultado->fetch_all(MYSQLI_ASSOC);
 if ($registros === false) {
     die("Error en la ejecución: " . $conn->error);
 }
-?>
+//-------FAVORITOS-------//
+if (isset($_POST['guardarFavorito'])) {
+    $idProducto = $_POST['idProducto']; // Obtener el ID del producto
+    $idUsuario = obtenerIDUsuario(); // Obtener el ID del usuario actualmente conectado
 
+    // Guardar el producto como favorito
+    if (guardarProductoFavorito($idUsuario, $idProducto)) {
+        // Producto guardado como favorito exitosamente
+    } else {
+        // Error al guardar el producto como favorito
+    }
+}
+
+$consulta_prod = "SELECT p.idProducto, p.nombreProducto
+                  FROM productos p
+                  LEFT JOIN favoritos f ON p.idProducto = f.idProductoFK
+                  WHERE f.idUsuarioFK = ?"; // Filtrar por ID de usuario
+
+$preparada_prod = $conn->prepare($consulta_prod);
+
+// Control en la preparación
+if ($preparada_prod === false) {
+    die("Error en la preparación: " . $conn->error);
+}
+
+// Vincular el parámetro de ID de usuario
+$preparada_prod->bind_param("i", $idUsuario);
+
+// Ejecutar la consulta
+$preparada_prod->execute();
+
+// Obtener los resultados
+$resultado_prod = $preparada_prod->get_result();
+$registros_prod = $resultado_prod->fetch_all(MYSQLI_ASSOC);
+
+// Control en la ejecución
+if ($registros_prod === false) {
+    die("Error en la ejecución: " . $conn->error);
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -91,6 +129,9 @@ if ($registros === false) {
         <hr>
         <ul>
             <li><img src="../media/categ/todos.png" alt="..."><a href="?categoria=all">Mostrar Todos</a></li>
+            <li>
+            <a href="?favoritos=true">Ver Favoritos</a>
+        </li>
         </ul>
     </div>
 
@@ -102,13 +143,15 @@ if ($registros === false) {
                         <div class="card-shadow-sm">
                             <img src="../media/prods/<?php echo $registro['idProducto']; ?>.png" class="card-img-top" alt="...">
                             <h5 class="card-title"><?php echo $registro['nombreProducto']; ?></h5>
-                            <p class="card-text">Descripción del producto</p>
+                            <form action="#" method="post">
+                                <input type="hidden" name="idProducto" value="<?php echo $registro['idProducto']; ?>">
+                                <button type="submit" name="guardarFavorito" class="btn btn-primary">Guardar como Favorito</button>
+                            </form>
                         </div>
                     </div>
                 </div>
             <?php endforeach; ?>
         </div>
-    </div>
     </div>
     <br>
     <footer>

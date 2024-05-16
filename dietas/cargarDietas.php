@@ -19,4 +19,16 @@ $stmt_eventos = $conn->prepare($sql_eventos);
 $stmt_eventos->execute([$idUsuario]); // Pasa el ID del usuario como parámetro
 $resultado = $stmt_eventos->fetchAll(PDO::FETCH_ASSOC);
 
-echo json_encode($resultado);
+// Construir un array en el formato adecuado para FullCalendar
+$eventos = [];
+foreach ($resultado as $fila) {
+    $evento = [
+        'title' => $fila['title'],
+        'start' => $fila['start'],
+        'end' => $fila['end'],
+        'color' => $fila['color']
+    ];
+    $eventos[] = $evento;
+}
+
+echo json_encode($eventos);

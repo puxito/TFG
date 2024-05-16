@@ -29,7 +29,7 @@ function conectarBBDD_PDO()
         // Configura PDO para que lance excepciones en caso de errores
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $conn;
-    } catch(PDOException $e) {
+    } catch (PDOException $e) {
         // Captura cualquier excepción que ocurra durante la conexión
         die("Error de Conexión: " . $e->getMessage());
     }
@@ -47,7 +47,7 @@ function sesionN0()
     // Salir de la sesión si se ha enviado la solicitud 'salir'
     if (isset($_REQUEST['cerses'])) {
         session_destroy();
-        header("Location: ../php/login.php");
+        header("Location: /index.php");
         exit();
     }
 
@@ -74,7 +74,7 @@ function sesionN1()
     // Salir de la sesión si se ha enviado la solicitud 'salir'
     if (isset($_REQUEST['cerses'])) {
         session_destroy();
-        header("Location: ../php/login.php");
+        header("Location: /index.php");
         exit();
     }
 
@@ -99,10 +99,10 @@ function sesionN2()
     // Salir de la sesión si se ha enviado la solicitud 'salir'
     if (isset($_REQUEST['cerses'])) {
         session_destroy();
-        header("Location: ../php/login.php");
+        header("Location: /index.php");
         exit();
     }
-    
+
     if (isset($_GET['cerses']) && $_GET['cerses'] == 'true') {
         echo "<script>alert('Tu sesión ha sido cerrada.');</script>";
     }
@@ -113,7 +113,7 @@ function sesionN2()
         header("Location: ../php/login.php");
         exit();
     }
-    
+
 
 
     // VERIFICAR USUARIO ADMINISTRADOR
@@ -148,7 +148,7 @@ function sesionN3()
         header("Location: login.php");
         exit();
     }
-    
+
     if (isset($_GET['cerses']) && $_GET['cerses'] == 'true') {
         echo "<script>alert('Tu sesión ha sido cerrada.');</script>";
     }
@@ -193,7 +193,7 @@ function sesionN4()
         header("Location: php/login.php");
         exit();
     }
-    
+
     if (isset($_GET['cerses']) && $_GET['cerses'] == 'true') {
         echo "<script>alert('Tu sesión ha sido cerrada.');</script>";
     }
@@ -261,7 +261,7 @@ function inicioSesion($conn)
                 session_start();
                 $_SESSION["correoElectronicoUsuario"] = $fila["correoElectronicoUsuario"];
                 // Redirigir a la página de inicio
-                header("Location: menubienvenida.php");
+                header("Location: /php/menubienvenida.php");
                 echo "¡Inicio de sesión exitoso!";
                 exit();
             } else {
@@ -283,11 +283,12 @@ function inicioSesion($conn)
 
 
 // Función para obtener la ruta de la imagen del usuario actual
-function obtenerRutaImagenUsuario() {
+function obtenerRutaImagenUsuario()
+{
 
-    sesionN1(); 
+    sesionN1();
 
-    
+
     $conn = conectarBBDD();
     $correoElectronicoUsuario = $_SESSION["correoElectronicoUsuario"];
     $sql = "SELECT imagenUsuario FROM usuarios WHERE correoElectronicoUsuario = ?";
@@ -303,7 +304,8 @@ function obtenerRutaImagenUsuario() {
     return $ruta_imagen;
 }
 
-function obtenerNombreUsuario(){
+function obtenerNombreUsuario()
+{
     // Verificar si el usuario ha iniciado sesión
     sesionN0(); // Cambia a la función de sesión correspondiente si es necesario
 
@@ -322,7 +324,8 @@ function obtenerNombreUsuario(){
 
     return $nombreUsuario;
 }
-function obtenerRutaImagenUsuario2() {
+function obtenerRutaImagenUsuario2()
+{
     // Verificar si el usuario ha iniciado sesión
     sesionN2(); // Cambia a la función de sesión correspondiente si es necesario
 
@@ -342,7 +345,8 @@ function obtenerRutaImagenUsuario2() {
     return $ruta_imagen;
 }
 
-function obtenerNombreUsuario2(){
+function obtenerNombreUsuario2()
+{
     // Verificar si el usuario ha iniciado sesión
     sesionN2(); // Cambia a la función de sesión correspondiente si es necesario
 
@@ -362,7 +366,8 @@ function obtenerNombreUsuario2(){
     return $nombreUsuario;
 }
 
-function verificarrol(){
+function verificarrol()
+{
     sesionN0();
     $conn = conectarBBDD();
     $correoElectronicoUsuario = $_SESSION["correoElectronicoUsuario"];
@@ -379,7 +384,8 @@ function verificarrol(){
     return $idRolFK;
 }
 
-function obtenerIDUsuario() {
+function obtenerIDUsuario()
+{
     sesionN0();
     $conn = conectarBBDD();
     $correoElectronicoUsuario = $_SESSION["correoElectronicoUsuario"];
@@ -394,10 +400,10 @@ function obtenerIDUsuario() {
     $conn->close();
 
     return $idUsuario;
-
 }
 
-function obtenerDatosUsuario() {
+function obtenerDatosUsuario()
+{
     sesionN0();
     $conn = conectarBBDD();
     $correoElectronicoUsuario = $_SESSION["correoElectronicoUsuario"];
@@ -413,7 +419,8 @@ function obtenerDatosUsuario() {
     return $fila;
 }
 
-function obtenerIDUsuarioPorCorreo($correoElectronicoUsuario) {
+function obtenerIDUsuarioPorCorreo($correoElectronicoUsuario)
+{
     $conn = conectarBBDD_PDO();
     $sql = "SELECT idUsuario FROM usuarios WHERE correoElectronicoUsuario = ?";
     $stmt = $conn->prepare($sql);
@@ -421,7 +428,8 @@ function obtenerIDUsuarioPorCorreo($correoElectronicoUsuario) {
     $idUsuario = $stmt->fetchColumn();
     return $idUsuario;
 }
-function obtenerCorreoElectronicoUsuario() {
+function obtenerCorreoElectronicoUsuario()
+{
     sesionN0();
     return $_SESSION["correoElectronicoUsuario"];
 }
@@ -430,39 +438,40 @@ function getAgeForCurrentUser()
 {
     global $conn;
     sesionN1();
-    
+
     // Verificar si el correo electrónico del usuario está en la sesión
     if (isset($_SESSION['correoElectronicoUsuario'])) {
         $correoElectronicoUsuario = $_SESSION['correoElectronicoUsuario'];
 
         // Preparar la consulta SQL para obtener la fecha de nacimiento del usuario
         $consulta = "SELECT fechaNacimientoUsuario FROM usuarios WHERE correoElectronicoUsuario = ?";
-        
+
         // Ejecutar la consulta
         $resultado = $conn->prepare($consulta);
         $resultado->bind_param("s", $correoElectronicoUsuario);
         $resultado->execute();
         $resultado->bind_result($fechaNacimiento);
-        
+
         // Verificar si se encontró algún resultado
         if ($resultado->fetch()) {
             // Calcular la edad del usuario
             $fechaActual = new DateTime();
             $fechaNacimientoObj = new DateTime($fechaNacimiento);
-            
+
             // Comparar el mes y el día de nacimiento con el mes y el día actuales
-            if (($fechaActual->format('m') < $fechaNacimientoObj->format('m')) || 
-                ($fechaActual->format('m') == $fechaNacimientoObj->format('m') && 
-                 $fechaActual->format('d') < $fechaNacimientoObj->format('d'))) {
+            if (($fechaActual->format('m') < $fechaNacimientoObj->format('m')) ||
+                ($fechaActual->format('m') == $fechaNacimientoObj->format('m') &&
+                    $fechaActual->format('d') < $fechaNacimientoObj->format('d'))
+            ) {
                 // Si el mes actual es menor al mes de nacimiento, o si son iguales pero el día actual es menor, restamos un año
                 $edad = $fechaActual->format('Y') - $fechaNacimientoObj->format('Y') - 1;
             } else {
                 // Si el mes actual es mayor o igual al mes de nacimiento y el día actual es mayor o igual al día de nacimiento, no restamos un año
                 $edad = $fechaActual->format('Y') - $fechaNacimientoObj->format('Y');
             }
-            
+
             $resultado->close();
-            
+
             return $edad;
         } else {
             // No se encontró ningún resultado, manejar el error adecuadamente
@@ -475,3 +484,22 @@ function getAgeForCurrentUser()
     }
 }
 
+function guardarProductoFavorito($idUsuario, $idProducto)
+{
+    global $conn;
+
+    // Preparar la consulta SQL para guardar el producto como favorito
+    $consulta = "INSERT INTO favoritos (idUsuarioFK, idProductoFK) VALUES (?, ?)";
+
+    // Ejecutar la consulta
+    $stmt = $conn->prepare($consulta);
+    $stmt->bind_param("ii", $idUsuario, $idProducto);
+    $stmt->execute();
+
+    // Verificar si la consulta fue exitosa
+    if ($stmt->affected_rows > 0) {
+        return true; // La inserción fue exitosa
+    } else {
+        return false; // Hubo un error al guardar el producto como favorito
+    }
+}
