@@ -2,7 +2,7 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #94e7ff;
-    padding-top: 100px; /* Ajustar para el encabezado */
+    padding-top: 150px; /* Ajustar para el encabezado */
     padding-bottom: 50px; /* Ajustar para el pie de página */
 }
 
@@ -64,20 +64,19 @@ header img {
     border-radius: 12px;
 }
 
-.container {
-    margin-top: 50px; /* Ajustar para el encabezado */
-    margin-bottom: 50px; /* Ajustar para el pie de página */
-}
 .container img {
-    width: 414px;
-    height: 207px;
+    width: 100%; /* Ajustar tamaño de las imágenes */
+    height: auto;
+}
+.container form img {
+    width: 15px;
+    height: 15px;
 }
 .categorias {
     float: left;
     background-color: #fff;
     width: 15%;
     position: fixed;
-    top: 100px; 
     bottom: 50px; 
     overflow-y: auto; 
     z-index: 999; 
@@ -117,7 +116,6 @@ input {
 #producto {
     margin: 0 auto;
 }
-
 footer {
     background-color: #343a40;
     color: #fff;
@@ -128,4 +126,7 @@ footer {
     width: 100%;
     clear: both;
     z-index: 1000;
-}
+  }
+  .main-content {
+    margin-bottom: 70px; /* Ajusta la altura del margen inferior según la altura de tu footer */
+  }
