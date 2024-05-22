@@ -70,17 +70,50 @@ if ($registros === false) {
     die("Error en la ejecución: " . $conn->error);
 }
 
+// Obtener los productos favoritos del usuario
+$idUsuario = obtenerIDUsuario();
+$sql_favoritos = "SELECT idProductoFK FROM favoritos WHERE idUsuarioFK = ?";
+$stmt_favoritos = $conn->prepare($sql_favoritos);
+$stmt_favoritos->bind_param("i", $idUsuario);
+$stmt_favoritos->execute();
+$resultado_favoritos = $stmt_favoritos->get_result();
+$favoritos = $resultado_favoritos->fetch_all(MYSQLI_ASSOC);
+$favoritos = array_column($favoritos, 'idProductoFK');
+
 //-------FAVORITOS-------//
-if (isset($_POST['guardarFavorito'])) {
+if (isset($_POST['toggleFavorito'])) {
     $idProducto = $_POST['idProducto']; // Obtener el ID del producto
     $idUsuario = obtenerIDUsuario(); // Obtener el ID del usuario actualmente conectado
 
-    // Guardar el producto como favorito
-    if (guardarProductoFavorito($idUsuario, $idProducto)) {
-        // Producto guardado como favorito exitosamente
+    // Verificar si el producto ya está en favoritos
+    $sql_verificar = "SELECT * FROM favoritos WHERE idUsuarioFK = ? AND idProductoFK = ?";
+    $stmt_verificar = $conn->prepare($sql_verificar);
+    $stmt_verificar->bind_param("ii", $idUsuario, $idProducto);
+    $stmt_verificar->execute();
+    $resultado_verificar = $stmt_verificar->get_result();
+
+    if ($resultado_verificar->num_rows > 0) {
+        // El producto ya está en favoritos, eliminarlo
+        $sql_eliminar = "DELETE FROM favoritos WHERE idUsuarioFK = ? AND idProductoFK = ?";
+        $stmt_eliminar = $conn->prepare($sql_eliminar);
+        $stmt_eliminar->bind_param("ii", $idUsuario, $idProducto);
+        if ($stmt_eliminar->execute()) {
+            echo json_encode(['action' => 'removed', 'message' => 'Producto eliminado de favoritos']);
+        } else {
+            echo json_encode(['error' => 'Error al eliminar el producto de favoritos']);
+        }
     } else {
-        // Error al guardar el producto como favorito
+        // El producto no está en favoritos, agregarlo
+        $sql_agregar = "INSERT INTO favoritos (idUsuarioFK, idProductoFK) VALUES (?, ?)";
+        $stmt_agregar = $conn->prepare($sql_agregar);
+        $stmt_agregar->bind_param("ii", $idUsuario, $idProducto);
+        if ($stmt_agregar->execute()) {
+            echo json_encode(['action' => 'added', 'message' => 'Producto agregado a favoritos']);
+        } else {
+            echo json_encode(['error' => 'Error al agregar el producto a favoritos']);
+        }
     }
+    exit; // Salir para que no se cargue el resto del HTML
 }
 ?>
 <!DOCTYPE html>
@@ -96,7 +129,7 @@ if (isset($_POST['guardarFavorito'])) {
     <title>Productos</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-xl navbar-dark bg-dark fixed-top" style="background-color: #006691;">
+<nav class="navbar navbar-expand-xl fixed-top" style="background-color: #006691;">
     <div class="container-fluid">
         <a href="../index.php">
             <img class="rounded" src="../media/logoancho.png" alt="logo" width="155">
@@ -116,12 +149,6 @@ if (isset($_POST['guardarFavorito'])) {
                     <a href="../prods/productos.php">
                         <img src="../media/iconos/productos.png" width="65" alt="Ver productos">
                     </a>
-                </li>
-                <li>
-                    <p>&nbsp;&nbsp;&nbsp;</p>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://www.facebook.com/groups/798944041127303" target="_blank">&nbsp;<i class="fa-brands fa-facebook fa-lg"></i></a>
                 </li>
             </ul>
             <?php
@@ -193,7 +220,7 @@ if (isset($_POST['guardarFavorito'])) {
                             <h5 class="card-title"><?php echo $registro['nombreProducto']; ?></h5>
                             <form class="favorite-form" data-producto-id="<?php echo $registro['idProducto']; ?>">
                                 <button type="submit" class="btn btn-primary">
-                                    <img src="../media/iconos/addfav.png" alt="Agregar favorito">
+                                    <img src="../media/iconos/<?php echo in_array($registro['idProducto'], $favoritos) ? 'remfav' : 'addfav'; ?>.png" alt="<?php echo in_array($registro['idProducto'], $favoritos) ? 'Eliminar favorito' : 'Agregar favorito'; ?>">
                                 </button>
                             </form>
                         </div>
@@ -212,32 +239,29 @@ if (isset($_POST['guardarFavorito'])) {
 $(document).ready(function(){
     $(".favorite-form").on("submit", function(event){
         event.preventDefault();
-        var form = $(this);
-        var idProducto = form.data("producto-id");
+        var idProducto = $(this).data("producto-id");
         $.ajax({
             url: "productos.php", // Cambia esto por la ruta real
             type: "POST",
-            data: { guardarFavorito: true, idProducto: idProducto },
+            data: { toggleFavorito: true, idProducto: idProducto },
             dataType: 'json',
             success: function(response) {
-                if (response.status === 'added') {
-                    alert("Producto agregado a favoritos");
-                    form.find("button").html('<img src="../media/iconos/removefav.png" alt="Quitar favorito">');
-                } else if (response.status === 'removed') {
-                    alert("Producto eliminado de favoritos");
-                    form.find("button").html('<img src="../media/iconos/addfav.png" alt="Agregar favorito">');
-                } else {
-                    alert("Error al actualizar favoritos");
+                alert(response.message);
+                if (response.action === 'added') {
+                    // Cambia el icono o estilo para reflejar que es favorito
+                    $(this).find("img").attr("src", "../media/iconos/remfav.png");
+                } else if (response.action === 'removed') {
+                    // Cambia el icono o estilo para reflejar que ya no es favorito
+                    $(this).find("img").attr("src", "../media/iconos/addfav.png");
                 }
-            },
+            }.bind(this),
             error: function(xhr, status, error) {
-                alert("Error al actualizar favoritos");
+                alert("Error al cambiar el estado del favorito");
             }
         });
     });
 });
 </script>
-
 
 </body>
 </html>

@@ -324,65 +324,7 @@ function obtenerNombreUsuario()
 
     return $nombreUsuario;
 }
-function obtenerRutaImagenUsuario2()
-{
-    // Verificar si el usuario ha iniciado sesión
-    sesionN2(); // Cambia a la función de sesión correspondiente si es necesario
 
-    // Obtener la ruta de la imagen del usuario actual desde la base de datos
-    $conn = conectarBBDD();
-    $correoElectronicoUsuario = $_SESSION["correoElectronicoUsuario"];
-    $sql = "SELECT imagenUsuario FROM usuarios WHERE correoElectronicoUsuario = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $correoElectronicoUsuario);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $fila = $result->fetch_assoc();
-    $ruta_imagen = $fila["imagenUsuario"];
-    $stmt->close();
-    $conn->close();
-
-    return $ruta_imagen;
-}
-
-function obtenerNombreUsuario2()
-{
-    // Verificar si el usuario ha iniciado sesión
-    sesionN2(); // Cambia a la función de sesión correspondiente si es necesario
-
-    // Obtener el nombre del usuario actual desde la base de datos
-    $conn = conectarBBDD();
-    $correoElectronicoUsuario = $_SESSION["correoElectronicoUsuario"];
-    $sql = "SELECT nombreUsuario FROM usuarios WHERE correoElectronicoUsuario = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $correoElectronicoUsuario);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $fila = $result->fetch_assoc();
-    $nombreUsuario = $fila["nombreUsuario"];
-    $stmt->close();
-    $conn->close();
-
-    return $nombreUsuario;
-}
-
-function verificarrol()
-{
-    sesionN0();
-    $conn = conectarBBDD();
-    $correoElectronicoUsuario = $_SESSION["correoElectronicoUsuario"];
-    $sql = "SELECT idRolFK FROM usuarios WHERE correoElectronicoUsuario = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $correoElectronicoUsuario); // Cambiado a "s" para cadena de texto
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $fila = $result->fetch_assoc();
-    $idRolFK = $fila["idRolFK"];
-    $stmt->close();
-    $conn->close();
-
-    return $idRolFK;
-}
 
 function obtenerIDUsuario() {
     sesionN0();
@@ -481,45 +423,4 @@ function getAgeForCurrentUser()
         // El correo electrónico del usuario no está en la sesión, manejar el error adecuadamente
         return "No se encontró el correo electrónico del usuario en la sesión";
     }
-}
-
-function guardarProductoFavorito($idUsuario, $idProducto)
-{
-    global $conn;
-
-    // Preparar la consulta SQL para guardar el producto como favorito
-    $consulta = "INSERT INTO favoritos (idUsuarioFK, idProductoFK) VALUES (?, ?)";
-
-    // Ejecutar la consulta
-    $stmt = $conn->prepare($consulta);
-    $stmt->bind_param("ii", $idUsuario, $idProducto);
-    $stmt->execute();
-
-    // Verificar si la consulta fue exitosa
-    if ($stmt->affected_rows > 0) {
-        return true; // La inserción fue exitosa
-    } else {
-        return false; // Hubo un error al guardar el producto como favorito
-    }
-}
-
-// Añadir una función para verificar si un producto está en favoritos
-function esFavorito($idUsuario, $idProducto) {
-    global $conn;
-    $sql = "SELECT COUNT(*) FROM favoritos WHERE idUsuarioFK = ? AND idProductoFK = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ii", $idUsuario, $idProducto);
-    $stmt->execute();
-    $stmt->bind_result($count);
-    $stmt->fetch();
-    return $count > 0;
-}
-
-// Añadir una función para eliminar un producto de favoritos
-function eliminarProductoFavorito($idUsuario, $idProducto) {
-    global $conn;
-    $sql = "DELETE FROM favoritos WHERE idUsuarioFK = ? AND idProductoFK = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ii", $idUsuario, $idProducto);
-    return $stmt->execute();
 }

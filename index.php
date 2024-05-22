@@ -25,20 +25,21 @@ $conn = conectarBBDD();
 
 <body>
 
-<nav class="navbar navbar-expand-xl" style="background-color: #006691;">        
+<nav class="navbar navbar-expand-lg" style="background-color: #006691;">        
         <div class="container-fluid">
             <a href="index.php">
                 <img class="rounded" src="media/logoancho.png" alt="logo" width="155">
             </a>
+            
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav">
-                    <li class="nav-item m-2">
-                        <a href="dietas/dieta.php">
-                            <img src="media/iconos/add.png" width="65" alt="Nueva Dieta">
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item m-2">
+                    <a href="dietas/dieta.php">
+                        <img src="media/iconos/add.png" width="65" alt="Nueva Dieta">
                         </a>
                     </li>
                     <li class="nav-item m-2">
@@ -46,16 +47,24 @@ $conn = conectarBBDD();
                             <img src="media/iconos/productos.png" width="65" alt="Ver productos">
                         </a>
                     </li>
-                    <li>
-                        <p>&nbsp;&nbsp;&nbsp;</p>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="https://www.facebook.com/groups/798944041127303" target="_blank">&nbsp;<i class="fa-brands fa-facebook fa-lg"></i></i></a>
-                    </li>
                 </ul>
                 <?php
                 if (sesionN0()) {
                     // El usuario ha iniciado sesión
+
+                    // Verificar si el usuario es administrador
+                    $conexion = conectarBBDD();
+                    $nombre_usuario = $_SESSION["correoElectronicoUsuario"];
+                    $sql = "SELECT idRolFK FROM usuarios WHERE correoElectronicoUsuario = ?";
+                    $stmt = $conexion->prepare($sql);
+                    $stmt->bind_param("s", $nombre_usuario);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    $fila = $result->fetch_assoc();
+                    $administrador = $fila["idRolFK"];
+                    $stmt->close();
+                    $conexion->close();
+
 
                     $nombre_usuario = obtenerNombreUsuario();
                     $ruta_imagen = obtenerRutaImagenUsuario();
@@ -64,13 +73,16 @@ $conn = conectarBBDD();
                     <ul class="ms-auto m-2 navbar-nav">
                         <li class="border border-dark rounded dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                                <img src=' . $ruta_imagen . ' width="65" alt="Foto de Perfil">
-                                Bienvenido: <span class="fw-bold">' . $nombre_usuario . '</span>
+                                <img class="rounded-circle" src='.$ruta_imagen.' width="65" alt="Foto de Perfil">
+                                Bienvenido: <span class="fw-bold">'.$nombre_usuario.'</span>
                             </a>
                         
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="perfil.php">Mi Perfil</a></li>
-                                <li><a class="dropdown-item" href="#">¿?¿?</a></li>
+                                <li><a class="dropdown-item" href="perfil.php">Mi Perfil</a></li>';
+                                if ($administrador == 1) {
+                                    echo '<li><a class="dropdown-item" href="/administracion/indexadmin.php">Panel de Administración</a></li>';
+                                }
+                    echo '       
                                 <form method="post">
                                     <input type="hidden" name="cerses" value="true">
                                     <button type="submit" class="dropdown-item">Cerrar Sesión</button>
@@ -80,6 +92,13 @@ $conn = conectarBBDD();
                         </li>
                     </ul>'
                     ?>
+                    
+                    <?php
+                    
+
+                    ?>
+
+
                     <?php
                 } else { 
                     ?>
@@ -119,7 +138,7 @@ $conn = conectarBBDD();
         </div>
     </header>
 
-    <h1 class="mb-3 mt-5 text-center justify-content-center">FidFood</h1>
+    <h1 class="display-3 mb-3 mt-5 text-center justify-content-center">FitFood</h1>
 
 <div  class="container p-5">
     <div class=" justify-content-center">
@@ -167,18 +186,7 @@ $conn = conectarBBDD();
         </div>
     </div>
 </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script>
-        $(document).ready(function() {
-            $(window).scroll(function() {
-                var scroll = $(window).scrollTop();
-                $("#parallax-content").css({
-                    opacity: 1 - (scroll / 400)
-                });
-            });
-        });
-    </script>
+
 </body>
 
 </html>

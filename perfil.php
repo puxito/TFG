@@ -83,12 +83,6 @@ if (isset($_POST["actualizar"])) {
                             <img src="media/iconos/productos.png" width="65" alt="Ver productos">
                         </a>
                     </li>
-                    <li>
-                        <p>&nbsp;&nbsp;&nbsp;</p>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="https://www.facebook.com/groups/798944041127303" target="_blank">&nbsp;<i class="fa-brands fa-facebook fa-lg"></i></i></a>
-                    </li>
                 </ul>
                 <?php
                 if (sesionN0()) {
