@@ -214,7 +214,7 @@ $(document).ready(function(){
         event.preventDefault();
         var idProducto = $(this).data("producto-id");
         $.ajax({
-            url: "ruta/al/archivo/php/que/guarda/favorito.php", // Cambia esto por la ruta real
+            url: "productos.php", // Cambia esto por la ruta real
             type: "POST",
             data: { guardarFavorito: true, idProducto: idProducto },
             success: function(response) {

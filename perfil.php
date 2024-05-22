@@ -63,108 +63,125 @@ if (isset($_POST["actualizar"])) {
 </head>
 
 <body>
-    <div class="main-content">
-        <header>
-            <div>
-                <a href="../index.php"><img src="../media/logoancho.png"></a>
-            </div>
-            <nav>
+    <nav class="navbar navbar-expand-xl" style="background-color: #006691;">
+        <div class="container-fluid">
+            <a href="index.php">
+                <img class="rounded" src="media/logoancho.png" alt="logo" width="155">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item m-2">
+                        <a href="dietas/dieta.php">
+                            <img src="media/iconos/add.png" width="65" alt="Nueva Dieta">
+                        </a>
+                    </li>
+                    <li class="nav-item m-2">
+                        <a href="prods/productos.php">
+                            <img src="media/iconos/productos.png" width="65" alt="Ver productos">
+                        </a>
+                    </li>
+                    <li>
+                        <p>&nbsp;&nbsp;&nbsp;</p>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://www.facebook.com/groups/798944041127303" target="_blank">&nbsp;<i class="fa-brands fa-facebook fa-lg"></i></i></a>
+                    </li>
+                </ul>
                 <?php
                 if (sesionN0()) {
-                    echo "<div class='perfil' id='perfil' onclick='toggleMenuPerfil()'>";
+                    // El usuario ha iniciado sesión
 
-                    // Mostrar la foto de perfil del usuario y su nombre
-                    echo "<img class='fotoperfil' src='../" . $datosUsuario['imagenUsuario'] . "' alt='Foto de Perfil'>";
-                    echo "<p class='nombre'>¡Hola, " . $datosUsuario['nombreUsuario'] . "!</p>";
+                    $nombre_usuario = obtenerNombreUsuario();
+                    $ruta_imagen = obtenerRutaImagenUsuario();
+
+                    echo '
+                    <ul class="ms-auto m-2 navbar-nav">
+                        <li class="border border-dark rounded dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <img src=' . $ruta_imagen . ' width="65" alt="Foto de Perfil">
+                                Bienvenido: <span class="fw-bold">' . $nombre_usuario . '</span>
+                            </a>
+                        
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="perfil.php">Mi Perfil</a></li>
+                                <li><a class="dropdown-item" href="#">¿?¿?</a></li>
+                                <form method="post">
+                                    <input type="hidden" name="cerses" value="true">
+                                    <button type="submit" class="dropdown-item">Cerrar Sesión</button>
+                                </form>
+
+                            </ul>
+                        </li>
+                    </ul>'
+                ?>
+                <?php
                 } else {
-                    echo "<div class='perfil' id='perfil' onclick='toggleMenuPerfil()'>
-                        <a href='php/login.php'><strong>Iniciar sesión</strong></a>";
+                ?>
+                    <article class="ms-auto">
+                        <h2 hidden>Inicio sesión</h2>
+                        <form class="d-flex align-items-center" method="post">
+                            <div class="">
+                                <a class="btn btn-primary" href="/php/login.php">Iniciar Sesion</a>
+                                <a class="btn btn-primary" href="/php/registro.php">Registrarse</a>
+                            </div>
+                        </form>
+                    </article>
+
+                <?php
                 }
                 ?>
-            </nav>
-    </div>
-    </header>
-    <div id="menuPerfil">
-        <?php if (isset($_SESSION["correoElectronicoUsuario"])) : ?>
-            <a href="../perfil.php">Mi Perfil</a>
-            <form action="#" method="post">
-                <input type="submit" value="Cerrar Sesión" name="cerses">
-            </form>
-            <script>
-                function toggleMenuPerfil() {
-                    var menuPerfil = document.getElementById("menuPerfil");
-                    if (menuPerfil.style.display === "none") {
-                        menuPerfil.style.display = "block";
-                    } else {
-                        menuPerfil.style.display = "none";
-                    }
-                }
-            </script>
-        <?php endif; ?>
-    </div>
-    <br>
 
-
-
-
-
-
+                </section>
+    </nav>
 
     <!-- -------------------------- -->
     <!-- T I T U L O    P E R F I L -->
     <!-- ----------------------------->
 
-
     <section class="profile-section">
         <article class="profile-article">
-            <h2>Perfil de <?php echo $datosUsuario['nombreUsuario'] ?></h2>
+            <h2>Perfil de <?php echo $datosUsuario['nombreUsuario']; ?></h2>
 
             <!-- BOTON RECARGA DE LA PÁGINA -->
-            <button id="reload" style="width: auto;"><img src="media/iconos/reload.png" alt="Recargar" style="width: 20px;"></button>
+            <button id="reload" class="btn btn-secondary" style="width: auto;">
+                <img src="media/iconos/reload.png" alt="Recargar" style="width: 20px;">
+            </button>
 
             <!-- SUBIDA DE FOTOS PERFIL -->
-            <form action="procesar_subida.php" method="post" enctype="multipart/form-data">
-                <img class="rounded-circle border-1 border-primary" src="<?php echo $datosUsuario['imagenUsuario'] ?>" alt="Foto de Perfil" width="15%">
-                <input type="file" id="imagen" name="imagen" accept="image/*"><br>
-                <button class="btn">Cambiar Foto de Perfil</button>
+            <form action="procesar_subida.php" method="post" enctype="multipart/form-data" class="mt-3">
+                <img class="rounded-circle border-1 border-primary" src="<?php echo $datosUsuario['imagenUsuario']; ?>" alt="Foto de Perfil" width="15%">
+                <div class="mt-2">
+                    <input type="file" id="imagen" name="imagen" accept="image/*" class="form-control-file">
+                </div>
+                <button type="submit" class="btn btn-primary mt-2">Cambiar Foto de Perfil</button>
             </form>
 
-
-
-            <!-- ---------------------------------------------- -->
-            <!-- A C T U A L I Z A C I O N    D E    D A T O S  -->
-            <!-- ---------------------------------------------- -->
-
-
-            <form id="personal-info-form" action="#" method="post">
-                <table>
+            <!-- ACTUALIZACIÓN DE DATOS -->
+            <form id="personal-info-form" action="#" method="post" class="mt-4">
+                <table class="table">
                     <tr>
-                        <td><label for="nombre">Nombre:</label></td>
+                        <td><label for="nombreUsuario">Nombre:</label></td>
                         <td><input type="text" id="nombreUsuario" name="nombreUsuario" value="<?php echo $datosUsuario['nombreUsuario']; ?>" readonly class="form-control editable-field"></td>
                     </tr>
                     <tr>
-                        <td><label for="apellido">Apellido:</label></td>
+                        <td><label for="apellidosUsuario">Apellido:</label></td>
                         <td><input type="text" id="apellidosUsuario" name="apellidosUsuario" value="<?php echo $datosUsuario['apellidosUsuario']; ?>" readonly class="form-control editable-field"></td>
                     </tr>
                     <tr>
-                        <td><label for="correo">Correo Electrónico:</label></td>
+                        <td><label for="correoElectronicoUsuario">Correo Electrónico:</label></td>
                         <td><input type="email" id="correoElectronicoUsuario" name="correoElectronicoUsuario" value="<?php echo $datosUsuario['correoElectronicoUsuario']; ?>" readonly class="form-control editable-field"></td>
                     </tr>
                     <tr>
-                        <td><label for="fecha">Fecha de Nacimiento:</label></td>
+                        <td><label for="fechaNacimientoUsuario">Fecha de Nacimiento:</label></td>
                         <td><input type="text" id="fechaNacimientoUsuario" name="fechaNacimientoUsuario" value="<?php echo $datosUsuario['fechaNacimientoUsuario']; ?>" readonly class="form-control editable-field"></td>
                     </tr>
                     <tr>
-                        <td colspan="2"><button type="button" id="edit-btn" onclick="editardatos()">Editar</button></td>
-                        <td><button type="submit" name="actualizar" value="Guardar Cambios" id="save-btn" style="display: none;">Guardar Cambios</button></td>
-                    </tr>
-                    <tr>
-                        <td><label for="password">Contraseña:</label></td>
-                        <td>
-                            <input type="password" id="contraseña" name="contraseña" value="<?php echo $datosUsuario['contraseña']; ?>" readonly>
-                        </td>
-                        <td>
-                            <button id="show-password-btn" class="btn btn-info">Mostrar</button>
+                        <td colspan="2">
+                            <button type="button" id="edit-btn" class="btn btn-secondary" onclick="editardatos()">Editar</button>
+                            <button type="submit" name="actualizar" class="btn btn-primary" id="save-btn" style="display: none;">Guardar Cambios</button>
                         </td>
                     </tr>
                 </table>
@@ -172,22 +189,16 @@ if (isset($_POST["actualizar"])) {
             </form>
         </article>
 
-
-
-        <!-- ------------------------------------- -->
-        <!--  M E D I D A S   P E R S O N A L E S  -->
-        <!-- ------------------------------------- -->
-
-
-
+        <!-- DATOS PERSONALES -->
         <article class="profile-article">
             <h2>Datos Personales</h2>
-            <table>
+            <table class="table">
                 <tr>
-                    <td><label for="edad">Edad: <?php echo $edadUsu ?></label></td>
+                    <td><label for="edad">Edad:</label></td>
+                    <td><?php echo $edadUsu; ?></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><a href="">Mis Dietas</a></td>
+                    <td colspan="2"><a href="#">Mis Dietas</a></td>
                 </tr>
             </table>
         </article>
@@ -195,12 +206,9 @@ if (isset($_POST["actualizar"])) {
     <br>
     <div class="container">
         <div>
-            <div id='calendar' style="background-color: #f2f2f2"></div>
+            <div id='calendar' class="mt-2 mb-4 p-3 border rounded bg-light shadow-sm"></div>
         </div>
     </div>
-    <footer>
-        <p>&copy; 2024 FitFood. Todos los derechos reservados.</p>
-    </footer>
 
     <!-- MODAL AGREGAR EVENTOS -->
     <div class="modal fade" id="modalAgregarEvento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -244,61 +252,12 @@ if (isset($_POST["actualizar"])) {
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                
+
             </div>
         </div>
     </div>
-    <script>
-        // RECARGAR
-        const reload = document.getElementById("reload");
-        reload.addEventListener("click", (_) => {
-            location.reload();
-        });
-
-        // EDICION DE DATOS
-        function editardatos() {
-            let $formcontrol = document.getElementsByClassName("form-control editable-field");
-            for (let i = 0; i < $formcontrol.length; i++) {
-                $formcontrol[i].removeAttribute("readonly");
-            }
-            document.getElementById("save-btn").style.display = "inline-block";
-        }
-
-
-        // CALENDARIO
-        document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                locale: 'es',
-                editable: true,
-                selectable: true,
-                selectMirror: true,
-                allDaySlot: false,
-
-                // Configuración para cargar eventos y pasar el correo electrónico del usuario
-                events: {
-                    url: 'dietas/cargarDietas.php',
-                    method: 'POST',
-                    extraParams: {
-                        correoElectronicoUsuario: '<?php echo obtenerCorreoElectronicoUsuario(); ?>'
-                    },
-                    failure: function() {
-                        alert('Hubo un error al cargar los eventos');
-                    }
-                },
-                dateClick: function(info) {
-                    $('#modalAgregarEvento').modal('show');
-                    $('#start').val(info.allDay);
-                },
-                eventClick: function(info) {
-
-                }
-            });
-            calendar.render();
-        });
-    </script>
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+    <script src="../scripts/funciones.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

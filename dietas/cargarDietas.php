@@ -5,6 +5,7 @@ require("../php/funciones.php");
 // CONEXION
 $conn = conectarBBDD_PDO();
 
+// Verificar si hay una sesión iniciada
 sesionN1();
 
 // Obtener el correo electrónico del usuario actualmente conectado
@@ -20,3 +21,4 @@ $stmt_eventos->execute([$idUsuario]); // Pasa el ID del usuario como parámetro
 $resultado = $stmt_eventos->fetchAll(PDO::FETCH_ASSOC);
 
 echo json_encode($resultado);
+

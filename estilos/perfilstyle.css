@@ -129,6 +129,7 @@ header .ini {
   justify-content: space-between;
   align-items: flex-start;
   float: left;
+  margin-bottom: 10px;
 }
 
 .profile-article {
@@ -176,14 +177,47 @@ header .ini {
   float:right;
 }
 .main-content {
-  margin-bottom: 70px; /* Ajusta la altura del margen inferior según la altura de tu footer */
+  margin-bottom: 70px; 
 }
 
 /* CALENDARIO*/
 .container {
-  border: 2px solid black;
   float: right;
-  width: 600px;
-  margin-right: 20px;
-  padding: 0;
+  width: 40%;
+}
+#calendar {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.fc-header-toolbar {
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.fc-button-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.fc-button-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+.fc-today {
+  background-color: #e9ecef !important;
+}
+
+.fc-daygrid-event {
+  background-color: #28a745;
+  border-color: #28a745;
+  color: white;
+}
+
+.fc-daygrid-event:hover {
+  background-color: #218838;
+  border-color: #218838;
 }

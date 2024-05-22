@@ -384,14 +384,13 @@ function verificarrol()
     return $idRolFK;
 }
 
-function obtenerIDUsuario()
-{
+function obtenerIDUsuario() {
     sesionN0();
     $conn = conectarBBDD();
     $correoElectronicoUsuario = $_SESSION["correoElectronicoUsuario"];
     $sql = "SELECT idUsuario FROM usuarios WHERE correoElectronicoUsuario = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $correoElectronicoUsuario);
+    $stmt->bind_param("s", $correoElectronicoUsuario);
     $stmt->execute();
     $result = $stmt->get_result();
     $fila = $result->fetch_assoc();

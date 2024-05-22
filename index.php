@@ -27,7 +27,7 @@ $conn = conectarBBDD();
 
 <nav class="navbar navbar-expand-xl" style="background-color: #006691;">        
         <div class="container-fluid">
-            <a href="#">
+            <a href="index.php">
                 <img class="rounded" src="media/logoancho.png" alt="logo" width="155">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"

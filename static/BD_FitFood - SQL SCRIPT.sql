@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS eventos (
   title VARCHAR(60),
   start DATE NOT NULL,
   end DATE NOT NULL,
-  colorEvento VARCHAR(12) DEFAULT '#c8c8c8',
+  color VARCHAR(12) DEFAULT '#c8c8c8',
   FOREIGN KEY (idUsuario) REFERENCES usuarios(idUsuario)
 ) ENGINE InnoDB;
 
@@ -78,6 +78,7 @@ CREATE TABLE IF NOT EXISTS eventos (
 CREATE TABLE IF NOT EXISTS favoritos (
   idUsuarioFK INT NOT NULL,
   idProductoFK INT NOT NULL,
+  idFavorito INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   FOREIGN KEY (idUsuarioFK) REFERENCES usuarios(idUsuario),
   FOREIGN KEY (idProductoFK) REFERENCES productos(idProducto)
 ) ENGINE InnoDB;
