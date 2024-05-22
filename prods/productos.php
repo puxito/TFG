@@ -212,23 +212,32 @@ if (isset($_POST['guardarFavorito'])) {
 $(document).ready(function(){
     $(".favorite-form").on("submit", function(event){
         event.preventDefault();
-        var idProducto = $(this).data("producto-id");
+        var form = $(this);
+        var idProducto = form.data("producto-id");
         $.ajax({
             url: "productos.php", // Cambia esto por la ruta real
             type: "POST",
             data: { guardarFavorito: true, idProducto: idProducto },
+            dataType: 'json',
             success: function(response) {
-                // Manejar la respuesta de éxito
-                alert("Producto agregado a favoritos");
+                if (response.status === 'added') {
+                    alert("Producto agregado a favoritos");
+                    form.find("button").html('<img src="../media/iconos/removefav.png" alt="Quitar favorito">');
+                } else if (response.status === 'removed') {
+                    alert("Producto eliminado de favoritos");
+                    form.find("button").html('<img src="../media/iconos/addfav.png" alt="Agregar favorito">');
+                } else {
+                    alert("Error al actualizar favoritos");
+                }
             },
             error: function(xhr, status, error) {
-                // Manejar la respuesta de error
-                alert("Error al agregar producto a favoritos");
+                alert("Error al actualizar favoritos");
             }
         });
     });
 });
 </script>
+
 
 </body>
 </html>

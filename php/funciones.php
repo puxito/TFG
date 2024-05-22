@@ -502,3 +502,24 @@ function guardarProductoFavorito($idUsuario, $idProducto)
         return false; // Hubo un error al guardar el producto como favorito
     }
 }
+
+// Añadir una función para verificar si un producto está en favoritos
+function esFavorito($idUsuario, $idProducto) {
+    global $conn;
+    $sql = "SELECT COUNT(*) FROM favoritos WHERE idUsuarioFK = ? AND idProductoFK = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ii", $idUsuario, $idProducto);
+    $stmt->execute();
+    $stmt->bind_result($count);
+    $stmt->fetch();
+    return $count > 0;
+}
+
+// Añadir una función para eliminar un producto de favoritos
+function eliminarProductoFavorito($idUsuario, $idProducto) {
+    global $conn;
+    $sql = "DELETE FROM favoritos WHERE idUsuarioFK = ? AND idProductoFK = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ii", $idUsuario, $idProducto);
+    return $stmt->execute();
+}
