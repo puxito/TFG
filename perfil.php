@@ -73,9 +73,6 @@ if (isset($_POST["actualizar"])) {
                     <span class="navbar-toggler-icon"></span>
                 </button>
             </div>
-            <div class="d-flex justify-content-center flex-grow-1">
-                <h1 class="display-6 text-light text-center"><strong>Panel de Control</strong></h1>
-            </div>
             <?php
             if (sesionN0()) {
                 // El usuario ha iniciado sesión
