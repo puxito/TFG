@@ -25,21 +25,20 @@ $conn = conectarBBDD();
 
 <body>
 
-<nav class="navbar navbar-expand-lg" style="background-color: #006691;">        
+    <nav class="navbar navbar-expand-lg" style="background-color: #006691;">
         <div class="container-fluid">
             <a href="index.php">
                 <img class="rounded" src="media/logoancho.png" alt="logo" width="155">
             </a>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
-                <li class="nav-item m-2">
-                    <a href="dietas/dieta.php">
-                        <img src="media/iconos/add.png" width="65" alt="Nueva Dieta">
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item m-2">
+                        <a href="dietas/dieta.php">
+                            <img src="media/iconos/add.png" width="65" alt="Nueva Dieta">
                         </a>
                     </li>
                     <li class="nav-item m-2">
@@ -73,15 +72,15 @@ $conn = conectarBBDD();
                     <ul class="ms-auto m-2 navbar-nav">
                         <li class="border border-dark rounded dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                                <img class="rounded-circle" src='.$ruta_imagen.' width="65" alt="Foto de Perfil">
-                                Bienvenido: <span class="fw-bold">'.$nombre_usuario.'</span>
+                                <img class="rounded-circle" src=' . $ruta_imagen . ' width="65" alt="Foto de Perfil">
+                                Bienvenido: <span class="fw-bold">' . $nombre_usuario . '</span>
                             </a>
                         
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="perfil.php">Mi Perfil</a></li>';
-                                if ($administrador == 1) {
-                                    echo '<li><a class="dropdown-item" href="/administracion/indexadmin.php">Panel de Administración</a></li>';
-                                }
+                    if ($administrador == 1) {
+                        echo '<li><a class="dropdown-item" href="/administracion/indexadmin.php">Panel de Control</a></li>';
+                    }
                     echo '       
                                 <form method="post">
                                     <input type="hidden" name="cerses" value="true">
@@ -91,17 +90,12 @@ $conn = conectarBBDD();
                             </ul>
                         </li>
                     </ul>'
-                    ?>
-                    
-                    <?php
-                    
-
-                    ?>
-
-
-                    <?php
-                } else { 
-                    ?>
+                ?>
+                <?php
+                ?>
+                <?php
+                } else {
+                ?>
                     <article class="ms-auto">
                         <h2 hidden>Inicio sesión</h2>
                         <form class="d-flex align-items-center" method="post">
@@ -111,81 +105,81 @@ $conn = conectarBBDD();
                             </div>
                         </form>
                     </article>
-                
+
                 <?php
                 }
                 ?>
 
-        </section>
+                </section>
     </nav>
-    
-    
-<header>
-    <!-- CARRUSEL IMAGENES  -->
-    <header style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: -1">
-        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" style="width: 100%; height: 100%;">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="media/general/teta1.jpg" class="d-block w-100 h-100" alt="...">
+
+
+    <header>
+        <!-- CARRUSEL IMAGENES  -->
+        <header style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: -1">
+            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" style="width: 100%; height: 100%;">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="media/general/teta1.jpg" class="d-block w-100 h-100" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="media/general/teta2.png" class="d-block w-100 h-100" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="media/general/teta3.jpg" class="d-block w-100 h-100" alt="...">
+                    </div>
                 </div>
-                <div class="carousel-item">
-                    <img src="media/general/teta2.png" class="d-block w-100 h-100" alt="...">
-                </div>
-                <div class="carousel-item">
-                    <img src="media/general/teta3.jpg" class="d-block w-100 h-100" alt="...">
+            </div>
+        </header>
+
+        <h1 class="display-3 mb-3 mt-5 text-center justify-content-center">FitFood</h1>
+
+        <div class="container p-5">
+            <div class=" justify-content-center">
+
+                <div class="row d-flex align-items-center justify-content-center">
+                    <div class="col-lg-5 col-md-4 col-sm-12 text-center m-1">
+                        <img src="media/general/banerLateral.jpg" width="390" alt="Baner" class="img-fluid">
+                    </div>
+
+                    <div style="background-color:#ffffff6d; line-height: 1.9;" class="rounded col-lg-5 col-md-6 col-sm-12 text-center m-1 h6">
+                        <p class="rounded m-1 p-2">"En FitFood, nos dedicamos a diseñar dietas personalizadas que se adaptan a tu estilo de vida
+                            y objetivos de salud y bienestar. Nuestro equipo de expertos en nutrición crea planes alimenticios
+                            equilibrados y deliciosos, utilizando ingredientes frescos y nutritivos. Además, en FitFood nos
+                            enorgullecemos de proporcionar información detallada sobre el valor nutricional de los alimentos
+                            que recomendamos. Desde el conteo de calorías hasta el equilibrio de macronutrientes, te ofrecemos
+                            la orientación y el apoyo necesarios para que tomes decisiones informadas sobre tu alimentación.
+                            Ya sea que desees perder peso, ganar masa muscular o simplemente llevar una vida más saludable, en
+                            FitFood te ofrecemos las herramientas que necesitas para alcanzar tus metas. ¡Únete a nuestra comunidad y
+                            comienza tu viaje hacia una alimentación más consciente y satisfactoria!"</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </header>
 
-    <h1 class="display-3 mb-3 mt-5 text-center justify-content-center">FitFood</h1>
 
-<div  class="container p-5">
-    <div class=" justify-content-center">
-        
-            <div class="row d-flex align-items-center justify-content-center">
-                <div class="col-lg-5 col-md-4 col-sm-12 text-center m-1">
-                    <img src="media/general/banerLateral.jpg" width="390" alt="Baner" class="img-fluid">
+
+        <footer class="footer bg-dark text-light p-2 clearfix">
+            <div class="container">
+                <div class="row m-3">
+                    <div class="col-md-6 col-sm-12">
+
+                        <h5>Información de contacto</h5>
+                        <p>Email: info@example.com</p>
+                        <p>&copy; 2024 FitFood. Todos los derechos reservados.</p>
+
+
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <h5>Enlaces útiles</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="#">Inicio</a></li>
+                            <li><a href="#">Servicios</a></li>
+                        </ul>
+                    </div>
                 </div>
-                
-                <div style="background-color:#ffffff6d; line-height: 1.9;" class="rounded col-lg-5 col-md-6 col-sm-12 text-center m-1 h6">
-                    <p class="rounded m-1 p-2" >"En FitFood, nos dedicamos a diseñar dietas personalizadas que se adaptan a tu estilo de vida 
-                        y objetivos de salud y bienestar. Nuestro equipo de expertos en nutrición crea planes alimenticios 
-                        equilibrados y deliciosos, utilizando ingredientes frescos y nutritivos. Además, en FitFood nos 
-                        enorgullecemos de proporcionar información detallada sobre el valor nutricional de los alimentos 
-                        que recomendamos. Desde el conteo de calorías hasta el equilibrio de macronutrientes, te ofrecemos 
-                        la orientación y el apoyo necesarios para que tomes decisiones informadas sobre tu alimentación. 
-                        Ya sea que desees perder peso, ganar masa muscular o simplemente llevar una vida más saludable, en 
-                        FitFood te ofrecemos las herramientas que necesitas para alcanzar tus metas. ¡Únete a nuestra comunidad y 
-                        comienza tu viaje hacia una alimentación más consciente y satisfactoria!"</p>
-                </div>
             </div>
-        </div>
-</div>
-
-
-
-<footer class="footer bg-dark text-light p-2 clearfix">
-    <div class="container">
-        <div class="row m-3">
-            <div class="col-md-6 col-sm-12">
-
-                <h5>Información de contacto</h5>
-                <p>Email: info@example.com</p>
-                <p>&copy; 2024 FitFood. Todos los derechos reservados.</p>
-                
-
-            </div>
-            <div class="col-md-6 col-sm-12">
-                <h5>Enlaces útiles</h5>
-                <ul class="list-unstyled">
-                    <li><a href="#">Inicio</a></li>
-                    <li><a href="#">Servicios</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</footer>
+        </footer>
 
 </body>
 

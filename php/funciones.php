@@ -261,7 +261,7 @@ function inicioSesion($conn)
                 session_start();
                 $_SESSION["correoElectronicoUsuario"] = $fila["correoElectronicoUsuario"];
                 // Redirigir a la página de inicio
-                header("Location: /php/menubienvenida.php");
+                header("Location: ../index.php");
                 echo "¡Inicio de sesión exitoso!";
                 exit();
             } else {

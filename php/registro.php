@@ -62,7 +62,7 @@ if (isset($_POST['registrarse'])) {
 <body>
     <header>
         <div>
-            <p><img src="../media/logoancho.png"></p>
+            <a href="../index.php"><img src="../media/logoancho.png"></a>
         </div>
     </header>
     <div class="bg-light w-25 p-3 mt-1 mx-auto rounded shadow">

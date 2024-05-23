@@ -95,50 +95,73 @@ if (isset($_POST["actualizar"])) {
 </head>
 
 <body>
-<header>
-        <div>
-            <a href="../index.php"><img src="../media/logoancho.png"></a>
-        </div>
-        <div class="panel">
-            <h1 class="display-6"><strong>Gestión de productos</strong></h1>
-        </div>
-        <nav>
+<nav class="navbar navbar-expand-lg" style="background-color: #006691;">
+        <div class="container-fluid">
+            <div class="d-flex align-items-center">
+                <a href="../index.php">
+                    <img class="rounded" src="../media/logoancho.png" alt="logo" width="155">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <div class="d-flex justify-content-center flex-grow-1">
+                <h1 class="display-6 text-light text-center"><strong>Productos</strong></h1>
+            </div>
             <?php
-            if (sesionN1()) {
-                echo "<div class='perfil' id='perfil' onclick='toggleMenuPerfil()'>";
+            if (sesionN0()) {
+                // El usuario ha iniciado sesión
 
-                $_SESSION['correoElectronicoUsuario'];
+                // Verificar si el usuario es administrador
+                $conexion = conectarBBDD();
+                $nombre_usuario = $_SESSION["correoElectronicoUsuario"];
+                $sql = "SELECT idRolFK FROM usuarios WHERE correoElectronicoUsuario = ?";
+                $stmt = $conexion->prepare($sql);
+                $stmt->bind_param("s", $nombre_usuario);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $fila = $result->fetch_assoc();
+                $administrador = $fila["idRolFK"];
+                $stmt->close();
+                $conexion->close();
+
                 $nombre_usuario = obtenerNombreUsuario();
                 $ruta_imagen = obtenerRutaImagenUsuario();
-
-                echo "   <img class='fotoperfil' src='../$ruta_imagen' alt='Foto de Perfil'>
-                    <p class='nombre'>¡Hola, $nombre_usuario!</p>";
+                echo '
+                    <ul class="ms-auto m-2 navbar-nav">
+                        <li class="border border-dark rounded dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <img class="rounded-circle" src=../' . $ruta_imagen . ' width="65" alt="Foto de Perfil">
+                                Bienvenido: <span class="fw-bold">' . $nombre_usuario . '</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="../perfil.php">Mi Perfil</a></li>';
+                if ($administrador == 1) {
+                    echo '<li><a class="dropdown-item" href="/administracion/indexadmin.php">Panel de Control</a></li>';
+                }
+                echo '       
+                                <form method="post">
+                                    <input type="hidden" name="cerses" value="true">
+                                    <button type="submit" class="dropdown-item">Cerrar Sesión</button>
+                                </form>
+                            </ul>
+                        </li>
+                    </ul>';
             } else {
-                echo "<div class='perfil' id='perfil' onclick='toggleMenuPerfil()'>
-                    <a href='php/login.php'><strong>Iniciar sesión</strong></a>";
+                echo '
+                    <article class="ms-auto">
+                        <h2 hidden>Inicio sesión</h2>
+                        <form class="d-flex align-items-center" method="post">
+                            <div class="">
+                                <a class="btn btn-primary" href="/php/login.php">Iniciar Sesion</a>
+                                <a class="btn btn-primary" href="/php/registro.php">Registrarse</a>
+                            </div>
+                        </form>
+                    </article>';
             }
             ?>
-            </div>
-        </nav>
-    </header>
-    <div id="menuPerfil">
-        <?php if (isset($_SESSION["correoElectronicoUsuario"])) : ?>
-            <a href="../perfil.php">Mi Perfil</a>
-            <form action="#" method="post">
-                <input type="submit" value="Cerrar Sesión" name="cerses">
-            </form>
-            <script>
-                function toggleMenuPerfil() {
-                    var menuPerfil = document.getElementById("menuPerfil");
-                    if (menuPerfil.style.display === "none") {
-                        menuPerfil.style.display = "block";
-                    } else {
-                        menuPerfil.style.display = "none";
-                    }
-                }
-            </script>
-        <?php endif; ?>
-    </div>
+        </div>
+    </nav>
     <br>
     <article class="mx-3">
         <div class="input-with-icon">
@@ -234,6 +257,7 @@ if (isset($_POST["actualizar"])) {
                 ?>
         </table>
     </article>
+    <br>
     <footer>
         <p>&copy; 2024 FitFood. Todos los derechos reservados.</p>
     </footer>
@@ -254,7 +278,7 @@ if (isset($_POST["actualizar"])) {
         });
 
         function confirmarEliminacion() {
-            return confirm("¿Estás seguro de que quieres eliminar este usuario?");
+            return confirm("¿Estás seguro de que quieres eliminar este producto?");
         }
         setTimeout(function() {
             document.getElementById("mensaje").style.display = "none";
