@@ -62,16 +62,13 @@ if (isset($_POST['eliminar'])) {
     <link rel="stylesheet" href="../estilos/adminstyle.css">
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
     <nav class="navbar navbar-expand-lg" style="background-color: #006691;">
         <div class="container-fluid">
             <div class="d-flex align-items-center">
                 <a href="../index.php">
                     <img class="rounded" src="../media/logoancho.png" alt="logo" width="155">
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
             </div>
             <div class="d-flex justify-content-center flex-grow-1">
                 <h1 class="display-6 text-light text-center"><strong>Categorías</strong></h1>
@@ -131,7 +128,7 @@ if (isset($_POST['eliminar'])) {
         </div>
     </nav>
     <br>
-    <article class="mx-3">
+    <article class="flex-grow-1 mx-3">
         <div class="input-with-icon">
             <button id="reload"><img src="../media/iconos/reload.png" alt="Recargar"></button>
             <input type="text" id="searchInput" placeholder="Buscar por nombre...">
@@ -190,7 +187,7 @@ if (isset($_POST['eliminar'])) {
                             </tr>
                           </thead>";
                     echo "<tbody>";
-                    
+
                     $productos_query = "SELECT * FROM productos WHERE idCategoriaFK = ?";
                     $productos_preparada = $conn->prepare($productos_query);
                     $productos_preparada->bind_param("i", $registro['idCategoria']);
@@ -217,8 +214,23 @@ if (isset($_POST['eliminar'])) {
         </table>
     </article>
     <br>
-    <footer>
-        <p>&copy; 2024 FitFood. Todos los derechos reservados.</p>
+    <footer class="footer bg-dark text-light p-2 mt-auto">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <h5>Información de contacto</h5>
+                    <p>Email: info@example.com</p>
+                    <p>&copy; 2024 FitFood. Todos los derechos reservados.</p>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <h5>Enlaces útiles</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="../index.php">Inicio</a></li>
+                        <li><a href="#">Servicios</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </footer>
     <script>
         const reload = document.getElementById("reload");

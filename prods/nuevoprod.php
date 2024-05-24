@@ -27,19 +27,32 @@ $conn = conectarBBDD();
         label {
             font-weight: bold;
         }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            flex: 1;
+        }
+
+        footer {
+            background-color: #006691;
+            color: #fff;
+            padding: 10px 0;
+        }
     </style>
 </head>
 
-<body class="d-flex flex-column h-100" style="background-color:  #94e7ff;">
+<body style="background-color:  #94e7ff;">
     <nav class="navbar navbar-expand-lg" style="background-color: #006691;">
         <div class="container-fluid">
             <div class="d-flex align-items-center">
                 <a href="../index.php">
                     <img class="rounded" src="../media/logoancho.png" alt="logo" width="155">
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
             </div>
             <div class="d-flex justify-content-center flex-grow-1">
                 <h1 class="display-6 text-light text-center"><strong>Panel de Control</strong></h1>
@@ -67,7 +80,7 @@ $conn = conectarBBDD();
                     <ul class="ms-auto m-2 navbar-nav">
                         <li class="border border-dark rounded dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                                <img class="rounded-circle" src=../' . $ruta_imagen . ' width="65" alt="Foto de Perfil">
+                                <img class="rounded-circle" src="../' . $ruta_imagen . '" width="65" alt="Foto de Perfil">
                                 Bienvenido: <span class="fw-bold">' . $nombre_usuario . '</span>
                             </a>
                             <ul class="dropdown-menu">
@@ -164,13 +177,15 @@ $conn = conectarBBDD();
                 <div class="col-md-6 col-sm-12">
                     <h5>Enlaces útiles</h5>
                     <ul class="list-unstyled">
-                        <li><a href="#">Inicio</a></li>
+                        <li><a href="../index.php">Inicio</a></li>
                         <li><a href="#">Servicios</a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </footer>
+    <!-- Incluye Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 
 </html>

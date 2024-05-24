@@ -1,6 +1,5 @@
 <?php
 // ARCHIVOS
-
 require("../php/errores.php");
 require("../php/funciones.php");
 
@@ -14,40 +13,45 @@ $datosUsuario = obtenerDatosUsuario();
 
 //-------------SELECT------------//
 
+// Consulta para obtener usuarios y sus roles
 $consultausuario = "SELECT * FROM usuarios LEFT JOIN roles ON usuarios.idRolFK = roles.idRol";
-
 $preparada = $conn->prepare($consultausuario);
 if ($preparada === false) {
     die("Error en la preparación: " . $conn->error);
 }
-
 $preparada->execute();
-
-
 $resultado = $preparada->get_result();
 $registros = $resultado->fetch_all(MYSQLI_ASSOC);
-
-
 if ($registros === false) {
     die("Error en la ejecución: " . $conn->error);
 }
 
-//-------------DELETE------------//
+// Consulta para obtener todos los roles
+$consultaRoles = "SELECT * FROM roles";
+$preparadaRoles = $conn->prepare($consultaRoles);
+if ($preparadaRoles === false) {
+    die("Error en la preparación: " . $conn->error);
+}
+$preparadaRoles->execute();
+$resultadoRoles = $preparadaRoles->get_result();
+$roles = $resultadoRoles->fetch_all(MYSQLI_ASSOC);
+if ($roles === false) {
+    die("Error en la ejecución: " . $conn->error);
+}
 
+//-------------DELETE------------//
 if (isset($_POST['eliminar'])) {
     $idUsuario = $_POST['idUsuario'];
-
-    $borrarusuario = "DELETE FROM usuarios WHERE idUsuario =?";
-
+    $borrarusuario = "DELETE FROM usuarios WHERE idUsuario = ?";
     $preparada = $conn->prepare($borrarusuario);
     $preparada->bind_param("i", $idUsuario);
-
     if ($preparada->execute()) {
         $mensaje = "Usuario eliminado correctamente";
     } else {
         $mensaje = "No se ha podido eliminar el usuario";
     }
 }
+
 //-------------UPDATE------------//
 if (isset($_POST["actualizar"])) {
     $idUsuario = $_POST["idUsuario"];
@@ -57,29 +61,24 @@ if (isset($_POST["actualizar"])) {
     $correoElectronicoUsuario = $_POST["correoElectronicoUsuario"];
     $idRolFK = $_POST["idRolFK"];
 
-    // Consulta para actualizar los datos
-    $actualizarusuario = "UPDATE usuarios SET nombreUsuario =?, 
-                                              apellidosUsuario =?, 
-                                              fechaNacimientoUsuario =?, 
-                                              correoElectronicoUsuario =?, 
-                                              idRolFK =? 
-                                              WHERE idUsuario =?";
-
+    $actualizarusuario = "UPDATE usuarios SET nombreUsuario = ?, 
+                                              apellidosUsuario = ?, 
+                                              fechaNacimientoUsuario = ?, 
+                                              correoElectronicoUsuario = ?, 
+                                              idRolFK = ? 
+                                              WHERE idUsuario = ?";
     $preparada = $conn->prepare($actualizarusuario);
     $preparada->bind_param("ssssii", $nombreUsuario, $apellidosUsuario, $fechaNacimientoUsuario, $correoElectronicoUsuario, $idRolFK, $idUsuario);
-
     if ($preparada->execute()) {
         $mensaje = "Usuario actualizado correctamente";
     } else {
         $mensaje = "No se ha podido actualizar el usuario";
     }
 }
-
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -92,32 +91,24 @@ if (isset($_POST["actualizar"])) {
         .perfil {
             transition: transform 0.3s;
         }
-
         .perfil:hover {
             transform: scale(1.05);
         }
     </style>
 </head>
-
 <body>
-<nav class="navbar navbar-expand-lg" style="background-color: #006691;">
+    <nav class="navbar navbar-expand-lg" style="background-color: #006691;">
         <div class="container-fluid">
             <div class="d-flex align-items-center">
                 <a href="../index.php">
                     <img class="rounded" src="../media/logoancho.png" alt="logo" width="155">
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
             </div>
             <div class="d-flex justify-content-center flex-grow-1">
                 <h1 class="display-6 text-light text-center"><strong>Usuarios</strong></h1>
             </div>
             <?php
             if (sesionN0()) {
-                // El usuario ha iniciado sesión
-
-                // Verificar si el usuario es administrador
                 $conexion = conectarBBDD();
                 $nombre_usuario = $_SESSION["correoElectronicoUsuario"];
                 $sql = "SELECT idRolFK FROM usuarios WHERE correoElectronicoUsuario = ?";
@@ -224,12 +215,13 @@ if (isset($_POST["actualizar"])) {
                             <br>
                             <input class=\"form-control\" type=\"date\" name=\"fechaNacimientoUsuario\" value=\"" . $registro['fechaNacimientoUsuario'] . "\">
                             <br>
-                            <select name=\"idRolFK\" id=\"idRolFK\">
-                                <option value=\"1\" " . ($registro['idRolFK'] == 1 ? "selected" : "") . ">Administrador</option>
-                                <option value=\"2\" " . ($registro['idRolFK'] == 2 ? "selected" : "") . ">Dietista</option>
-                                <option value=\"3\" " . ($registro['idRolFK'] == 3 ? "selected" : "") . ">Cliente</option>
-                            </select>
-                            <input type=\"submit\" value=\"Actualizar\" class=\"form-control\" name=\"actualizar\">
+                            <select class=\"form-control\" name=\"idRolFK\" id=\"idRolFK\">";
+                    foreach ($roles as $rol) {
+                        $selected = ($rol['idRol'] == $registro['idRolFK']) ? "selected" : "";
+                        echo "<option value=\"" . $rol['idRol'] . "\" $selected>" . $rol['nombreRol'] . "</option>";
+                    }
+                    echo "</select>
+                            <input type=\"submit\" value=\"Actualizar\" class=\"form-control mt-2\" name=\"actualizar\">
                         </fieldset>
                     </form>
                 </td>
@@ -239,16 +231,31 @@ if (isset($_POST["actualizar"])) {
             </tbody>
         </table>
     </article>
-    <footer>
-        <p>&copy; 2024 FitFood. Todos los derechos reservados.</p>
+    <footer class="footer bg-dark text-light p-2 mt-auto">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <h5>Información de contacto</h5>
+                    <p>Email: info@example.com</p>
+                    <p>&copy; 2024 FitFood. Todos los derechos reservados.</p>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <h5>Enlaces útiles</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="../index.php">Inicio</a></li>
+                        <li><a href="#">Servicios</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </footer>
     <script>
-        // 
+        // Recargar la página
         const reload = document.getElementById("reload");
         reload.addEventListener("click", (_) => {
-
             location.reload();
         });
+        
         // Filtrar usuarios por nombre
         $(document).ready(function() {
             $("#searchInput").on("keyup", function() {
@@ -276,8 +283,6 @@ if (isset($_POST["actualizar"])) {
             document.getElementById("mensaje").style.display = "none";
         }, 2000);
     </script>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
-
 </html>

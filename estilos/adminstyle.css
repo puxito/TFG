@@ -1,8 +1,10 @@
-html,
-body {
+html, body {
   margin: 0;
   font-family: Arial, sans-serif;
   background-color: #94e7ff;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 header {
@@ -19,7 +21,6 @@ header {
 header h1 {
   margin: 0;
   color: white;
-
 }
 
 .panel {
@@ -34,7 +35,6 @@ header h1 {
   height: 75px;
   display: flex;
 }
-
 
 .perfil #fotoperfil {
   margin-top: 7px;
@@ -90,12 +90,9 @@ footer {
   color: #fff;
   text-align: center;
   padding: 10px 0;
-  position: fixed;
-  bottom: 0;
   width: 100%;
+  margin-top: auto;
 }
-
-
 
 .perfil {
   margin: 10px 10px 10px 10px;
@@ -104,7 +101,7 @@ footer {
   width: 200px;
   height: 75px;
   display: flex;
-  align-items: center; /* Añadido para centrar verticalmente el contenido del panel */
+  align-items: center;
 }
 
 .fotoperfil {
@@ -121,6 +118,7 @@ footer {
   color: white;
   font-size: 13px;
 }
+
 table {
   font-size: 13px;
 }
@@ -130,8 +128,7 @@ table {
   padding-left: 8.5px;
 }
 
-#reload img{
-width: 20px;
-height: 20px;
-
+#reload img {
+  width: 20px;
+  height: 20px;
 }
