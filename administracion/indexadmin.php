@@ -42,9 +42,6 @@ sesionN2();
                 <a href="../index.php">
                     <img class="rounded" src="../media/logoancho.png" alt="logo" width="155">
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
             </div>
             <div class="d-flex justify-content-center flex-grow-1">
                 <h1 class="display-6 text-light text-center"><strong>Panel de Control</strong></h1>

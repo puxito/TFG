@@ -48,7 +48,7 @@ if (isset($_SESSION["correoElectronicoUsuario"])) {
             height: 100%;
         }
         .content {
-            min-height: calc(100vh - 76px - 56px); /* Altura de nav y footer */
+            min-height: calc(100vh - 76px - 56px);
         }
     </style>
 </head>

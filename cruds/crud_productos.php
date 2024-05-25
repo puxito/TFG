@@ -205,7 +205,7 @@ if (isset($_POST["actualizar"])) {
 
                 echo "<tr id=\"form-" . $registro['idProducto'] . "\" style=\"display:none;\">
                 <td colspan=\"9\">
-                    <form action=\"#\" class=\"form\" method=\"post\">
+                    <form action=\"../prods/procesar_subida.php\" class=\"form\" method=\"post\" enctype=\"multipart/form-data\">
                         <fieldset class=\"w-50 mx-auto\">
                             <input type=\"hidden\" name=\"idProducto\" value=\"" . $registro['idProducto'] . "\">
                             <input class=\"form-control\" type=\"text\" name=\"nombreProducto\" value=\"" . $registro['nombreProducto'] . "\">
@@ -226,6 +226,9 @@ if (isset($_POST["actualizar"])) {
                                 echo "<option value=\"" . $categoria['idCategoria'] . "\" $selected>" . $categoria['nombreCategoria'] . "</option>";
                             }
                             echo "</select>
+                            <br>
+                            <label for=\"imagenProducto\">Imagen del Producto:</label>
+                            <input type=\"file\" class=\"form-control\" name=\"imagenProducto\">
                             <br>
                             <input type=\"submit\" value=\"Actualizar\" class=\"form-control bg-warning\" name=\"actualizar\">
                         </fieldset>

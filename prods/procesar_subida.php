@@ -3,34 +3,32 @@ session_start();
 include "../php/funciones.php";
 include "../php/errores.php";
 
+sesionN1();
 
-sesionN2();
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["imagenProducto"])) {
+    $imagenProducto = $_FILES["imagenProducto"];
 
+    $directorio_destino = "../media/prods/";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["imagen"])) {
-    $imagen = $_FILES["imagen"];
-
-
-    $directorio_destino = "media/prods/";
-
-
-    $nombre_imagen = uniqid('img_') . '_' . $imagen['name'];
-
+    $nombre_imagen = uniqid('img_') . '_' . basename($imagenProducto['name']);
 
     $ruta_imagen = $directorio_destino . $nombre_imagen;
 
-    if (move_uploaded_file($imagen["tmp_name"], $ruta_imagen)) {
+    if (move_uploaded_file($imagenProducto["tmp_name"], $ruta_imagen)) {
 
         $conn = conectarBBDD();
-        $correoElectronicoUsuario = $_SESSION["correoElectronicoUsuario"];
-        $sql = "UPDATE usuarios SET imagenUsuario = ? WHERE correoElectronicoUsuario = ?";
+
+
+        $idProducto = $_POST["idProducto"];
+
+        $sql = "UPDATE productos SET imgProducto = ? WHERE idProducto = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ss", $ruta_imagen, $correoElectronicoUsuario);
+        $stmt->bind_param("si", $ruta_imagen, $idProducto);
         $stmt->execute();
         $stmt->close();
         $conn->close();
 
-        header("Location: cruds/crud_productos.php");
+        header("Location: ../cruds/crud_productos.php");
     } else {
         echo "Error al subir la imagen.";
     }
