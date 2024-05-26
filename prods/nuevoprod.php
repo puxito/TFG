@@ -84,9 +84,9 @@ $conn = conectarBBDD();
                                 Bienvenido: <span class="fw-bold">' . $nombre_usuario . '</span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="perfil.php">Mi Perfil</a></li>';
+                                <li><a class="dropdown-item" href="../perfil.php">Mi Perfil</a></li>';
                 if ($administrador == 1) {
-                    echo '<li><a class="dropdown-item" href="/administracion/indexadmin.php">Panel de Control</a></li>';
+                    echo '<li><a class="dropdown-item" href="../administracion/indexadmin.php">Panel de Control</a></li>';
                 }
                 echo '       
                                 <form method="post">
@@ -102,8 +102,8 @@ $conn = conectarBBDD();
                         <h2 hidden>Inicio sesión</h2>
                         <form class="d-flex align-items-center" method="post">
                             <div class="">
-                                <a class="btn btn-primary" href="/php/login.php">Iniciar Sesion</a>
-                                <a class="btn btn-primary" href="/php/registro.php">Registrarse</a>
+                                <a class="btn btn-primary" href="../php/login.php">Iniciar Sesion</a>
+                                <a class="btn btn-primary" href="../php/registro.php">Registrarse</a>
                             </div>
                         </form>
                     </article>';
