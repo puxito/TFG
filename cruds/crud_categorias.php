@@ -47,7 +47,8 @@ if (isset($_POST['eliminar'])) {
     }
 }
 
-//-------------INSERT------------//
+
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -141,7 +142,6 @@ if (isset($_POST['eliminar'])) {
                     <th scope="col">Categoria</th>
                     <th scope="col">NºProductos</th>
                     <th scope="col">Productos</th>
-                    <th scope="col">Editar</th>
                     <th scope="col">Eliminar</th>
                 </tr>
             </thead>
@@ -156,12 +156,6 @@ if (isset($_POST['eliminar'])) {
                             <button class='btn btn-link' type='button' data-bs-toggle='collapse' data-bs-target='#productos-" . $registro['idCategoria'] . "' aria-expanded='false' aria-controls='productos-" . $registro['idCategoria'] . "'>
                                 <img src='../media/iconos/prods.png' style='width:15px'>
                             </button>
-                          </td>";
-                    echo "<td>
-                            <form action=\"#\" method=\"post\">
-                                <input type=\"hidden\" name=\"idCategoria\" value=\"" . $registro['idCategoria'] . "\">
-                                <button type=\"submit\" name=\"editar\"><img src=\"../media/iconos/edit.png\" style=\"width:15px\"></button>
-                            </form>
                           </td>";
                     echo "<td>
                             <form action=\"#\" method=\"post\" onsubmit=\"return confirmarEliminacion()\">

@@ -120,13 +120,13 @@ $conn = conectarBBDD();
             <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" style="width: 100%; height: 100%;">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img src="media/general/teta1.jpg" class="d-block w-100 h-100" alt="...">
+                        <img src="media/general/teta1.png" class="d-block w-100 h-100" alt="...">
                     </div>
                     <div class="carousel-item">
-                        <img src="media/general/teta2.png" class="d-block w-100 h-100" alt="...">
+                        <img src="media/general/teta1.png" class="d-block w-100 h-100" alt="...">
                     </div>
                     <div class="carousel-item">
-                        <img src="media/general/teta3.jpg" class="d-block w-100 h-100" alt="...">
+                        <img src="media/general/teta1.png" class="d-block w-100 h-100" alt="...">
                     </div>
                 </div>
             </div>
