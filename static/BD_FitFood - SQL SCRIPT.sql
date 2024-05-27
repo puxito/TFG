@@ -127,8 +127,8 @@ INSERT INTO categorias (`idCategoria`, `nombreCategoria`) VALUES
 (19, 'Zumos'),
 (20, 'Refrescos');
 
-INSERT INTO `productos` (`idProducto`, `nombreProducto`, `cantidadProducto`, `caloriasProducto`, `grasasProducto`, `proteinasProducto`, `idCategoriaFK`) VALUES
-(1, 'Pechuga de Pollo', '1.00', '104.00', '3.57', '28.04', 1),
+INSERT INTO `productos` (`idProducto`, `nombreProducto`, `cantidadProducto`, `hcarbonoProducto`, `caloriasProducto`, `grasasProducto`, `proteinasProducto`, `idCategoriaFK`) VALUES
+(1, 'Pechuga de Pollo', '1.00', '1.00', '104.00', '3.57', '28.04', 1),
 (2, 'Solomillo de Cerdo', '1.00', '133.00', '4.05', '22.49', 1),
 (3, 'Pechuga de Pavo', '1.00', '167.00', '5.98', '26.94', 1),
 (4, 'Solomillo de Ternera', '1.00', '110.00', '2.59', '20.20',1),

@@ -233,6 +233,7 @@ $idUsuario = obtenerIDUsuario();
                         <input type="text" placeholder="Buscar productos..." oninput="buscarProducto(this.value, ${i})">
                         <div class="search-results" id="search-results-${i}"></div>
                     </div>
+                   
                     <div id="productosSeleccionados${i}"></div>
                 </div>
             `;
@@ -319,7 +320,7 @@ $idUsuario = obtenerIDUsuario();
                     }
                 });
         }
-        // Función para calcular los valores nutricionales
+
         function calcularValoresNutricionales() {
             const comidasGuardadasDiv = document.getElementById('comidasGuardadas');
             comidasGuardadasDiv.innerHTML = '';
@@ -339,10 +340,13 @@ $idUsuario = obtenerIDUsuario();
                 let carbohidratosComida = 0;
 
                 productosSeleccionados.forEach(productoDiv => {
-                    const productoId = productoDiv.querySelector('.cantidad-producto').dataset.productoId;
                     const cantidad = parseFloat(productoDiv.querySelector('.cantidad-producto').value);
+                    const productoId = productoDiv.querySelector('.cantidad-producto').dataset.productoId;
+
+                    // Buscar el producto en la lista de productos obtenidos del servidor
                     const producto = productos.find(p => p.idProducto == productoId);
 
+                    // Realizar los cálculos utilizando los datos del producto
                     caloriasComida += (producto.caloriasProducto * cantidad / producto.cantidadProducto);
                     proteinasComida += (producto.proteinasProducto * cantidad / producto.cantidadProducto);
                     grasasComida += (producto.grasasProducto * cantidad / producto.cantidadProducto);
@@ -356,24 +360,24 @@ $idUsuario = obtenerIDUsuario();
 
                 const comidaDiv = document.createElement('div');
                 comidaDiv.innerHTML = `
-                    <h3>Comida ${i}</h3>
-                    <p>Calorías: ${caloriasComida.toFixed(2)} kcal</p>
-                    <p>Proteínas: ${proteinasComida.toFixed(2)} g</p>
-                    <p>Grasas: ${grasasComida.toFixed(2)} g</p>
-                    <p>Carbohidratos: ${carbohidratosComida.toFixed(2)} g</p>
-                `;
+            <h3>Comida ${i}</h3>
+            <p>Calorías: ${caloriasComida.toFixed(2)} kcal</p>
+            <p>Proteínas: ${proteinasComida.toFixed(2)} g</p>
+            <p>Grasas: ${grasasComida.toFixed(2)} g</p>
+            <p>Carbohidratos: ${carbohidratosComida.toFixed(2)} g</p>
+        `;
 
                 comidasGuardadasDiv.appendChild(comidaDiv);
             }
 
             const totalDiv = document.createElement('div');
             totalDiv.innerHTML = `
-                <h3>Total Diario</h3>
-                <p>Calorías: ${totalCalorias.toFixed(2)} kcal</p>
-                <p>Proteínas: ${totalProteinas.toFixed(2)} g</p>
-                <p>Grasas: ${totalGrasas.toFixed(2)} g</p>
-                <p>Carbohidratos: ${totalCarbohidratos.toFixed(2)} g</p>
-            `;
+        <h3>Total Diario</h3>
+        <p>Calorías: ${totalCalorias.toFixed(2)} kcal</p>
+        <p>Proteínas: ${totalProteinas.toFixed(2)} g</p>
+        <p>Grasas: ${totalGrasas.toFixed(2)} g</p>
+        <p>Carbohidratos: ${totalCarbohidratos.toFixed(2)} g</p>
+    `;
 
             comidasGuardadasDiv.appendChild(totalDiv);
         }

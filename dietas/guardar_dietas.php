@@ -42,10 +42,25 @@ try {
             $idProducto = $producto['idProducto'];
             $cantidad = $producto['cantidad'];
 
-            // Asociar producto con comida
-            $sqlComidaProducto = "INSERT INTO comidasproductos (idComidaFK, idProductoFK) VALUES (?, ?)";
+            // Obtener datos nutricionales del producto
+            $sqlProducto = "SELECT caloriasProducto, grasasProducto, proteinasProducto, hcarbonoProducto FROM productos WHERE idProducto = ?";
+            $stmtProducto = $conn->prepare($sqlProducto);
+            $stmtProducto->bind_param("i", $idProducto);
+            $stmtProducto->execute();
+            $stmtProducto->bind_result($caloriasProducto, $grasasProducto, $proteinasProducto, $hcarbonoProducto);
+            $stmtProducto->fetch();
+            $stmtProducto->close();
+
+            // Calcular valores nutricionales de la comida
+            $caloriasComida = $caloriasProducto * $cantidad;
+            $grasasComida = $grasasProducto * $cantidad;
+            $proteinasComida = $proteinasProducto * $cantidad;
+            $hcarbonoComida = $hcarbonoProducto * $cantidad;
+
+            // Insertar producto en la comida
+            $sqlComidaProducto = "INSERT INTO comidasproductos (idComidaFK, idProductoFK, cantidad) VALUES (?, ?, ?)";
             $stmtComidaProducto = $conn->prepare($sqlComidaProducto);
-            $stmtComidaProducto->bind_param("ii", $idComida, $idProducto);
+            $stmtComidaProducto->bind_param("iid", $idComida, $idProducto, $cantidad);
             $stmtComidaProducto->execute();
             $stmtComidaProducto->close();
         }
@@ -55,7 +70,8 @@ try {
     echo json_encode(['success' => true]);
 } catch (Exception $e) {
     $conn->rollback();
-    echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+    echo json_encode(['success' => false, 'error' => $e->
+    getMessage()]);
 }
 
 $conn->close();

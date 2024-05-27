@@ -225,17 +225,18 @@ if (isset($_POST['toggleFavorito'])) {
     </div>
 
     <div class="container">
-        <div id="producto" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-            <?php foreach ($registros as $registro) : ?>
-                <div class="col">
-                    <div class="card">
-                        <div class="card-shadow-sm">
-                            <img src="<?php echo $registro['imgProducto']; ?>" class="card-img-top" alt="Imagen de <?php echo $registro['nombreProducto']; ?>">
-                            <div class="card-body">
-                                <h5 class="card-title"><?php echo $registro['nombreProducto']; ?></h5>
+    <div id="producto" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        <?php foreach ($registros as $registro) : ?>
+            <div class="col">
+                <div class="card">
+                    <div class="card-shadow-sm">
+                        <img src="<?php echo $registro['imgProducto']; ?>" class="card-img-top" alt="Imagen de <?php echo $registro['nombreProducto']; ?>">
+                        <div class="card-body">
+                            <h5 class="card-title"><?php echo $registro['nombreProducto']; ?></h5>
+                            <div class="button-container">
                                 <button class="btn btn-primary detalle-btn" data-producto-id="<?php echo $registro['idProducto']; ?>" data-bs-toggle="modal" data-bs-target="#detallesModal">Detalles</button>
                                 <form class="favorite-form" data-producto-id="<?php echo $registro['idProducto']; ?>">
-                                    <button type="submit" class="btn btn-primary">
+                                    <button type="submit" class="btn btn-primary fav-btn">
                                         <img src="../media/iconos/<?php echo in_array($registro['idProducto'], $favoritos) ? 'remfav' : 'addfav'; ?>.png" alt="<?php echo in_array($registro['idProducto'], $favoritos) ? 'Eliminar favorito' : 'Agregar favorito'; ?>">
                                     </button>
                                 </form>
@@ -243,9 +244,10 @@ if (isset($_POST['toggleFavorito'])) {
                         </div>
                     </div>
                 </div>
-            <?php endforeach; ?>
-        </div>
+            </div>
+        <?php endforeach; ?>
     </div>
+</div>
     <!-- Modal de Detalles -->
     <div class="modal fade" id="detallesModal" tabindex="-1" aria-labelledby="detallesModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">

@@ -7,7 +7,7 @@ $sql = "SELECT idProducto, nombreProducto, hcarbonoProducto, caloriasProducto, g
 $result = $conn->query($sql);
 
 $productos = array();
-while($row = $result->fetch_assoc()) {
+while ($row = $result->fetch_assoc()) {
     $productos[] = $row;
 }
 

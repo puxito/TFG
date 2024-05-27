@@ -128,5 +128,21 @@ footer {
     z-index: 1000;
   }
   .main-content {
-    margin-bottom: 70px; /* Ajusta la altura del margen inferior según la altura de tu footer */
+    margin-bottom: 70px; 
   }
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.button-container .detalle-btn,
+.button-container .fav-btn {
+    flex: 1;
+    margin: 0 5px;
+}
+
+.button-container .favorite-form {
+    margin: 0;
+}
+
