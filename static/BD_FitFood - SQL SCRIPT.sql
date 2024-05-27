@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS productos (
   caloriasProducto DECIMAL(6,2) NOT NULL,
   grasasProducto DECIMAL(6,2) NOT NULL,
   proteinasProducto DECIMAL(6,2) NOT NULL,
+  imgProducto VARCHAR(100) NULL,
   idCategoriaFK INT NOT NULL,
   FOREIGN KEY (idCategoriaFK) REFERENCES categorias(idCategoria)
 ) ENGINE InnoDB;
