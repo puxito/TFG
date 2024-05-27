@@ -11,7 +11,6 @@ $conn = conectarBBDD();
 ?>
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,21 +22,17 @@ $conn = conectarBBDD();
         .form-group {
             margin-bottom: 20px;
         }
-
         label {
             font-weight: bold;
         }
-
         body {
             display: flex;
             flex-direction: column;
             min-height: 100vh;
         }
-
         .container {
             flex: 1;
         }
-
         footer {
             background-color: #006691;
             color: #fff;
@@ -45,7 +40,6 @@ $conn = conectarBBDD();
         }
     </style>
 </head>
-
 <body style="background-color:  #94e7ff;">
     <nav class="navbar navbar-expand-lg" style="background-color: #006691;">
         <div class="container-fluid">
@@ -60,7 +54,6 @@ $conn = conectarBBDD();
             <?php
             if (sesionN0()) {
                 // El usuario ha iniciado sesión
-
                 // Verificar si el usuario es administrador
                 $conexion = conectarBBDD();
                 $nombre_usuario = $_SESSION["correoElectronicoUsuario"];
@@ -144,8 +137,8 @@ $conn = conectarBBDD();
                         <input type="number" step=".01" class="form-control" id="proteinasProducto" name="proteinasProducto" required>
                     </div>
                     <div class="form-group">
-                        <label for="imagenProducto">Imagen del Producto:</label>
-                        <input type="file" class="form-control" id="imagenProducto" name="imagenProducto" required accept="image/*">
+                        <label for="imgProducto">Imagen del Producto:</label>
+                        <input type="file" class="form-control" id="imgProducto" name="imgProducto" required accept="image/*">
                     </div>
                     <div class="form-group">
                         <label for="idCategoriaFK">Categoría:</label>
@@ -187,5 +180,4 @@ $conn = conectarBBDD();
     <!-- Incluye Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
-
 </html>
