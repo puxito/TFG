@@ -1,77 +1,48 @@
 <?php
+require("../php/errores.php");
 require("../php/funciones.php");
 
-$data = json_decode(file_get_contents('php://input'), true);
+$conn = conectarBBDD();
+
+// Recibir los datos de la dieta desde la solicitud
+$data = json_decode(file_get_contents("php://input"), true);
+
 $nombreDieta = $data['nombreDieta'];
 $tipoDieta = $data['tipoDieta'];
-$observacionesDieta = $data['observacionesDieta'];
-$idUsuario = obtenerIDUsuario();
+$numComidas = $data['numComidas'];
 $comidas = $data['comidas'];
 
-$conn = conectarBBDD();
-$conn->begin_transaction();
+// Insertar la dieta en la base de datos
+$sql_dieta = "INSERT INTO dietas (nombreDieta, tipoDieta, idUsuarioFK) VALUES (?, ?, ?)";
+$stmt = $conn->prepare($sql_dieta);
+$stmt->bind_param("ssi", $nombreDieta, $tipoDieta, $idUsuario);
+$stmt->execute();
+$id_dieta = $stmt->insert_id;
+$stmt->close();
 
-try {
-    // Insertar dieta
-    $sqlDieta = "INSERT INTO dietas (nombreDieta, tipoDieta, observacionesDieta, idUsuarioFK) VALUES (?, ?, ?, ?)";
-    $stmtDieta = $conn->prepare($sqlDieta);
-    $stmtDieta->bind_param("sssi", $nombreDieta, $tipoDieta, $observacionesDieta, $idUsuario);
-    $stmtDieta->execute();
-    $idDieta = $stmtDieta->insert_id;
-    $stmtDieta->close();
+// Insertar cada comida y sus productos
+foreach ($comidas as $comida) {
+    // Insertar la comida
+    $sql_comida = "INSERT INTO comidas (idDietaFK) VALUES (?)";
+    $stmt = $conn->prepare($sql_comida);
+    $stmt->bind_param("i", $id_dieta);
+    $stmt->execute();
+    $id_comida = $stmt->insert_id;
+    $stmt->close();
 
-    foreach ($comidas as $comida) {
-        $nombreComida = $comida['nombreComida'];
+    // Insertar los productos de la comida
+    foreach ($comida as $producto) {
+        $id_producto = $producto['idProducto'];
+        $cantidad_gramos = $producto['cantidad'];
 
-        // Insertar comida
-        $sqlComida = "INSERT INTO comidas (nombreComida) VALUES (?)";
-        $stmtComida = $conn->prepare($sqlComida);
-        $stmtComida->bind_param("s", $nombreComida);
-        $stmtComida->execute();
-        $idComida = $stmtComida->insert_id;
-        $stmtComida->close();
-
-        // Asociar comida con dieta
-        $sqlDietaComida = "INSERT INTO dietascomidas (idDietaFK, idComidaFK) VALUES (?, ?)";
-        $stmtDietaComida = $conn->prepare($sqlDietaComida);
-        $stmtDietaComida->bind_param("ii", $idDieta, $idComida);
-        $stmtDietaComida->execute();
-        $stmtDietaComida->close();
-
-        foreach ($comida['productos'] as $producto) {
-            $idProducto = $producto['idProducto'];
-            $cantidad = $producto['cantidad'];
-
-            // Obtener datos nutricionales del producto
-            $sqlProducto = "SELECT caloriasProducto, grasasProducto, proteinasProducto, hcarbonoProducto FROM productos WHERE idProducto = ?";
-            $stmtProducto = $conn->prepare($sqlProducto);
-            $stmtProducto->bind_param("i", $idProducto);
-            $stmtProducto->execute();
-            $stmtProducto->bind_result($caloriasProducto, $grasasProducto, $proteinasProducto, $hcarbonoProducto);
-            $stmtProducto->fetch();
-            $stmtProducto->close();
-
-            // Calcular valores nutricionales de la comida
-            $caloriasComida = $caloriasProducto * $cantidad;
-            $grasasComida = $grasasProducto * $cantidad;
-            $proteinasComida = $proteinasProducto * $cantidad;
-            $hcarbonoComida = $hcarbonoProducto * $cantidad;
-
-            // Insertar producto en la comida
-            $sqlComidaProducto = "INSERT INTO comidasproductos (idComidaFK, idProductoFK, cantidad) VALUES (?, ?, ?)";
-            $stmtComidaProducto = $conn->prepare($sqlComidaProducto);
-            $stmtComidaProducto->bind_param("iid", $idComida, $idProducto, $cantidad);
-            $stmtComidaProducto->execute();
-            $stmtComidaProducto->close();
-        }
+        $sql_comida_producto = "INSERT INTO comidasProductos (idComidaFK, idProductoFK, cantidadGramos) VALUES (?, ?, ?)";
+        $stmt = $conn->prepare($sql_comida_producto);
+        $stmt->bind_param("iii", $id_comida, $id_producto, $cantidad_gramos);
+        $stmt->execute();
+        $stmt->close();
     }
-
-    $conn->commit();
-    echo json_encode(['success' => true]);
-} catch (Exception $e) {
-    $conn->rollback();
-    echo json_encode(['success' => false, 'error' => $e->
-    getMessage()]);
 }
 
 $conn->close();
+
+echo json_encode(["success" => true]);

@@ -37,6 +37,8 @@ CREATE TABLE IF NOT EXISTS productos (
 CREATE TABLE IF NOT EXISTS comidas (
   idComida INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   nombreComida VARCHAR(100) NOT NULL
+  idDietaFK INT,
+    FOREIGN KEY (idDietaFK) REFERENCES Dieta(idDieta)
 ) ENGINE InnoDB;
 
 -- TABLA USUARIOS
@@ -59,7 +61,6 @@ CREATE TABLE IF NOT EXISTS dietas (
   idDieta INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   nombreDieta VARCHAR(100) NOT NULL,
   tipoDieta VARCHAR(100) NOT NULL,
-  observacionesDieta VARCHAR(100) NOT NULL,
   idUsuarioFK INT NOT NULL,
   FOREIGN KEY (idUsuarioFK) REFERENCES usuarios(idUsuario)
 ) ENGINE InnoDB;
@@ -88,17 +89,11 @@ CREATE TABLE IF NOT EXISTS favoritos (
 CREATE TABLE IF NOT EXISTS comidasproductos (
   idComidaFK INT NOT NULL,
   idProductoFK INT NOT NULL,
+  cantidadGramos DECIMAL(10,2),
   FOREIGN KEY (idComidaFK) REFERENCES comidas(idComida),
   FOREIGN KEY (idProductoFK) REFERENCES productos(idProducto)
 ) ENGINE InnoDB;
 
--- TABLA DIETASCOMIDAS
-CREATE TABLE IF NOT EXISTS dietascomidas (
-  idDietaFK INT NOT NULL,
-  idComidaFK INT NOT NULL,
-  FOREIGN KEY (idDietaFK) REFERENCES dietas(idDieta),
-  FOREIGN KEY (idComidaFK) REFERENCES comidas(idComida)
-) ENGINE InnoDB;
 
 -- Inserción de datos
 INSERT INTO roles (idRol, nombreRol) VALUES
@@ -343,3 +338,24 @@ INSERT INTO `productos` (`idProducto`, `nombreProducto`, `cantidadProducto`, `hc
 (212, 'Bedida Isotónica', '1.00', '26.00', '0.00', '0.00', 20),
 (213, 'Bedia Energétcia', '1.00', '43.00', '0.00', '0.46', 20),
 (214, 'Bebida Té', '1.00', '32.00', '0.00', '0.00', 20);
+
+
+// Insertar relación entre comida y producto con la cantidad en gramos
+$sql_comida_producto = "INSERT INTO comidasProductos (idComidaFK, idProductoFK, cantidadGramos) VALUES ($id_comida, $id_producto, $cantidad_gramos)";
+$conn->query($sql_comida_producto);
+
+
+$sql = "
+SELECT producto.nombreProducto, ComidaProducto.cantidadGramos 
+FROM comidaProducto 
+JOIN producto ON comidaProducto.idProductoFK = producto.idProducto
+WHERE comidaProducto.idComidaFK = $id_comida";
+$result = $conn->query($sql);
+
+$productos = [];
+while ($row = $result->fetch_assoc()) {
+    $productos[] = [
+        'nombre' => $row['nombreProducto'],
+        'cantidadGramos' => $row['cantidadGramos']
+    ];
+}
