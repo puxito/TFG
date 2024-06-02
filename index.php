@@ -37,7 +37,7 @@ $conn = conectarBBDD();
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav">
                     <li class="nav-item m-2">
-                        <a href="dietas/dieta.php">
+                        <a href="dietas/comidas.php">
                             <img src="media/iconos/add.png" width="65" alt="Nueva Dieta">
                         </a>
                     </li>

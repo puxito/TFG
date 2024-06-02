@@ -14,7 +14,6 @@ function editardatos() {
 }
 
 
-// CALENDARIO
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -41,7 +40,25 @@ document.addEventListener('DOMContentLoaded', function() {
             $('#start').val(info.dateStr);
         },
         eventClick: function(info) {
-            // Aquí puedes agregar la funcionalidad para editar eventos
+            if (confirm("¿Seguro que deseas eliminar este evento?")) {
+                console.log('Evento ID:', info.event.id); // Log para verificar el ID del evento
+                $.ajax({
+                    url: 'dietas/quitarDietas.php',
+                    type: 'POST',
+                    data: { id: info.event.id },
+                    success: function(response) {
+                        console.log('Respuesta de PHP:', response); // Log para verificar la respuesta de PHP
+                        if (response.trim() === 'success') {
+                            info.event.remove(); // Elimina el evento del calendario
+                        } else {
+                            alert('Error al eliminar el evento.');
+                        }
+                    },
+                    error: function() {
+                        alert('Error al eliminar el evento.');
+                    }
+                });
+            }
         }
     });
     calendar.render();

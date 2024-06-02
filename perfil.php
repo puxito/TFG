@@ -15,7 +15,7 @@ sesionN1();
 
 // Obtener el ID del usuario actualmente conectado
 $idUsuario = obtenerIDUsuario();
-
+$comidas = obtenerComidasUsuario($idUsuario);
 $edadUsu = getAgeForCurrentUser($idUsuario);
 // Obtener los datos del usuario de la base de datos
 $datosUsuario = obtenerDatosUsuario();
@@ -43,6 +43,20 @@ if (isset($_POST["actualizar"])) {
     } else {
         $mensaje = "No se ha podido actualizar el usuario";
     }
+}
+function obtenerComidasUsuario($idUsuario)
+{
+    global $conn;
+    $sql = "SELECT idComida, nombreComida FROM comidas WHERE idUsuarioFK = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $idUsuario);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $comidas = [];
+    while ($row = $result->fetch_assoc()) {
+        $comidas[] = $row;
+    }
+    return $comidas;
 }
 
 ?>
@@ -189,7 +203,7 @@ if (isset($_POST["actualizar"])) {
                     <td><?php echo $edadUsu; ?></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><a href="#">Mis Dietas</a></td>
+                    <td colspan="2"><a href="dietas/comidas.php">Mis Dietas</a></td>
                 </tr>
             </table>
         </article>
@@ -214,8 +228,15 @@ if (isset($_POST["actualizar"])) {
                 <div class="modal-body">
                     <form id="formAgregarEvento" action="dietas/agregarDietas.php" method="POST">
                         <div class="form-group">
-                            <label for="title">Agregue una dieta</label>
-                            <input type="text" class="form-control" id="title" name="title">
+
+                            <label for="comida">Seleccione una comida</label>
+                            <select class="form-control" id="title" name="title">
+                                <?php foreach ($comidas as $comida) : ?>
+                                    <option value="<?php echo htmlspecialchars($comida['nombreComida']); ?>">
+                                        <?php echo htmlspecialchars($comida['nombreComida']); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
                             <label for="color">Color</label>
                             <input type="color" class="form-control" id="color" name="color">
                         </div>
@@ -233,20 +254,7 @@ if (isset($_POST["actualizar"])) {
         </div>
     </div>
 
-    <!-- MODAL ACTUALIZAR EVENTOS -->
-    <div class="modal fade" id="modalEditarEvento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Editar Evento</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
 
-            </div>
-        </div>
-    </div>
     <script src="../scripts/funciones.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

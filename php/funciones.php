@@ -424,3 +424,33 @@ function getAgeForCurrentUser()
         return "No se encontró el correo electrónico del usuario en la sesión";
     }
 }
+
+function obtenerComidasPorUsuario($idUsuario) {
+    global $conn;
+    $stmt = $conn->prepare("SELECT * FROM comidas WHERE idUsuarioFK = ?");
+    $stmt->bind_param("i", $idUsuario);
+    $stmt->execute();
+    return $stmt->get_result();
+}
+
+function agregarComida($nombreComida, $idUsuario) {
+    global $conn;
+    $stmt = $conn->prepare("INSERT INTO comidas (nombreComida, idUsuarioFK) VALUES (?, ?)");
+    $stmt->bind_param("si", $nombreComida, $idUsuario);
+    return $stmt->execute();
+}
+
+function actualizarComida($idComida, $nombreComida) {
+    global $conn;
+    $stmt = $conn->prepare("UPDATE comidas SET nombreComida = ? WHERE idComida = ?");
+    $stmt->bind_param("si", $nombreComida, $idComida);
+    return $stmt->execute();
+}
+
+function eliminarComida($idComida) {
+    global $conn;
+    $stmt = $conn->prepare("DELETE FROM comidas WHERE idComida = ?");
+    $stmt->bind_param("i", $idComida);
+    return $stmt->execute();
+}
+
