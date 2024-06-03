@@ -255,10 +255,10 @@ function obtenerTotalValoresNutricionales($idComida)
         <!-- Mostrar valores nutricionales totales -->
         <h2>Valores Nutricionales Totales</h2>
         <ul>
-            <li>Calorías: <?php echo htmlspecialchars($valoresNutricionales["totalCalorias"] ?? '0'); ?></li>
-            <li>Carbohidratos: <?php echo htmlspecialchars($valoresNutricionales["totalCarbohidratos"] ?? '0'); ?></li>
-            <li>Grasas: <?php echo htmlspecialchars($valoresNutricionales["totalGrasas"] ?? '0'); ?></li>
-            <li>Proteínas: <?php echo htmlspecialchars($valoresNutricionales["totalProteinas"] ?? '0'); ?></li>
+            <li><strong>Calorías: <?php echo htmlspecialchars($valoresNutricionales["totalCalorias"] ?? '0'); ?></strong></li>
+            <li><strong>Carbohidratos: <?php echo htmlspecialchars($valoresNutricionales["totalCarbohidratos"] ?? '0'); ?></strong></li>
+            <li><strong>Grasas: <?php echo htmlspecialchars($valoresNutricionales["totalGrasas"] ?? '0'); ?></strong></li>
+            <li><strong>Proteínas: <?php echo htmlspecialchars($valoresNutricionales["totalProteinas"] ?? '0'); ?></strong></li>
         </ul>
 
     </div>
