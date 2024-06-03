@@ -454,3 +454,9 @@ function eliminarComida($idComida) {
     return $stmt->execute();
 }
 
+function obtenerEvento() {
+    global $conn;
+    $stmt = $conn->prepare("SELECT id FROM eventos WHERE idUsuario = ?");
+    $stmt->bind_param("i", $idEvento);
+    return $stmt->execute();
+}

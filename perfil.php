@@ -15,6 +15,8 @@ sesionN1();
 
 // Obtener el ID del usuario actualmente conectado
 $idUsuario = obtenerIDUsuario();
+
+$idEvento = obtenerEvento($idUsuario);
 $comidas = obtenerComidasUsuario($idUsuario);
 $edadUsu = getAgeForCurrentUser($idUsuario);
 // Obtener los datos del usuario de la base de datos
@@ -69,14 +71,16 @@ function obtenerComidasUsuario($idUsuario)
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil</title>
     <link rel="icon" href="../media/logo.png" type="image/x-icon">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js'></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css">
     <link rel="stylesheet" href="../estilos/perfilstyle.css">
 </head>
 
 <body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js'></script>
     <nav class="navbar navbar-expand-lg" style="background-color: #006691;">
         <div class="container-fluid">
             <div class="d-flex align-items-center">
@@ -244,6 +248,7 @@ function obtenerComidasUsuario($idUsuario)
                             <label for="fecha">Fecha</label>
                             <input type="date" class="form-control" id="start" name="start">
                             <input type="date" class="form-control" id="end" name="end">
+                            <input type="hidden" class="form-control" id="id" value="<?php echo $idEvento;?>">
                             <input type="hidden" id="idUsuario" name="idUsuario" value="<?php echo $idUsuario; ?>">
                         </div>
                         <br>
@@ -256,11 +261,6 @@ function obtenerComidasUsuario($idUsuario)
 
 
     <script src="../scripts/funciones.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 
 </html>

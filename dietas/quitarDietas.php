@@ -15,16 +15,16 @@ $correoElectronicoUsuario = obtenerCorreoElectronicoUsuario();
 $idUsuario = obtenerIDUsuarioPorCorreo($correoElectronicoUsuario);
 
 // Manejar la eliminación del evento en la base de datos
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if (isset($_POST['id'])) {
     // Obtener los datos del formulario
-    $eventoID = $_POST['id']; // Asegúrate de que este campo se pase en el formulario
+    $eventoID = $_POST['id'];
 
     // Validar que el ID del evento y el ID del usuario son enteros
     $eventoID = (int)$eventoID;
     $idUsuario = (int)$idUsuario;
 
     // Eliminar el evento de la base de datos
-    $sql_delete = "DELETE FROM eventos WHERE idEvento = ? AND idUsuario = ?";
+    $sql_delete = "DELETE FROM eventos WHERE id = ? AND idUsuario = ?";
     $stmt_delete = $conn->prepare($sql_delete);
     if ($stmt_delete->execute([$eventoID, $idUsuario])) {
         echo 'success'; // Respuesta para éxito

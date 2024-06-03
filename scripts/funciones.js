@@ -40,22 +40,19 @@ document.addEventListener('DOMContentLoaded', function() {
             $('#start').val(info.dateStr);
         },
         eventClick: function(info) {
-            if (confirm("¿Seguro que deseas eliminar este evento?")) {
-                console.log('Evento ID:', info.event.id); // Log para verificar el ID del evento
+            var eventId = info.event.id; // Obtiene el ID del evento
+            if (confirm('¿Seguro que quieres eliminar este evento?')) {
                 $.ajax({
-                    url: 'dietas/quitarDietas.php',
+                    url: '../dietas/quitarDietas.php',
                     type: 'POST',
-                    data: { id: info.event.id },
+                    data: { id: eventId },
                     success: function(response) {
-                        console.log('Respuesta de PHP:', response); // Log para verificar la respuesta de PHP
-                        if (response.trim() === 'success') {
+                        if (response === 'success') {
                             info.event.remove(); // Elimina el evento del calendario
+                            alert('Evento eliminado correctamente.');
                         } else {
-                            alert('Error al eliminar el evento.');
+                            alert('No se ha podido eliminar el evento.');
                         }
-                    },
-                    error: function() {
-                        alert('Error al eliminar el evento.');
                     }
                 });
             }
