@@ -16,9 +16,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["agregar_producto"])) {
     agregarProductoAComida($idComida, $idProducto, $cantidad);
 }
 
+// Verificar si se está enviando un formulario de eliminar producto
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["eliminar_producto"])) {
+    $idProducto = $_POST["id_producto"];
+    eliminarProductoDeComida($idComida, $idProducto);
+}
+
 // Obtener los productos y los valores nutricionales de la comida
 $productos = obtenerProductosPorComida($idComida);
 $valoresNutricionales = obtenerTotalValoresNutricionales($idComida);
+
+// Obtener todos los productos para el desplegable
+$listaProductos = obtenerTodosLosProductos();
 
 function agregarProductoAComida($idComida, $idProducto, $cantidad)
 {
@@ -31,6 +40,27 @@ function agregarProductoAComida($idComida, $idProducto, $cantidad)
     $stmt->close();
 
     // Actualizar los valores nutricionales totales de la comida
+    actualizarValoresNutricionales($idComida);
+}
+
+function eliminarProductoDeComida($idComida, $idProducto)
+{
+    global $conn;
+
+    // Eliminar el producto de la comida
+    $stmt = $conn->prepare("DELETE FROM comidasProductos WHERE idComidaFK = ? AND idProductoFK = ?");
+    $stmt->bind_param("ii", $idComida, $idProducto);
+    $stmt->execute();
+    $stmt->close();
+
+    // Actualizar los valores nutricionales totales de la comida
+    actualizarValoresNutricionales($idComida);
+}
+
+function actualizarValoresNutricionales($idComida)
+{
+    global $conn;
+
     $stmt = $conn->prepare("UPDATE comidas c
                             JOIN (SELECT cp.idComidaFK,
                                          SUM(p.caloriasProducto * cp.cantidad / 100) AS totalCalorias,
@@ -56,7 +86,7 @@ function obtenerProductosPorComida($idComida)
 {
     global $conn;
 
-    $stmt = $conn->prepare("SELECT p.nombreProducto, cp.cantidad, p.caloriasProducto, p.hcarbonoProducto, p.grasasProducto, p.proteinasProducto
+    $stmt = $conn->prepare("SELECT p.idProducto, p.nombreProducto, cp.cantidad, p.caloriasProducto, p.hcarbonoProducto, p.grasasProducto, p.proteinasProducto
                             FROM comidasProductos cp
                             JOIN productos p ON cp.idProductoFK = p.idProducto
                             WHERE cp.idComidaFK = ?");
@@ -80,6 +110,17 @@ function obtenerTotalValoresNutricionales($idComida)
     $stmt->bind_param("i", $idComida);
     $stmt->execute();
     $result = $stmt->get_result()->fetch_assoc();
+    $stmt->close();
+    return $result;
+}
+
+function obtenerTodosLosProductos()
+{
+    global $conn;
+
+    $stmt = $conn->prepare("SELECT idProducto, nombreProducto FROM productos");
+    $stmt->execute();
+    $result = $stmt->get_result();
     $stmt->close();
     return $result;
 }
@@ -202,28 +243,25 @@ function obtenerTotalValoresNutricionales($idComida)
         <h2>Agregar Producto</h2>
         <form method="post" class="mb-4">
             <div class="mb-3">
-                <label for="id_producto" class="form-label">Producto</label>
-                <select class="form-select" id="id_producto" name="id_producto" required>
-                    <option value="">Seleccione un producto</option>
+                <label for="id_producto" class="form-label">Producto:</label>
+                <input type="hidden" name="agregar_producto" value="true">
+                <select id="id_producto" name="id_producto" class="form-control" required>
+                    <option value="" disabled selected>Seleccione un producto</option>
                     <?php
-                    $stmt = $conn->prepare("SELECT idProducto, nombreProducto FROM productos");
-                    $stmt->execute();
-                    $result = $stmt->get_result();
-                    while ($row = $result->fetch_assoc()) {
-                        echo '<option value="' . $row["idProducto"] . '">' . $row["nombreProducto"] . '</option>';
+                    while ($producto = $listaProductos->fetch_assoc()) {
+                        echo '<option value="' . htmlspecialchars($producto["idProducto"]) . '">' . htmlspecialchars($producto["nombreProducto"]) . '</option>';
                     }
-                    $stmt->close();
                     ?>
                 </select>
             </div>
             <div class="mb-3">
-                <label for="cantidad" class="form-label">Cantidad (g)</label>
-                <input type="number" class="form-control" id="cantidad" name="cantidad" min="0" step="0.01" required>
+                <label for="cantidad" class="form-label">Cantidad (g):</label>
+                <input type="number" id="cantidad" name="cantidad" class="form-control" required>
             </div>
-            <button type="submit" name="agregar_producto" class="btn btn-primary">Agregar Producto</button>
+            <button type="submit" class="btn btn-primary">Agregar Producto</button>
         </form>
 
-        <!-- Mostrar productos agregados -->
+        <!-- Tabla de productos en la comida -->
         <h2>Productos en la Comida</h2>
         <table class="table table-bordered">
             <thead>
@@ -234,6 +272,7 @@ function obtenerTotalValoresNutricionales($idComida)
                     <th>Carbohidratos</th>
                     <th>Grasas</th>
                     <th>Proteínas</th>
+                    <th>Acciones</th> <!-- Nueva columna para las acciones -->
                 </tr>
             </thead>
             <tbody>
@@ -246,6 +285,13 @@ function obtenerTotalValoresNutricionales($idComida)
                             <td>' . htmlspecialchars($row["hcarbonoProducto"] * $row["cantidad"] / 100) . '</td>
                             <td>' . htmlspecialchars($row["grasasProducto"] * $row["cantidad"] / 100) . '</td>
                             <td>' . htmlspecialchars($row["proteinasProducto"] * $row["cantidad"] / 100) . '</td>
+                            <td>
+                                <form method="post" onsubmit="return confirm(\'¿Estás seguro de que quieres eliminar este producto?\');">
+                                    <input type="hidden" name="eliminar_producto" value="true">
+                                    <input type="hidden" name="id_producto" value="' . htmlspecialchars($row["idProducto"]) . '">
+                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                </form>
+                            </td>
                           </tr>';
                 }
                 ?>
@@ -254,18 +300,14 @@ function obtenerTotalValoresNutricionales($idComida)
 
         <!-- Mostrar valores nutricionales totales -->
         <h2>Valores Nutricionales Totales</h2>
-        <ul>
-            <li><strong>Calorías: <?php echo htmlspecialchars($valoresNutricionales["totalCalorias"] ?? '0'); ?></strong></li>
-            <li><strong>Carbohidratos: <?php echo htmlspecialchars($valoresNutricionales["totalCarbohidratos"] ?? '0'); ?></strong></li>
-            <li><strong>Grasas: <?php echo htmlspecialchars($valoresNutricionales["totalGrasas"] ?? '0'); ?></strong></li>
-            <li><strong>Proteínas: <?php echo htmlspecialchars($valoresNutricionales["totalProteinas"] ?? '0'); ?></strong></li>
-        </ul>
-
+        <p>Calorías Totales: <?php echo htmlspecialchars($valoresNutricionales["totalCalorias"]); ?></p>
+        <p>Carbohidratos Totales: <?php echo htmlspecialchars($valoresNutricionales["totalCarbohidratos"]); ?></p>
+        <p>Grasas Totales: <?php echo htmlspecialchars($valoresNutricionales["totalGrasas"]); ?></p>
+        <p>Proteínas Totales: <?php echo htmlspecialchars($valoresNutricionales["totalProteinas"]); ?></p>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
 </body>
 
 </html>
